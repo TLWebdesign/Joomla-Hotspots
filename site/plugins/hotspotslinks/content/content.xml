@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="hotspotslinks" method="upgrade">
 	<name>plg_hotspotslinks_content</name>
-	<author>TLWebdesign (originally compojoom.com)</author>
-	<creationDate>2026-11-02</creationDate>
-	<copyright>Copyright (C) 2012. All rights reserved.</copyright>
-    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
-	<authorEmail>daniel@compojoom.com</authorEmail>
-	<authorUrl>https://compojoom.com</authorUrl>
-	<version>6.1.0</version>
+	<author>TLWebdesign</author>
+	<creationDate>2026-11-03</creationDate>
+	<copyright>(C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2012</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE</license>
+	<authorEmail>info@tlwebdesign.nl</authorEmail>
+	<authorUrl>https://tlwebdesign.nl</authorUrl>
+	<version>7.0.1</version>
 	<description>
         plg_hotspotslinks_content_DESC
 	</description>
+    <namespace path="src">TLWebdesign\Plugin\Hotspotslinks\Content</namespace>
     <languages folder="administrator/language">
         <language tag="en-GB">en-GB/en-GB.plg_hotspotslinks_content.sys.ini</language>
     </languages>
     <files>
-        <file plugin="content">content.php</file>
-    </files>
+		<folder plugin="content">services</folder>
+		<folder>src</folder>
+	</files>
 </extension>

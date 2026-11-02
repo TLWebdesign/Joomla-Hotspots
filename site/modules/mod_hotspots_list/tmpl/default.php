@@ -1,64 +1,73 @@
 <?php
+
 /**
- * @package    com_hotspots
- * @author     DanielDimitrov <daniel@compojoom.com>
- * @date       10.07.13
- *
- * @copyright  Copyright (C) 2008 - 2013 compojoom.com . All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @package     Hotspots
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2013
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use TLWebdesign\Component\Hotspots\Administrator\Helper\MarkerHelper;
 
-Jhtml::stylesheet('media/mod_hotspots_list/css/mod_hotspots_list.css');
-JLoader::discover('HotspotsHelper', JPATH_BASE . '/components/com_hotspots/helpers/');
-$suffix = $params->get('moduleclass_sfx');
+\defined('_JEXEC') or die;
+
+/**
+ * @var \Joomla\Registry\Registry $params
+ * @var object[]                  $list
+ * @var array                     $images  Marker id => gallery images.
+ */
+
+if (!$list) {
+    return;
+}
+
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+if (!$wa->assetExists('style', 'mod_hotspots_list')) {
+    $wa->registerStyle('mod_hotspots_list', 'mod_hotspots_list/mod_hotspots_list.css');
+}
+
+$wa->useStyle('mod_hotspots_list');
+
+$e = static fn ($text): string => htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
 ?>
-<div class="hotspots-list hotspots-list<?php echo $suffix; ?>">
-	<ul>
-		<?php foreach ($list as $hotspot) : ?>
-			<?php $hotspot->hotspots_id = $hotspot->id; ?>
-			<li>
-				<a href="<?php echo HotspotsHelperUtils::createLink($hotspot); ?>">
-					<?php if ($params->get('image', 1)) : ?>
-						<?php if (isset($images[$hotspot->id])) : ?>
-							<div>
-								<img src="<?php echo $images[$hotspot->id][0]['image']; ?>"
-									 title="<?php echo htmlspecialchars((string) $images[$hotspot->id][0]['title'], ENT_QUOTES, 'UTF-8', false); ?>"
-									 description="<?php echo htmlspecialchars((string) $images[$hotspot->id][0]['description'], ENT_QUOTES, 'UTF-8', false); ?>"/>
-							</div>
-						<?php endif; ?>
-					<?php endif; ?>
-					<h3><?php echo htmlspecialchars((string) $hotspot->title, ENT_QUOTES, 'UTF-8', false); ?></h3>
-				</a>
-				<?php if ($params->get('description', 1)) : ?>
-					<div class="hotspots-list-description">
-						<?php echo CompojoomHtmlString::truncateComplex($hotspot->description_small, 100); ?>
-					</div>
-				<?php endif; ?>
-				<?php if ($params->get('address', 1)) : ?>
-					<div class="hotspots-list-address muted">
-						<?php echo HotspotsHelperHotspot::formattedAddress($hotspot); ?>
-					</div>
-				<?php endif; ?>
-				<?php if ($params->get('author', 1) || $params->get('date', 1)) : ?>
-					<div class="hotspots-list-info muted">
-						<?php if ($params->get('author', 1)) : ?>
-							<?php echo JText::_('MOD_HOTSPOTS_LIST_CREATED_BY') ?>
-							<?php if ($hotspot->created_by) : ?>
-								<?php echo $hotspot->user_name; ?>
-							<?php else: ?>
-								<?php echo $hotspot->created_by_alias; ?>
-							<?php endif; ?>
-						<?php endif; ?>
-						<?php if ($params->get('date', 1)) : ?>
-							<?php echo JText::_('MOD_HOTSPOTS_LIST_ON'); ?>
-							<?php echo HotspotsHelperUtils::getLocalDate($hotspot->created); ?>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-			</li>
-
-		<?php endforeach; ?>
-	</ul>
+<div class="hotspots-list">
+    <ul>
+        <?php foreach ($list as $marker) : ?>
+            <?php $image = $images[$marker->id][0] ?? null; ?>
+            <li>
+                <a href="<?php echo $e($marker->link ?: MarkerHelper::markerUrl($marker)); ?>">
+                    <?php if ($params->get('image', 0) && $image) : ?>
+                        <div>
+                            <img src="<?php echo $e($image['image'] ?? $image['thumb'] ?? $image['big']); ?>"
+                                 alt="<?php echo $e($image['title'] ?: $marker->title); ?>" loading="lazy">
+                        </div>
+                    <?php endif; ?>
+                    <h3><?php echo $e($marker->title); ?></h3>
+                </a>
+                <?php if ($params->get('description', 0)) : ?>
+                    <div class="hotspots-list-description">
+                        <?php echo HTMLHelper::_('string.truncateComplex', (string) $marker->description_small, 100); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($params->get('address', 0)) : ?>
+                    <div class="hotspots-list-address text-muted">
+                        <?php echo MarkerHelper::formattedAddress($marker); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (($params->get('author', 1) && $marker->author !== '') || $params->get('date', 1)) : ?>
+                    <div class="hotspots-list-info text-muted">
+                        <?php if ($params->get('author', 1) && $marker->author !== '') : ?>
+                            <?php echo Text::_('MOD_HOTSPOTS_LIST_CREATED_BY'); ?> <?php echo $e($marker->author); ?>
+                        <?php endif; ?>
+                        <?php if ($params->get('date', 1)) : ?>
+                            <?php echo Text::_('MOD_HOTSPOTS_LIST_ON'); ?> <?php echo $e(MarkerHelper::localDate($marker->created)); ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 </div>

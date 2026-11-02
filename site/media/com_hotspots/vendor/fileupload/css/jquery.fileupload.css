@@ -1,0 +1,98 @@
+@charset "UTF-8";
+/*
+ * jQuery File Upload Plugin CSS 1.3.0
+ * https://github.com/blueimp/jQuery-File-Upload
+ *
+ * Copyright 2013, Sebastian Tschan
+ * https://blueimp.net
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
+.hotspots-bootstrap .fileupload-progress {
+	position: relative;
+}
+.hotspots-bootstrap .progress-extended {
+	position: absolute;
+	top: 2px;
+	left: 5px;
+	font-size: smaller;
+	font-weight: bold;
+}
+.hotspots-bootstrap .hotspots-single-file-progress
+{
+	position: relative;
+	width: 100px;
+}
+.hotspots-bootstrap .fileupload-progress .progress {
+	margin-bottom: 5px;
+}
+.hotspots-bootstrap .file-meta input {
+	margin-bottom: 5px;
+}
+.hotspots-bootstrap .hotspots-single-file-progress .size {
+	position: absolute;
+	left: 5px;
+	top: 2px;
+}
+.hotspots-bootstrap .fileupload-progress.fade.in {
+	display:block;
+}
+.hotspots-bootstrap .fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+.hotspots-bootstrap .fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  font-size: 200px;
+  direction: ltr;
+  cursor: pointer;
+}
+
+.hotspots-bootstrap #file-upload-real {
+	display: none; /* do not display the actual file upload button */
+}
+
+.hotspots-bootstrap #file-upload-fake {
+	/* style the fake upload button */
+	display: inline-block;
+	cursor: pointer;
+}
+
+.hotspots-bootstrap #fileupload .table {
+	margin-bottom: 0;
+}
+
+.hotspots-bootstrap #fileupload .panel {
+	margin-bottom: 0;
+}
+
+.hotspots-bootstrap #fileupload .preview {
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+}
+
+.hotspots-bootstrap #fileupload .fade.in {
+	opacity: 1;
+}
+
+.hotspots-bootstrap #fileupload .hotspots-max-number-files {
+	margin-top: 10px;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .hotspots-bootstrap .fileinput-button input {
+    filter: alpha(opacity=0);
+    font-size: 100%;
+    height: 100%;
+  }
+}

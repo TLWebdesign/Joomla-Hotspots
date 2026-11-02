@@ -25,11 +25,6 @@ const DIST = ROOT . '/dist';
  * lists without a folder attribute; "lang" is the language folder of the extension's client.
  */
 const EXTENSIONS = [
-    'lib_compojoom' => [
-        'manifest' => 'administrator/manifests/libraries/compojoom.xml', 'zipManifest' => 'compojoom.xml',
-        'base' => 'libraries/compojoom', 'lang' => 'language', 'versionCheck' => false,
-        'pkg' => '<file type="library" id="compojoom">lib_compojoom.zip</file>',
-    ],
     'com_hotspots' => [
         'manifest' => 'administrator/components/com_hotspots/hotspots.xml', 'zipManifest' => 'hotspots.xml',
         'base' => 'administrator/components/com_hotspots', 'lang' => 'language', 'versionCheck' => true,
@@ -237,12 +232,6 @@ if (!preg_match('/^\d+\.\d+\.\d+(-[0-9A-Za-z.]+)?$/', $version)) {
 
 if ((string) $pkgManifest->version !== $version) {
     fail("pkg_hotspots.xml has version {$pkgManifest->version}, the build asks for $version");
-}
-
-$versionFile = (string) file_get_contents(SITE . '/administrator/components/com_hotspots/version.php');
-
-if (!str_contains($versionFile, "define('HOTSPOTS_VERSION', '$version')")) {
-    fail("administrator/components/com_hotspots/version.php does not define HOTSPOTS_VERSION $version");
 }
 
 $work = DIST . '/work';

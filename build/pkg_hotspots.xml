@@ -2,20 +2,19 @@
 <extension type="package" method="upgrade">
 	<name>Hotspots</name>
 	<packagename>hotspots</packagename>
-	<version>6.1.0</version>
-	<creationDate>2026-11-02</creationDate>
-	<author>TLWebdesign (originally Compojoom.com)</author>
+	<version>7.0.1</version>
+	<creationDate>2026-11-03</creationDate>
+	<author>TLWebdesign</author>
 	<authorEmail>info@tlwebdesign.nl</authorEmail>
 	<authorUrl>https://tlwebdesign.nl</authorUrl>
-	<copyright>(C) 2008-2023 compojoom.com - Daniel Dimitrov, (C) 2026 TLWebdesign</copyright>
+	<copyright>(C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2023</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE</license>
 	<packager>TLWebdesign</packager>
 	<packagerurl>https://tlwebdesign.nl</packagerurl>
-	<description>Hotspots: Google Maps markers for Joomla 5 and 6. Originally by Compojoom.com, maintained by TLWebdesign.</description>
+	<description>Hotspots: markers on a Google map for Joomla 5 and 6, by TLWebdesign.</description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<scriptfile>pkg_script.php</scriptfile>
 	<files folder="packages">
-		<file type="library" id="compojoom">lib_compojoom.zip</file>
 		<file type="component" id="com_hotspots">com_hotspots.zip</file>
 		<file type="module" id="mod_hotspots_list" client="site">mod_hotspots_list.zip</file>
 		<file type="plugin" id="hotspots" group="content">plg_content_hotspots.zip</file>

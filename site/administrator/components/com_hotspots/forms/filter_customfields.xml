@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field name="search" type="text" inputmode="search" label="JSEARCH_FILTER" hint="JSEARCH_FILTER"/>
+		<field name="published" type="status" optionsFilter="0,1" onchange="this.form.submit();">
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field name="fullordering" type="list" default="cf.ordering ASC" onchange="this.form.submit();">
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="cf.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="cf.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="cf.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="cf.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="cf.type ASC">COM_HOTSPOTS_CUSTOM_FIELDS_TYPE_ASC</option>
+			<option value="cf.type DESC">COM_HOTSPOTS_CUSTOM_FIELDS_TYPE_DESC</option>
+			<option value="cf.enabled ASC">JSTATUS_ASC</option>
+			<option value="cf.enabled DESC">JSTATUS_DESC</option>
+			<option value="cf.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="cf.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field name="limit" type="limitbox" default="25" onchange="this.form.submit();"/>
+	</fields>
+</form>

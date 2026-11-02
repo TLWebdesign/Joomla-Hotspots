@@ -30,7 +30,7 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
     protected $minimumPhp = '8.1.0';
 
     /**
-     * Plugins enabled on a fresh install (as in Compojoom's script).
+     * Plugins enabled on a fresh install.
      *
      * @var array<string, string>  element => folder
      */
@@ -72,6 +72,53 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
     ];
 
     /**
+     * Stops the install while a Community Builder plugin that needs Hotspots 6 is on the site: both load
+     * administrator/components/com_hotspots/libraries/geocoder/geocoder.php, which Hotspots 7 removes, and
+     * Community Builder loads its plugin files even when they are unpublished, so CB pages would fail.
+     *
+     * @param   string            $type    install, update or discover_install
+     * @param   InstallerAdapter  $parent  The installer
+     *
+     * @return  boolean
+     */
+    public function preflight($type, $parent)
+    {
+        if (!parent::preflight($type, $parent)) {
+            return false;
+        }
+
+        if ($type === 'uninstall') {
+            return true;
+        }
+
+        $cbPlugins = JPATH_SITE . '/components/com_comprofiler/plugin/user';
+        $problems  = [];
+
+        // Any Community Builder user plugin that still loads the Hotspots 6 geocoder (Compojoom's "CB Hotspots"
+        // plugin, or custom plugins built on it).
+        foreach (glob($cbPlugins . '/*/*.php') ?: [] as $file) {
+            if (str_contains((string) file_get_contents($file), 'com_hotspots/libraries/geocoder/geocoder.php')) {
+                $problems[] = basename(\dirname($file));
+            }
+        }
+
+        $problems = array_unique($problems);
+
+        if ($problems) {
+            Factory::getApplication()->enqueueMessage(
+                'Hotspots 7 was not installed. These Community Builder plugins still load Hotspots 6 files and would break '
+                . 'Community Builder pages: ' . implode(', ', $problems) . '. Delete them or install a version for Hotspots 7 '
+                . '(Community Builder: Plugin Management), then install this package again.',
+                'error'
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Runs after the package and all its extensions are installed or updated.
      *
      * @param   string            $type    install, update or discover_install
@@ -103,6 +150,7 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
 
         if ($type === 'update') {
             $this->uninstallObsoletePlugins($db);
+            $this->releaseCompojoomLibrary($db);
         }
 
         return true;
@@ -136,6 +184,38 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
         }
 
         Factory::getApplication()->enqueueMessage('Hotspots: removed the compojoom.com update site.', 'message');
+    }
+
+    /**
+     * Hotspots 7 no longer uses lib_compojoom. It is not uninstalled here, because other Compojoom
+     * extensions may need it, but it is detached from the package so it can be uninstalled by hand
+     * (the package blocks uninstalling its own extensions).
+     */
+    private function releaseCompojoomLibrary(DatabaseInterface $db): void
+    {
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['extension_id', 'package_id']))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('compojoom'));
+        $library = $db->setQuery($query)->loadObject();
+
+        if (!$library) {
+            return;
+        }
+
+        if ((int) $library->package_id !== 0) {
+            $query = $db->getQuery(true)
+                ->update($db->quoteName('#__extensions'))
+                ->set($db->quoteName('package_id') . ' = 0')
+                ->where($db->quoteName('extension_id') . ' = ' . (int) $library->extension_id);
+            $db->setQuery($query)->execute();
+        }
+
+        Factory::getApplication()->enqueueMessage(
+            'Hotspots no longer needs the Compojoom library (lib_compojoom). If no other Compojoom extension is installed, uninstall it under Extensions: Manage.',
+            'notice'
+        );
     }
 
     /**

@@ -1,7 +1,5 @@
 --
--- Hotspots database tables, as of Hotspots 6.0.13.
--- The #__compojoom_* tables used to come from lib_compojoom and can be shared with other
--- Compojoom extensions, so they are only created when missing and never dropped by Hotspots.
+-- Hotspots database tables (Hotspots 7.0).
 --
 
 CREATE TABLE IF NOT EXISTS `#__hotspots_marker` (
@@ -60,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `#__hotspots_mappings` (
   PRIMARY KEY (`marker_id`, `foreign_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__compojoom_customfields` (
+CREATE TABLE IF NOT EXISTS `#__hotspots_customfields` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
@@ -81,14 +79,14 @@ CREATE TABLE IF NOT EXISTS `#__compojoom_customfields` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__compojoom_customfields_cats` (
-  `compojoom_customfields_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `#__hotspots_customfields_cats` (
+  `customfield_id` int(11) NOT NULL,
   `catid` int(11) NOT NULL,
-  PRIMARY KEY (`compojoom_customfields_id`, `catid`)
+  PRIMARY KEY (`customfield_id`, `catid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `#__compojoom_multimedia` (
-  `compojoom_multimedia_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `#__hotspots_multimedia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_id` int(11) NOT NULL,
   `type_alias` varchar(255) DEFAULT '',
   `title` varchar(1024) NOT NULL DEFAULT '',
@@ -100,6 +98,6 @@ CREATE TABLE IF NOT EXISTS `#__compojoom_multimedia` (
   `created_by` bigint(20) NOT NULL DEFAULT 0,
   `enabled` tinyint(4) NOT NULL DEFAULT 1,
   `params` text NOT NULL,
-  PRIMARY KEY (`compojoom_multimedia_id`),
+  PRIMARY KEY (`id`),
   KEY `item_id` (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

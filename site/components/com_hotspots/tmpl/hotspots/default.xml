@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_MAP">
+		<message>
+			<![CDATA[COM_HOTSPOTS_MAP_DESC]]>
+		</message>
+	</layout>
+
+	<name>COM_HOTSPOTS_MAP</name>
+	<description>COM_HOTSPOTS_MAP_DESC</description>
+
+	<!-- the params-->
+	<fields name="params">
+		<fieldset name="basic" description="COM_HOTSPOTS_HOTSPOTS_MENU_FIELDSET_DESC">
+			<field name="hs_startcat" type="category"
+				   extension="com_hotspots"
+				   label="COM_HOTSPOTS_CATEGORY"
+				   description="COM_HOTSPOTS_MENU_CATEGORY"
+				   multiple="true" layout="joomla.form.field.list-fancy-select"
+			/>
+			<field name="exclude_categories" type="category"
+				   extension="com_hotspots"
+				   label="COM_HOTSPOTS_EXCLUDE_CATEGORIES_LBL"
+				   description="COM_HOTSPOTS_EXCLUDE_CATEGORIES_DESC"
+				   multiple="true" layout="joomla.form.field.list-fancy-select"
+			/>
+
+			<field name="start_closed_menu" type="radio" layout="joomla.form.field.radio.switcher" default="0"
+				   label="COM_HOTSPOTS_START_CLOSED_MENU_LABEL" description="COM_HOTSPOTS_START_CLOSED_MENU_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="tab_opened" type="list" default="hotspots"
+				   label="COM_HOTSPOTS_OPENED_TAB_LABEL" description="COM_HOTSPOTS_OPENED_TAB_DESC">
+				<option value="directions">COM_HOTSPOTS_DIRECTIONS</option>
+				<option value="hotspots">COM_HOTSPOTS_HOTSPOTS</option>
+				<option value="settings">COM_HOTSPOTS_SETTINGS</option>
+			</field>
+
+			<field name="show_tabs_hotspots" type="radio" layout="joomla.form.field.radio.switcher"
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_HOTSPOTS_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_HOTSPOTS_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="show_tabs_directions" type="radio" layout="joomla.form.field.radio.switcher"
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_DIRECTIONS_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_DIRECTIONS_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="show_tabs_settings" type="radio" layout="joomla.form.field.radio.switcher"
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_SETTINGS_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_SETTINGS_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="show_tabs_title" type="radio" layout="joomla.form.field.radio.switcher"
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_TITLE_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_TITLE_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="hs_start_fullscreen" type="radio" layout="joomla.form.field.radio.switcher" default="0"
+				   label="COM_HOTSPOTS_START_FULLSCREEN_LABEL"
+				   description="COM_HOTSPOTS_START_FULLSCREEN_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="map_centertyp" type="list" default="1" label="COM_HOTSPOTS_MAP_CENTER"
+				   description="COM_HOTSPOTS_MAP_CENTER_DESC">
+				<option value="1">COM_HOTSPOTS_BY_CATEGORY_BOUNDS</option>
+				<option value="0">COM_HOTSPOTS_BY_STARTPOSITION_STARTZOOM</option>
+				<option value="2">COM_HOTSPOTS_BY_USERS_POSITION</option>
+			</field>
+
+			<field name="high_accuracy" type="radio" layout="joomla.form.field.radio.switcher"
+				   default="0" label="COM_HOTSPOTS_HIGH_ACCURACY_LABEL" description="COM_HOTSPOTS_HIGH_ACCURACY_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="map_center_user_zoom" default="15" type="text" label="COM_HOTSPOTS_MAP_CENTER_USER_ZOOM_LABEL"
+				   description="COM_HOTSPOTS_MAP_CENTER_USER_ZOOM_DESC" filter="int"/>
+
+			<field name="styled_maps" type="textarea" label="COM_HOTSPOTS_STYLED_MAPS"
+				   description="COM_HOTSPOTS_STYLED_MAPS_DESC" filter="raw"/>
+			<field name="settings_override" type="textarea" label="COM_HOTSPOTS_SETTINGS_OVERRIDE_LABEL"
+				   description="COM_HOTSPOTS_SETTINGS_OVERRIDE_DESC" filter="raw"/>
+		</fieldset>
+	</fields>
+</metadata>

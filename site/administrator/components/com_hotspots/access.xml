@@ -1,19 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <access component="com_hotspots">
 	<section name="component">
 		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC"/>
+		<action name="core.options" title="JACTION_OPTIONS" description="JACTION_OPTIONS_COMPONENT_DESC"/>
 		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC"/>
 		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC"/>
 		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC"/>
-		<action name="core.delete.own" title="LIB_COMPOJOOM_DELETE_OWN" description="LIB_COMPOJOOM_DELETE_OWN_DESC"/>
+		<action name="core.delete.own" title="COM_HOTSPOTS_DELETE_OWN" description="COM_HOTSPOTS_DELETE_OWN_DESC"/>
 		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC"/>
 		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC"/>
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC"/>
-		<action name="core.multimedia.create" title="LIB_COMPOJOOM_CREATE_MULTIMEDIA"
-		        description="LIB_COMPOJOOM_CREATE_MULTIMEDIA_DESC"/>
-		<action name="core.multimedia.delete" title="LIB_COMPOJOOM_DELETE_MULTIMEDIA"
-		        description="LIB_COMPOJOOM_DELETE_MULTIMEDIA_DESC"/>
-		<action name="core.multimedia.delete.own" title="LIB_COMPOJOOM_DELETE_OWN_MULTIMEDIA"
-		        description="LIB_COMPOJOOM_DELETE_OWN_MULTIMEDIA_DESC"/>
+		<action name="core.multimedia.create" title="COM_HOTSPOTS_CREATE_MULTIMEDIA"
+		        description="COM_HOTSPOTS_CREATE_MULTIMEDIA_DESC"/>
+		<action name="core.multimedia.delete" title="COM_HOTSPOTS_DELETE_MULTIMEDIA"
+		        description="COM_HOTSPOTS_DELETE_MULTIMEDIA_DESC"/>
+		<action name="core.multimedia.delete.own" title="COM_HOTSPOTS_DELETE_OWN_MULTIMEDIA"
+		        description="COM_HOTSPOTS_DELETE_OWN_MULTIMEDIA_DESC"/>
 	</section>
 	<section name="marker">
 		<action name="core.delete" title="JACTION_DELETE" description="COM_HOTSPOTS_ACCESS_DELETE_DESC"/>

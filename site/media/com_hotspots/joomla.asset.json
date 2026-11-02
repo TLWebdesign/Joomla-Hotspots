@@ -1,0 +1,238 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_hotspots",
+  "version": "7.0.1",
+  "description": "Hotspots assets. The Google Maps API (com_hotspots.googlemaps) is registered at runtime because its URL holds the API key; MapHelper::registerGoogleMaps().",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_hotspots.config",
+      "type": "script",
+      "uri": "media/com_hotspots/js/config.js",
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "com_hotspots.galleria",
+      "type": "script",
+      "uri": "media/com_hotspots/vendor/galleria/galleria.min.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.galleria.theme",
+      "type": "script",
+      "uri": "media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.min.js",
+      "dependencies": [
+        "com_hotspots.galleria"
+      ]
+    },
+    {
+      "name": "com_hotspots.galleria.theme",
+      "type": "style",
+      "uri": "media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.css",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.handlebars",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/handlebars-v2.0.0.js",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.jquery-ui",
+      "type": "script",
+      "uri": "media/com_hotspots/vendor/jquery-ui/jquery.ui.custom.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.jquery-cookie",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/jquery.cookie.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.underscore",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/underscore.js",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.backbone",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.js",
+      "dependencies": [
+        "jquery",
+        "com_hotspots.handlebars",
+        "com_hotspots.jquery-ui",
+        "com_hotspots.jquery-cookie",
+        "com_hotspots.underscore"
+      ]
+    },
+    {
+      "name": "com_hotspots.marionette",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.marionette.js",
+      "dependencies": [
+        "com_hotspots.backbone"
+      ]
+    },
+    {
+      "name": "com_hotspots.backbone-picky",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.picky.js",
+      "dependencies": [
+        "com_hotspots.marionette"
+      ]
+    },
+    {
+      "name": "com_hotspots.backbone-stickit",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.stickit.js",
+      "dependencies": [
+        "com_hotspots.backbone-picky"
+      ]
+    },
+    {
+      "name": "com_hotspots.backbone-validator",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.validator.js",
+      "dependencies": [
+        "com_hotspots.backbone-stickit"
+      ]
+    },
+    {
+      "name": "com_hotspots.backbone-googlemaps",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.googlemaps.js",
+      "dependencies": [
+        "com_hotspots.backbone-validator",
+        "com_hotspots.googlemaps"
+      ]
+    },
+    {
+      "name": "com_hotspots.backbone-paginator",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/backbone.paginator.js",
+      "dependencies": [
+        "com_hotspots.backbone-googlemaps"
+      ]
+    },
+    {
+      "name": "com_hotspots.marionette-overrides",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/overrides/backbone.marionette.js",
+      "dependencies": [
+        "com_hotspots.backbone-paginator",
+        "com_hotspots.handlebars"
+      ]
+    },
+    {
+      "name": "com_hotspots.onimpression",
+      "type": "script",
+      "uri": "media/com_hotspots/vendor/onimpression/jquery.onimpression.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.hopscotch",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/hopscotch.js",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.tooltipster",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/jquery.tooltipster.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.smoothscroll",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/vendor/jquery.smoothscroll.js",
+      "dependencies": [
+        "jquery"
+      ]
+    },
+    {
+      "name": "com_hotspots.app",
+      "type": "script",
+      "uri": "media/com_hotspots/js/v4/app.js",
+      "dependencies": [
+        "com_hotspots.config",
+        "com_hotspots.marionette-overrides"
+      ]
+    },
+    {
+      "name": "com_hotspots.bootstrap2",
+      "type": "style",
+      "uri": "media/com_hotspots/vendor/bootstrap2/bootstrap-232.css",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.map",
+      "type": "style",
+      "uri": "media/com_hotspots/css/hotspots-v4.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "com_hotspots.map-icons",
+      "type": "style",
+      "uri": "media/com_hotspots/images/v4/hotspots/styles.css",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.tooltipster",
+      "type": "style",
+      "uri": "media/com_hotspots/css/tooltipster.css",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.hopscotch",
+      "type": "style",
+      "uri": "media/com_hotspots/css/vendor/hopscotch.css",
+      "dependencies": []
+    },
+    {
+      "name": "com_hotspots.hotspot",
+      "type": "style",
+      "uri": "media/com_hotspots/css/hotspot.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "com_hotspots.map",
+      "type": "preset",
+      "dependencies": [
+        "com_hotspots.app#script",
+        "com_hotspots.onimpression#script",
+        "com_hotspots.tooltipster#script",
+        "com_hotspots.smoothscroll#script",
+        "com_hotspots.hopscotch#script",
+        "com_hotspots.map#style",
+        "com_hotspots.map-icons#style",
+        "com_hotspots.tooltipster#style"
+      ]
+    },
+    {
+      "name": "com_hotspots.single-map",
+      "type": "preset",
+      "dependencies": [
+        "com_hotspots.app#script",
+        "com_hotspots.hotspot#style"
+      ]
+    }
+  ]
+}

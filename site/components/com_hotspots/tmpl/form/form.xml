@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_SUBMITION_LAYOUT">
+		<message><![CDATA[COM_HOTSPOTS_SUBMITION_LAYOUT_DESCRIPTION]]></message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+			<field name="enable_category" type="radio" layout="joomla.form.field.radio.switcher" default="0"
+				label="COM_HOTSPOTS_CREATE_HOTSPOTS_CATEGORY_LABEL" description="COM_HOTSPOTS_CREATE_HOTSPOTS_CATEGORY_DESC">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+			<field name="catid" type="category" extension="com_hotspots" multiple="true" layout="joomla.form.field.list-fancy-select"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL" description="JGLOBAL_CHOOSE_CATEGORY_DESC" showon="enable_category:1"/>
+			<field name="default_category" type="category" extension="com_hotspots"
+				label="COM_HOTSPOTS_DEFAULT_CATEGORY_LABEL" description="COM_HOTSPOTS_DEFAULT_CATEGORY_DESC">
+				<option value="">JOPTION_SELECT_CATEGORY</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
