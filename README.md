@@ -9,7 +9,7 @@ Pulled from the live site (`the web root` on the client's server) on 2026-11-02.
 | Extension | Version | Date |
 |---|---|---|
 | com_hotspots (Hotspots Professional) + module + plugins | 6.0.13 | 2023-09-19 |
-| CB plugin `plug_hotspots` | 2.7.4 | 2023-09-19 |
+| CB plugin `plug_hotspots` (legacy, disabled; replaced by our own `the client's CB plugin`, repo a separate private repo) | 2.7.4 | 2023-09-19 |
 | lib_compojoom | 5.3.6 | 2023-09-14 (same as github.com/compojoom/lib_compojoom) |
 
 ## Layout
@@ -22,7 +22,7 @@ Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
 Search for `TLWebdesign patch` to find them.
 
-- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration hung for about 30 seconds and created no marker.
+- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. `the client's CB plugin` depends on this geocoder (`HotspotsGeocoder`).
 
 ## Notes
 
