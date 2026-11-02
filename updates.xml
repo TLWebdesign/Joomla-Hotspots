@@ -17,4 +17,22 @@
         <targetplatform name="joomla" version="(5\.[4-9]|6\.[0-9])"/>
         <php_minimum>8.1</php_minimum>
     </update>
+    <update>
+        <name>Hotspots 7.0.1</name>
+        <description>Hotspots for Joomla 5 and 6, maintained by TLWebdesign</description>
+        <element>pkg_hotspots</element>
+        <type>package</type>
+        <version>7.0.1</version>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/TLWebdesign/Joomla-Hotspots/releases/download/V7.0.1/pkg_hotspots-7.0.1.zip</downloadurl>
+        </downloads>
+        <sha256>a80844c87738734d7c89e1c63d31f2a7f57f8da67847d5d0f8f4de9054a176dd</sha256>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>TLWebdesign</maintainer>
+        <maintainerurl>https://tlwebdesign.nl/</maintainerurl>
+        <targetplatform name="joomla" version="(5\.[4-9]|6\.[0-9])"/>
+        <php_minimum>8.1</php_minimum>
+    </update>
 </updates>
