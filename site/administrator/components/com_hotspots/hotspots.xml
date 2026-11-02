@@ -6,11 +6,12 @@
 	<copyright>(C) 2008-2023 compojoom.com - Daniel Dimitrov, (C) 2026 TLWebdesign</copyright>
 	<authorEmail>info@tlwebdesign.nl</authorEmail>
 	<authorUrl>https://tlwebdesign.nl</authorUrl>
-	<version>6.1.0</version>
+	<version>7.0.0</version>
 	<license>GNU General Public License version 2 or later; see LICENSE</license>
 	<description><![CDATA[<div style="text-align:left">Hotspots is an advanced Google Maps manager, originally by Compojoom.com, maintained by TLWebdesign</div>]]>
 	</description>
-    <scriptfile>script.php</scriptfile>
+	<namespace path="src">TLWebdesign\Component\Hotspots</namespace>
+	<scriptfile>script.php</scriptfile>
 	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -22,48 +23,33 @@
 		</schemas>
 	</update>
 	<files folder="components/com_hotspots">
-        <file>controller.php</file>
-<folder>includes</folder>
-<file>hotspots.php</file>
-<folder>models</folder>
-<file>hmvc.php</file>
-<folder>layouts</folder>
-<folder>api</folder>
-<file>router.php</file>
-<folder>controllers</folder>
-<folder>views</folder>
-<folder>assets</folder>
-<folder>helpers</folder>
+		<folder>forms</folder>
+		<folder>layouts</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages folder="language">
         <language tag="en-GB">en-GB/en-GB.com_hotspots.ini</language>
 	</languages>
 	<administration>
-		<menu img="../media/com_hotspots/backend/images/hotspots-16px.png">COM_HOTSPOTS</menu>
+		<menu>COM_HOTSPOTS</menu>
 		<submenu>
 			<menu view="dashboard">COM_HOTSPOTS_DASHBOARD</menu>
-			<menu img="../media/com_hotspots/backend/images/hotspots-16px.png" view="hotspots">COM_HOTSPOTS_LOCATIONS</menu>
-			<menu link="option=com_categories&amp;extension=com_hotspots" img="../media/com_hotspots/backend/images/categories-16px.png">COM_HOTSPOTS_CATEGORIES</menu>
+			<menu view="hotspots">COM_HOTSPOTS_LOCATIONS</menu>
+			<menu link="option=com_categories&amp;extension=com_hotspots">COM_HOTSPOTS_CATEGORIES</menu>
 			<menu view="kmls">COM_HOTSPOTS_KMLS</menu>
 			<menu view="customfields">COM_HOTSPOTS_CUSTOM_FIELDS</menu>
-			<menu img="../media/com_hotspots/backend/images/import-16px.png" view="import">COM_HOTSPOTS_IMPORT</menu>
+			<menu view="import">COM_HOTSPOTS_IMPORT</menu>
 		</submenu>
 		<files folder="administrator/components/com_hotspots">
-            <file>access.xml</file>
-<folder>tables</folder>
-<file>controller.php</file>
-<folder>libraries</folder>
-<file>hotspots.php</file>
-<folder>models</folder>
-<file>config.xml</file>
-<folder>elements</folder>
-<folder>layouts</folder>
-<file>version.php</file>
-<folder>controllers</folder>
-<folder>views</folder>
-<folder>helpers</folder>
-<file>CHANGELOG.php</file>
-<folder>sql</folder>
+			<file>access.xml</file>
+			<file>config.xml</file>
+			<folder>forms</folder>
+			<folder>layouts</folder>
+			<folder>services</folder>
+			<folder>sql</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="administrator/language">
             <language tag="en-GB">en-GB/en-GB.com_hotspots.ini</language>
@@ -71,11 +57,12 @@
         </languages>
 	</administration>
 	<media destination="com_hotspots" folder="media/com_hotspots">
-        <folder>css</folder>
-<folder>images</folder>
-<folder>js</folder>
-<folder>backend</folder>
-<folder>kml</folder>
+		<filename>joomla.asset.json</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>backend</folder>
+		<folder>kml</folder>
 	</media>
 
 	<!-- Updates come through the Hotspots package (pkg_hotspots). -->

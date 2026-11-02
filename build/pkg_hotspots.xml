@@ -2,7 +2,7 @@
 <extension type="package" method="upgrade">
 	<name>Hotspots</name>
 	<packagename>hotspots</packagename>
-	<version>6.1.0</version>
+	<version>7.0.0</version>
 	<creationDate>2026-11-02</creationDate>
 	<author>TLWebdesign (originally Compojoom.com)</author>
 	<authorEmail>info@tlwebdesign.nl</authorEmail>

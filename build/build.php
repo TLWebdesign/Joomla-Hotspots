@@ -239,12 +239,6 @@ if ((string) $pkgManifest->version !== $version) {
     fail("pkg_hotspots.xml has version {$pkgManifest->version}, the build asks for $version");
 }
 
-$versionFile = (string) file_get_contents(SITE . '/administrator/components/com_hotspots/version.php');
-
-if (!str_contains($versionFile, "define('HOTSPOTS_VERSION', '$version')")) {
-    fail("administrator/components/com_hotspots/version.php does not define HOTSPOTS_VERSION $version");
-}
-
 $work = DIST . '/work';
 
 if (is_dir($work)) {

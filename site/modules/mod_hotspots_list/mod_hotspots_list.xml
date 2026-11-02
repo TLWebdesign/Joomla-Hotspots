@@ -11,7 +11,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>daniel@compojoom.com</authorEmail>
 	<authorUrl>compojoom.com</authorUrl>
-	<version>6.1.0</version>
+	<version>7.0.0</version>
 	<description>MOD_HOTSPOTS_LIST_DESCRIPTION</description>
 	<files>
 		<folder>tmpl</folder>
