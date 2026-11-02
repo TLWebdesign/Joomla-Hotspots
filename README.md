@@ -4,12 +4,12 @@ Compojoom has stopped trading. This repo holds the last versions of their extens
 
 ## Source
 
-Pulled from the live site (`the web root` on the client's server) on 2026-11-02. Hotspots was a paid extension that was never published on GitHub, so the live site is the newest copy available.
+Pulled from the production site of a client on 2026-11-02. Hotspots was a paid extension that was never published on GitHub, so the live site is the newest copy available.
 
 | Extension | Version | Date |
 |---|---|---|
 | com_hotspots (Hotspots Professional) + module + plugins | 6.0.13 | 2023-09-19 |
-| CB plugin `plug_hotspots` (legacy, disabled; replaced by our own `the client's CB plugin`, repo a separate private repo) | 2.7.4 | 2023-09-19 |
+| CB plugin `plug_hotspots` (legacy, disabled; replaced by a custom CB plugin of the client, in a separate private repo) | 2.7.4 | 2023-09-19 |
 | lib_compojoom | 5.3.6 | 2023-09-14 (same as github.com/compojoom/lib_compojoom) |
 
 ## Layout
@@ -35,7 +35,7 @@ A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility
 - Own tables `#__hotspots_customfields`, `#__hotspots_customfields_cats` and `#__hotspots_multimedia`. The update moves the Hotspots rows out of the shared `#__compojoom_*` tables and drops those only when no other extension has rows in them.
 - All 6.1.0 security fixes are kept. Also fixed on the way: the list module showed unpublished and access-restricted markers; frontend users could set a `javascript:` "read more" link; `{hotspots}` in articles showed unpublished markers; the contact-author form now has the same mail limit as "send map".
 - Dropped: the SobiPro and Phoca importers (the KML import stays), the marker API (`view=api`), the MooTools map files, avatar/profile providers other than Community Builder, CComment support, runtime minifying (`media/com_hotspots/cache`), Compojoom's dashboard feeds and update check.
-- `the client's CB plugin` must be updated for 7.0: `HotspotsGeocoder`, `HotspotsHelperUtils` and `components/com_hotspots/includes/defines.php` are gone. Use `Administrator\Service\Geocoder`, `Administrator\Helper\MarkerHelper::prepare()` and the admin layout `hotspots.map.map`.
+- The client's CB plugin must be updated for 7.0: `HotspotsGeocoder`, `HotspotsHelperUtils` and `components/com_hotspots/includes/defines.php` are gone. Use `Administrator\Service\Geocoder`, `Administrator\Helper\MarkerHelper::prepare()` and the admin layout `hotspots.map.map`.
 
 ### Template overrides on the client site
 
@@ -47,7 +47,7 @@ A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility
 
 Search for `TLWebdesign patch` to find them in 6.1.0 (tag `V6.1.0`). In 7.0 the code is rewritten; the fixes are kept as behaviour.
 
-- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. `the client's CB plugin` depends on this geocoder (`HotspotsGeocoder`).
+- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. The client's CB plugin depends on this geocoder (`HotspotsGeocoder`).
 - **2026-11-02** Security fixes (not yet on the live site):
   - `libraries/compojoom/model/multimedia.php`: any visitor could delete any file on the server (`../` in `file`), and frontend users could move any file into the public images folder (`jform[picture]`).
   - `components/com_hotspots/api/marker.php`: image name and content from the request were written to disk as is (any file, including PHP).

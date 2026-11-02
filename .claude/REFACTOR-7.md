@@ -15,7 +15,7 @@ Branch `7.0-dev`. Goal: the component runs on Joomla 5.4 and 6.x without the Bac
 - Branding: TLWebdesign is the author. Keep the GPL credit `(C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) <years>` in headers of files derived from Compojoom code; no other Compojoom names (classes, CSS, tables, texts).
 - Language strings stay in `language/en-GB/en-GB.com_hotspots.ini` (site) and `administrator/language/en-GB/en-GB.com_hotspots(.sys).ini`.
 - Old files are deleted in the same change that replaces them (git rm). Fixes marked `TLWebdesign patch` must survive the port (the behaviour, not the comment).
-- the client's CB plugin gets rewritten against 7.0: no shims for it, but keep the public helpers below stable.
+- The client's CB plugin gets rewritten against 7.0: no shims for it, but keep the public helpers below stable.
 
 ## Shared API (keep these signatures)
 
