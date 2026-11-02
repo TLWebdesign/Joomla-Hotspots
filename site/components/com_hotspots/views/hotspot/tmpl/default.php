@@ -183,7 +183,7 @@ $authorizedContact = HotspotsHelperSecurity::groupHasAccess($currentUser->getAut
 		<?php endif; ?>
 		<div class="row-fluid">
 			<h2 class="componentheading">
-				<?php echo $this->hotspot->title; ?>
+				<?php echo htmlspecialchars((string) $this->hotspot->title, ENT_QUOTES, 'UTF-8', false); ?>
 
 				<?php if ($this->hotspot->created_by && HotspotsHelperSettings::get('show_contact_author', 0)): ?>
 					<?php if ($authorizedContact || $showMessageToNonAuthorized) : ?>

@@ -219,6 +219,9 @@ class HotspotsControllerImport extends HotspotsController
 	 */
 	public function kmlmapping()
 	{
+		// TLWebdesign patch 2026-11-02: check for request forgeries.
+		\Joomla\CMS\Session\Session::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$input = JFactory::getApplication()->input;
 		$categories = JCategories::getInstance('Hotspots')->get();
 		$files = $input->get('kmls', '', 'array');
@@ -307,7 +310,10 @@ class HotspotsControllerImport extends HotspotsController
 
 		foreach ($files as $file)
 		{
-			if (file_exists($path . $file))
+			// TLWebdesign patch 2026-11-02: plain file name only, no "../".
+			$file = basename((string) $file);
+
+			if ($file !== '' && $file[0] !== '.' && file_exists($path . $file))
 			{
 				libxml_use_internal_errors(true);
 				$kmls[] = simplexml_load_file($path . $file);
@@ -365,6 +371,9 @@ class HotspotsControllerImport extends HotspotsController
 	 */
 	public function kmlimport()
 	{
+		// TLWebdesign patch 2026-11-02: check for request forgeries.
+		\Joomla\CMS\Session\Session::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$input = JFactory::getApplication()->input;
 		$styles = $input->get('styles', '', 'array');
 		$files = $input->get('kmls', '', 'array');

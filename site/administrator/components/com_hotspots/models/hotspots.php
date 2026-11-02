@@ -94,22 +94,26 @@ class HotspotsModelHotspots extends JModelList
 			$userId = $this->getUserStateFromRequest($this->context . '.filter.created_by', 'filter_created_by', '');
 			$this->setState('filter.created_by', $userId);
 		}
-		else
+		// List state information.
+		parent::populateState('a.title', 'asc');
+
+		/*
+		 * TLWebdesign patch 2026-11-02: in the frontend, set the owner filter after parent::populateState(),
+		 * which otherwise overwrites it from the request (filter[created_by]). Guests get -1 (no markers);
+		 * before, created_by 0 meant guests saw all markers.
+		 */
+		if (!JFactory::getApplication()->isClient('administrator'))
 		{
-			$user = JFactory::getUser()->get('id', 0);
+			$user = (int) JFactory::getUser()->get('id', 0);
 
 			// If the user is able to edit, then we are dealing with a moderator! so he can see all hotspots
-			if (HotspotsHelperSecurity::authorise('edit'))
+			if ($user && HotspotsHelperSecurity::authorise('edit'))
 			{
 				$user = 0;
 			}
 
-			// If we are in the frontend set the created_by to the currently logged in user
-			$this->setState('filter.created_by', $user);
+			$this->setState('filter.created_by', $user ?: -1);
 		}
-
-		// List state information.
-		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -149,14 +153,20 @@ class HotspotsModelHotspots extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			$query->where('a.catid IN (' . implode(',', $categoryId) . ')');
+			// TLWebdesign patch 2026-11-02: the ids come from the request; integers only (SQL injection).
+			$categoryId = array_filter(\Joomla\Utilities\ArrayHelper::toInteger($categoryId));
+
+			if ($categoryId)
+			{
+				$query->whereIn($db->quoteName('a.catid'), $categoryId);
+			}
 		}
 
-		$createdBy = $this->getState('filter.created_by');
+		$createdBy = (int) $this->getState('filter.created_by');
 
 		if ($createdBy)
 		{
-			$query->where('a.created_by = ' . $db->q($createdBy));
+			$query->where('a.created_by = ' . $createdBy);
 		}
 
 		// Filter by search in title

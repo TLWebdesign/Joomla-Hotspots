@@ -51,7 +51,7 @@
 
 		<field name="hotspotText" type="editor" class="form-control" labelclass="col-sm-2 compojoom-control-label"
 		       label="COM_HOTSPOTS_FIELD_DESCRIPTION" description="COM_HOTSPOTS_FIELD_DESCRIPTION_DESC"
-		       filter="JComponentHelper::filterText" buttons="true" hide="article,image,pagebreak" required="true"/>
+		       filter="\Joomla\CMS\Component\ComponentHelper::filterText" buttons="true" hide="article,image,pagebreak" required="true"/>
 
 		<field name="picture" type="cmultimedia"
 		       url="index.php?option=com_hotspots&amp;task=multimedia.doIt"

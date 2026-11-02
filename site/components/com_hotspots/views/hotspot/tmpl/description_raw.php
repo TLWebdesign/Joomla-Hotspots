@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <div id="map-overlay">
 	<div id='marker_container'>
-		<h2><?php echo $this->hotspot->title ?></h2>
+		<h2><?php echo htmlspecialchars((string) $this->hotspot->title, ENT_QUOTES, 'UTF-8', false) ?></h2>
 
 		<div id='marker_adress'>
 			<?php  require_once JPATH_COMPONENT . '/views/hotspot/tmpl/default_address.php'; ?>

@@ -368,7 +368,7 @@ echo CompojoomHtmlCtemplate::getHead(HotspotsHelperMenu::getMenu(), 'import', ''
 							type: 'POST',
 							// Uncomment the following to send cross-domain cookies:
 							//xhrFields: {withCredentials: true},
-							url: 'index.php?option=com_hotspots&task=import.kmlmapping',
+							url: 'index.php?option=com_hotspots&task=import.kmlmapping&<?php echo \Joomla\CMS\Session\Session::getFormToken(); ?>=1',
 							dataType: 'json',
 							data: checkboxes
 						}).always(function() {
@@ -393,7 +393,7 @@ echo CompojoomHtmlCtemplate::getHead(HotspotsHelperMenu::getMenu(), 'import', ''
 							type: 'POST',
 							// Uncomment the following to send cross-domain cookies:
 							//xhrFields: {withCredentials: true},
-							url: 'index.php?option=com_hotspots&task=import.kmlimport',
+							url: 'index.php?option=com_hotspots&task=import.kmlimport&<?php echo \Joomla\CMS\Session\Session::getFormToken(); ?>=1',
 							dataType: 'json',
 							data: prevStepObj.find('form').serialize() + '&'+ files
 						}).always(function() {

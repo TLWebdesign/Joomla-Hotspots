@@ -21,7 +21,19 @@ class HotspotsControllerMail extends JControllerLegacy
 {
 	public function send()
 	{
-		$model       = json_decode(JFactory::getApplication()->input->get('model', '', 'json'));
+		/*
+		 * TLWebdesign patch 2026-11-02: this was an open mail relay. Anyone could send any text to any
+		 * address with any From address. Now the feature has to be enabled, the mail comes from the site's
+		 * own address (visitor as Reply-To), the link must point to this site and a session can send at
+		 * most 5 mails per hour.
+		 */
+		$model = json_decode(JFactory::getApplication()->input->get('model', '', 'raw'));
+
+		if (!is_object($model))
+		{
+			jexit();
+		}
+
 		$model->sent = false;
 		$token       = JSession::getFormToken();
 		$filter      = JFilterInput::getInstance();
@@ -29,6 +41,30 @@ class HotspotsControllerMail extends JControllerLegacy
 		if (!isset($model->$token))
 		{
 			$model->status = "Couldn't send mail. Invalid form token.";
+
+			echo json_encode($model);
+			jexit();
+		}
+
+		if (!HotspotsHelperSettings::get('mail_map', 0))
+		{
+			$model->status = "Couldn't send mail.";
+
+			echo json_encode($model);
+			jexit();
+		}
+
+		$session = JFactory::getSession();
+		$sentAt  = array_filter(
+			(array) $session->get('com_hotspots.mail.sent', array()),
+			function ($time) {
+				return $time > time() - 3600;
+			}
+		);
+
+		if (count($sentAt) >= 5)
+		{
+			$model->status = "Couldn't send mail. Please try again later.";
 
 			echo json_encode($model);
 			jexit();
@@ -51,10 +87,15 @@ class HotspotsControllerMail extends JControllerLegacy
 			$sender = $filter->clean($model->sender, null);
 		}
 
-		$mailto   = $model->mailto;
-		$subject  = $filter->clean($model->subject);
-		$bodytext = $filter->clean($model->message);
-		$url      = $filter->clean($model->url);
+		$mailto   = (string) ($model->mailto ?? '');
+		$subject  = $filter->clean($model->subject ?? '');
+		$bodytext = $filter->clean($model->message ?? '');
+		$url      = $filter->clean($model->url ?? '');
+
+		if (!\Joomla\CMS\Uri\Uri::isInternal($url))
+		{
+			$url = \Joomla\CMS\Uri\Uri::root();
+		}
 
 		// Check the validity of the mails
 		if (!JMailHelper::isEmailAddress($mailto) || !JMailHelper::isEmailAddress($from))
@@ -74,8 +115,10 @@ class HotspotsControllerMail extends JControllerLegacy
 		$message .= '<p>' . $bodytext . '</p>';
 
 		$mailer = JFactory::getMailer();
+		$sentAt[] = time();
+		$session->set('com_hotspots.mail.sent', $sentAt);
 
-		if ($mailer->sendMail($from, $sender, $mailto, $subject, $message, true))
+		if ($mailer->sendMail($config->get('mailfrom'), $config->get('fromname'), $mailto, $subject, $message, true, null, null, null, $from, $sender))
 		{
 			$model->sent   = true;
 			$model->status = 'Sent successfully';
@@ -106,6 +149,21 @@ class HotspotsControllerMail extends JControllerLegacy
 		$filter = JFilterInput::getInstance();
 		$user = JFactory::getUser();
 
+		/*
+		 * TLWebdesign patch 2026-11-02: the settings "show contact author" and "authorized groups" were only
+		 * checked in the template, so anyone could mail the author of any marker (also unpublished ones).
+		 * Redirect back to the marker instead of to the unchecked HTTP referer.
+		 */
+		$hsParams = JComponentHelper::getParams('com_hotspots');
+
+		if (!HotspotsHelperSettings::get('show_contact_author', 0)
+			|| !HotspotsHelperSecurity::groupHasAccess($user->getAuthorisedGroups(), $hsParams->get('authorized_contact_author_groups')))
+		{
+			throw new \Joomla\CMS\Access\Exception\NotAllowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$back = JRoute::_(HotspotsHelperRoute::getHotspotRoute($input->getInt('hotspot_id')), false);
+
 		// Check if we have a captcha and if it is valid
 		if ((JPluginHelper::isEnabled('captcha', HotspotsHelperSettings::get('captcha')) && HotspotsHelperSettings::get('captcha')))
 		{
@@ -119,7 +177,7 @@ class HotspotsControllerMail extends JControllerLegacy
 				JFactory::getApplication()->enqueueMessage(JText::_('COM_HOTSPOTS_INVALID_CAPTCHA'), 'error');
 
 				// Redirect back to the hotspot
-				$this->setRedirect($_SERVER['HTTP_REFERER'])->redirect();
+				$this->setRedirect($back)->redirect();
 				jexit('exit');
 			}
 		}
@@ -128,6 +186,11 @@ class HotspotsControllerMail extends JControllerLegacy
 		$id      = $input->getInt('hotspot_id');
 		$model   = JModelLegacy::getInstance('Hotspot', 'HotspotsModel');
 		$hotspot = $model->getItem($id);
+
+		if (!$hotspot || empty($hotspot->id) || (int) $hotspot->state !== 1 || empty($hotspot->created_by))
+		{
+			throw new \Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
 		$name    = $filter->clean($input->get('name'));
 		$from    = $filter->clean($input->getString('email'));
 		$messageContent = $filter->clean($input->getString('message'));
@@ -147,7 +210,7 @@ class HotspotsControllerMail extends JControllerLegacy
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_WRONG_MAIL_ADDRESS'));
 
 			// Redirect back to the hotspot
-			$this->setRedirect($_SERVER['HTTP_REFERER'])->redirect();
+			$this->setRedirect($back)->redirect();
 			jexit();
 		}
 
@@ -156,7 +219,7 @@ class HotspotsControllerMail extends JControllerLegacy
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_INVALID_NAME'));
 
 			// Redirect back to the hotspot
-			$this->setRedirect($_SERVER['HTTP_REFERER'])->redirect();
+			$this->setRedirect($back)->redirect();
 			jexit();
 		}
 
@@ -184,6 +247,6 @@ class HotspotsControllerMail extends JControllerLegacy
 		JFactory::getApplication()->enqueueMessage($message);
 
 		// Redirect back to the hotspot
-		$this->setRedirect($_SERVER['HTTP_REFERER']);
+		$this->setRedirect($back);
 	}
 }

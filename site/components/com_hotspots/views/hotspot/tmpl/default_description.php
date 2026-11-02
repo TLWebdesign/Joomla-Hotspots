@@ -10,6 +10,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 ?>
-<strong><?php echo $this->hotspot->title ?></strong><br/><br/>
+<strong><?php echo htmlspecialchars((string) $this->hotspot->title, ENT_QUOTES, 'UTF-8', false) ?></strong><br/><br/>
 
 <?php $this->loadTemplate('address'); // require_once(JPATH_COMPONENT . '/views/json/tmpl/address.php'); ?>

@@ -53,7 +53,7 @@ Small, safe fixes in the existing code, marked `TLWebdesign patch`, so the live 
 - [x] Fix the 5 errors and 10 warnings above (except the legacy CB plugin, dropped in phase 2).
 - [x] Replace `JError::raiseWarning` in the admin entry point, `JException` in `tables/kmls.php` and `JSubMenuHelper` with what Joomla 5 offers. Also `JApplication::stringURLSafe()` and `isAdmin()`.
 - [x] Security fixes found on the way (see README, "Local changes"): file delete/move/write through `../`, SQL injection in the map JSON and category API, missing CSRF tokens in admin tasks.
-- [ ] Full security review of the frontend code; fix what it finds.
+- [x] Full security review of the frontend code; fixed all 11 findings (see README).
 - [ ] Run the site with `E_ALL` on PHP 8.4, click through the checklist, fix what shows up in the log (needs the test site from phase 0).
 - [ ] Copy to the live site, check. **The security fixes should go live as soon as possible.**
 - Note: the live map uses `media/com_hotspots/js/v4` (tiles), not the MooTools files in `js/moo`.

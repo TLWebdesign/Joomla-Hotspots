@@ -28,9 +28,16 @@ class HotspotsControllerHotspots extends JControllerLegacy
 	public function hotspot()
 	{
 		$model = JModelLegacy::getInstance('Hotspot', 'HotspotsModel');
+		$item  = $model->getHotspot();
+
+		// TLWebdesign patch 2026-11-02: unpublished markers only for those who may edit them (as in the HTML view).
+		if (!$item || (!$item->state && !HotspotsHelperSecurity::canEdit($item)))
+		{
+			throw new \Exception('The resource doesn\'t exist', 404);
+		}
 
 		$hotspot = HotspotsHelperHotspot::prepareHotspotForJsonOutput(
-						HotspotsHelperUtils::prepareHotspot($model->getHotspot())
+						HotspotsHelperUtils::prepareHotspot($item)
 					);
 
 		echo json_encode($hotspot);

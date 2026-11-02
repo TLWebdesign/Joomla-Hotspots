@@ -24,12 +24,12 @@ $suffix = $params->get('moduleclass_sfx');
 						<?php if (isset($images[$hotspot->id])) : ?>
 							<div>
 								<img src="<?php echo $images[$hotspot->id][0]['image']; ?>"
-									 title="<?php echo $images[$hotspot->id][0]['title']; ?>"
-									 description="<?php echo $images[$hotspot->id][0]['description']; ?>"/>
+									 title="<?php echo htmlspecialchars((string) $images[$hotspot->id][0]['title'], ENT_QUOTES, 'UTF-8', false); ?>"
+									 description="<?php echo htmlspecialchars((string) $images[$hotspot->id][0]['description'], ENT_QUOTES, 'UTF-8', false); ?>"/>
 							</div>
 						<?php endif; ?>
 					<?php endif; ?>
-					<h3><?php echo $hotspot->title; ?></h3>
+					<h3><?php echo htmlspecialchars((string) $hotspot->title, ENT_QUOTES, 'UTF-8', false); ?></h3>
 				</a>
 				<?php if ($params->get('description', 1)) : ?>
 					<div class="hotspots-list-description">

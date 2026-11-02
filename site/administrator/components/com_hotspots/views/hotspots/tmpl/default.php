@@ -118,16 +118,16 @@ if (version_compare(JVERSION, '4.0', 'lt')) {
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<a href="<?php echo $link; ?>"><?php echo $l->title; ?></a>
+										<a href="<?php echo $link; ?>"><?php echo htmlspecialchars((string) $l->title, ENT_QUOTES, 'UTF-8', false); ?></a>
 									<?php else : ?>
-										<?php echo $l->title; ?>
+										<?php echo htmlspecialchars((string) $l->title, ENT_QUOTES, 'UTF-8', false); ?>
 									<?php endif; ?>
 								</td>
 								<td>
 									<?php echo HotspotsHelperUtils::getLocalDate($l->created); ?>
 								</td>
 								<td>
-									<?php echo $l->street; ?>
+									<?php echo htmlspecialchars((string) $l->street, ENT_QUOTES, 'UTF-8', false); ?>
 								</td>
 								<td>
 									<?php echo $l->plz; ?>

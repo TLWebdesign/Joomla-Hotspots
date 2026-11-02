@@ -114,6 +114,19 @@ class CompojoomModelMultimedia extends JModelLegacy
 				return false;
 			}
 
+			/*
+			 * TLWebdesign patch 2026-11-02: the component's upload_extensions setting is not what Joomla's
+			 * MediaHelper reads, so any extension from the core list (pdf, txt, mp4, ...) was accepted.
+			 * Only real images are used here.
+			 */
+			if (!in_array(strtolower(JFile::getExt($file['name'])), array('jpg', 'jpeg', 'png', 'gif', 'webp'), true)
+				|| empty($file['tmp_name']) || @getimagesize($file['tmp_name']) === false)
+			{
+				$appl->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'));
+
+				return false;
+			}
+
 			// Check if we pass all other checks
 			if (!$mediaHelper->canUpload($file, $this->component))
 			{
@@ -494,22 +507,25 @@ class CompojoomModelMultimedia extends JModelLegacy
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$user = JFactory::getUser();
-			$createdByRestriction = false;
 
-			// Can the user delete his own items?
-			if ($user->authorise('core.multimedia.delete.own', $this->component))
+			/*
+			 * TLWebdesign patch 2026-11-02: users without any multimedia delete permission (guests included)
+			 * got no restriction at all and could delete any image. Now: delete = all, delete.own = own only,
+			 * neither = nothing.
+			 */
+			$canDeleteAll = $user->authorise('core.multimedia.delete', $this->component);
+			$canDeleteOwn = $user->authorise('core.multimedia.delete.own', $this->component);
+
+			if (!$canDeleteAll && !$canDeleteOwn)
 			{
-				$createdByRestriction = true;
+				return false;
 			}
 
-			// Does the user have global delete privileges. If he does, he can delete images everywhere
-			if ($user->authorise('core.multimedia.delete', $this->component))
-			{
-				$createdByRestriction = false;
-			}
+			$createdByRestriction = !$canDeleteAll;
 
 			// First we need to grab the image since we need to make sure to delete the thumbnails as well
 			$query->select('*')->from('#__compojoom_multimedia')->where('mangled_filename = ' . $db->q($file))
+				->where('item_id = ' . (int) $id)
 				->where('type_alias = ' . $db->q($this->typeAlias));
 
 			$db->setQuery($query);

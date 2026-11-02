@@ -57,7 +57,7 @@
         <field name="hotspotText" type="editor"
                label="COM_HOTSPOTS_FIELD_DESCRIPTION" description="COM_HOTSPOTS_FIELD_DESCRIPTION_DESC"
                rows="10" height="200"
-               filter="JComponentHelper::filterText" buttons="true" hide="article,image,pagebreak" required="true"/>
+               filter="\Joomla\CMS\Component\ComponentHelper::filterText" buttons="true" hide="article,image,pagebreak" required="true"/>
 
 
 		<field
@@ -67,7 +67,7 @@
 				description="CONTENT_TEXT_DESC"
 				buttons="true"
 				class="inputbox"
-				filter="JComponentHelper::filterText"
+				filter="\Joomla\CMS\Component\ComponentHelper::filterText"
 				asset_id="com_content"
 		/>
 

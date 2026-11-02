@@ -171,6 +171,30 @@ class HotspotsControllerHotspot extends JControllerForm
 		if (!$user->authorise('core.edit.state', 'com_hotspots'))
 		{
 			$validData['state'] = HotspotsHelperSettings::get('addhs_autopublish', 1) ? 1 : 0;
+
+			// TLWebdesign patch 2026-11-02: the form only shows these fields to users with core.edit.state.
+			unset($validData['publish_up'], $validData['publish_down'], $validData['access']);
+		}
+
+		/*
+		 * TLWebdesign patch 2026-11-02: never take the owner, dates or permissions from the frontend form
+		 * (users could save markers in someone else's name). The table sets created_by for new markers.
+		 */
+		if (!$user->authorise('core.admin', 'com_hotspots'))
+		{
+			unset($validData['created_by'], $validData['created'], $validData['modified'], $validData['modified_by'],
+				$validData['rules'], $validData['asset_id']);
+		}
+
+		// TLWebdesign patch 2026-11-02: new markers only in categories where the user may create.
+		if (empty($validData['id'])
+			&& !HotspotsHelperSecurity::authorise('create', (object) array('catid' => (int) ($validData['catid'] ?? 0), 'created_by' => $user->id)))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=form' . $this->getRedirectToItemAppend($recordId, $urlVar), false));
+
+			return false;
 		}
 
 
@@ -269,6 +293,17 @@ class HotspotsControllerHotspot extends JControllerForm
 		$multimediaModel = JModelLegacy::getInstance('Multimedia', 'HotspotsModel');
 		$files = $formData->get('picture', array(), 'array');
 		$meta = $formData->get('picture_data', array(), 'array');
+
+		// TLWebdesign patch 2026-11-02: image titles and descriptions are shown on the site; plain text only (XSS).
+		$textFilter = JFilterInput::getInstance();
+
+		foreach ($meta as $metaKey => $metaValue)
+		{
+			$meta[$metaKey] = array(
+				'title'       => $textFilter->clean(is_array($metaValue) ? ($metaValue['title'] ?? '') : '', 'string'),
+				'description' => $textFilter->clean(is_array($metaValue) ? ($metaValue['description'] ?? '') : '', 'string'),
+			);
+		}
 
 		$item = $model->getItem();
 

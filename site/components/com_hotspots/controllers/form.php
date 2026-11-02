@@ -25,6 +25,20 @@ class HotspotsControllerForm extends JControllerForm
 	public $view_list = 'userhotspots';
 
 	/**
+	 * TLWebdesign patch 2026-11-02: the form posts to hotspot.save, which filters the owner, dates and
+	 * permissions. form.save went straight to the model without those checks, so it is blocked.
+	 *
+	 * @param   string  $key     Not used
+	 * @param   string  $urlVar  Not used
+	 *
+	 * @return  boolean
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		throw new \Joomla\CMS\Access\Exception\NotAllowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	}
+
+	/**
 	 * Check if the user has the sufficient user rights to edit the hotspot
 	 *
 	 * @param   array   $data  An array of input data.

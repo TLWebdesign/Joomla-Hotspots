@@ -89,6 +89,14 @@ class PlgContentHotspotscategory extends JPlugin
 	 */
 	private function copySampleImage($image)
 	{
+		// TLWebdesign patch 2026-11-02: only sample images from our own folder, no "../".
+		$image = 'sample/' . basename((string) $image);
+
+		if (!in_array(strtolower(JFile::getExt($image)), array('png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'), true))
+		{
+			return false;
+		}
+
 		$appl = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$sampleImagePath = JPATH_ROOT . '/media/com_hotspots/images/categories/' . $image;

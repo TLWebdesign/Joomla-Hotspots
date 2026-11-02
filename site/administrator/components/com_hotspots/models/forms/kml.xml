@@ -21,7 +21,7 @@
 
         <field name="description" type="editor" labelclass="col-sm-2 compojoom-control-label" class="form-control"
                label="COM_HOTSPOTS_KML_FILE_DESCRIPTION" description="COM_HOTSPOTS_KML_FILE_DESCRIPTION_DESC"
-               filter="JComponentHelper::filterText" buttons="true" />
+               filter="\Joomla\CMS\Component\ComponentHelper::filterText" buttons="true" />
 
         <field name="created" type="calendar"
                label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_CREATED_DESC"

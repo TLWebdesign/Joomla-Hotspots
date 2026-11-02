@@ -28,6 +28,17 @@ Search for `TLWebdesign patch` to find them.
   - `components/com_hotspots/api/marker.php`: image name and content from the request were written to disk as is (any file, including PHP).
   - `components/com_hotspots/models/json.php` (`c`) and `api/category.php` (`catid`, `order`): SQL injection by any visitor.
   - Admin: CSRF token and permission checks on marker delete/publish/geocode, KML delete (also SQL injection) and tile delete; no `../` in the KML import delete.
+  - Second round (from a full review of the frontend code):
+    - `view=userhotspots`: SQL injection through the category filter, and guests saw all markers (also unpublished ones). Users could list other users' markers.
+    - Image delete: users without any delete permission (guests too) could delete any marker's images. Uploads are now limited to real images.
+    - Marker API `save` (`view=api`): disabled. It had no CSRF check and stored raw data (XSS, setting owner, state and access).
+    - `mail.send` ("send map by mail") was an open mail relay: it now needs the setting on, sends from the site address with the visitor as Reply-To, accepts only links to this site, and allows 5 mails per session per hour.
+    - Contact author mail: settings and allowed groups are now checked on the server; it redirects to the marker instead of the HTTP referer.
+    - Marker detail page and JSON: access level and published state are checked.
+    - Frontend marker form: owner, dates, access and permissions can no longer be set from the form; new markers only in categories where the user may create; `form.save` (unused, unchecked) is blocked.
+    - Escaped marker titles, addresses and image titles in the admin list, the detail page and the list module (stored XSS).
+    - Admin KML import: CSRF tokens and no `../`; category sample icons: no `../`.
+    - Form filters use `\Joomla\CMS\Component\ComponentHelper::filterText` (the `JComponentHelper` alias is gone without the compat plugin).
 - **2026-11-02** PHP 8 / Joomla 5 fixes: `each()` and old `join()`/`implode()` argument order (fatal on PHP 8), implicitly nullable parameters (PHP 8.4), `$object->$fields[1]` in the custom field mappings (wrong value since PHP 7), and `JError`, `JException`, `JSubMenuHelper`, `JApplication::stringURLSafe()`, `isAdmin()` (removed in Joomla 4).
 
 ## Notes

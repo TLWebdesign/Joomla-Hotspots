@@ -51,7 +51,7 @@ $user = JFactory::getUser();
 
 			<tr>
 				<td><?php echo $key + 1; ?><span style="display:none;"><?php echo $checked; ?></span></td>
-				<td><a href="<?php echo $hotspot->link ?>"><?php echo $hotspot->title; ?></a>
+				<td><a href="<?php echo $hotspot->link ?>"><?php echo htmlspecialchars((string) $hotspot->title, ENT_QUOTES, 'UTF-8', false); ?></a>
 					<?php if (HotspotsHelperSecurity::authorise('edit',$hotspot)) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_hotspots&task=form.edit&id=' . $hotspot->id); ?>" class="btn btn-small">
 							<span class="fa fa-edit"></span> <?php echo JText::_('JACTION_EDIT'); ?></a>

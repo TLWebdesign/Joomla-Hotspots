@@ -33,7 +33,15 @@ class HotspotsViewHotspot extends HotspotsView
 		$model = $this->getModel();
 		$customFieldsModel = JModelLegacy::getInstance('Customfields', 'HotspotsModel');
 		$user = JFactory::getUser();
-		$hotspot = $this->prepareHotspot($model->getHotspot());
+		$item = $model->getHotspot();
+
+		// TLWebdesign patch 2026-11-02: unknown id or no access (getHotspot() checks the access level).
+		if (!$item)
+		{
+			throw new Exception('The resource doesn\'t exist', 404);
+		}
+
+		$hotspot = $this->prepareHotspot($item);
 		$category = HotspotsHelperUtils::prepareCategory(JCategories::getInstance('Hotspots')->get($hotspot->catid));
 
 		$settings = $this->prepareSettings();

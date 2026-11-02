@@ -99,6 +99,13 @@ class HotspotsApiMarker extends HotspotsApi
 	 */
 	public function save()
 	{
+		/*
+		 * TLWebdesign patch 2026-11-02: disabled. Nothing on the site uses this endpoint (it served Compojoom's
+		 * mobile app). It had no CSRF check and bound raw request data to the table (stored XSS, setting
+		 * state, created_by and access freely). Markers are saved through the normal form (task=hotspot.save).
+		 */
+		return $this->getError(403, 'This API task is disabled.');
+
 		$user = JFactory::getUser();
 
 		$data   = $this->input->get('data', '', 'raw');

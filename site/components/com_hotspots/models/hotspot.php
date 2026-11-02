@@ -76,6 +76,12 @@ class HotspotsModelHotspot extends JModelAdmin
 				->from($db->qn('#__hotspots_marker') . ' AS m')
 				->leftJoin('#__users AS u ON u.id = m.created_by')
 				->where('m.id = ' . $db->Quote($this->id));
+
+			// TLWebdesign patch 2026-11-02: respect the access level (the owner always sees his own marker).
+			$user   = JFactory::getUser();
+			$levels = implode(',', \Joomla\Utilities\ArrayHelper::toInteger($user->getAuthorisedViewLevels()));
+			$query->where('(m.access IN (' . $levels . ')' . ($user->id ? ' OR m.created_by = ' . (int) $user->id : '') . ')');
+
 			$db->setQuery($query, 0, 1);
 			$this->hotspot = $db->loadObject();
 		}
