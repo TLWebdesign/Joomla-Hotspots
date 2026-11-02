@@ -6,6 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -40,7 +41,9 @@ $wa->useScript('jquery')
         ['com_hotspots.submit-hotspots']
     );
 
-$action = Route::_('index.php?option=com_hotspots&view=form&layout=form&a_id=' . $id);
+// Keep the menu item, so the form posts back under the same page ("My hotspots" or the form menu item).
+$itemId = Factory::getApplication()->getInput()->getInt('Itemid');
+$action = Route::_('index.php?option=com_hotspots&view=form&layout=form&a_id=' . $id . ($itemId ? '&Itemid=' . $itemId : ''));
 
 /**
  * One field with its label (no output when the form has no such field).
