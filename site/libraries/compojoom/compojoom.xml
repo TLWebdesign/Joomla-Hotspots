@@ -18,9 +18,7 @@
 
     <files folder="libraries/compojoom">
         <folder>model</folder>
-        <folder>mvc</folder>
         <folder>table</folder>
-        <folder>geolocation</folder>
         <folder>layout</folder>
         <folder>image</folder>
         <folder>helper</folder>
@@ -29,7 +27,6 @@
         <folder>minifier</folder>
         <folder>component</folder>
         <folder>html</folder>
-        <folder>testing</folder>
         <folder>database</folder>
         <folder>ogp</folder>
         <folder>language</folder>

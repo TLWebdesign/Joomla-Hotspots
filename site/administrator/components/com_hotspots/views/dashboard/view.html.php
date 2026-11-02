@@ -27,14 +27,13 @@ class HotspotsViewDashboard extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// TLWebdesign patch 2026-11-02: no more compojoom.com update site, download ID or stats checks.
 		$updateModel = JModelLegacy::getInstance('Updates', 'HotspotsModel');
-		$statsModel = JModelLegacy::getInstance('Stats', 'HotspotsModel');
 
 		// Run the automatic database check
 		$updateModel->checkAndFixDatabase();
 
 		$this->currentVersion = $updateModel->getVersion();
-		$this->updatePlugin = $updateModel->isUpdatePluginEnabled('Hotspots');
 
 		// Make sure that the user has all config values set properly
 		$updateModel->updateConfiguration();
@@ -47,13 +46,7 @@ class HotspotsViewDashboard extends JViewLegacy
 		$year	= $jDate->format('Y');
 		$this->releaseDate = "$day $month $year";
 
-		$this->needsdlid = $updateModel->needsDownloadID();
-		$this->needscoredlidwarning = $updateModel->mustWarnAboutDownloadIDInCore();
 		$this->needsMultimediaUpdate = $updateModel->needsMultimediaUpdate();
-		$this->updateStats = $statsModel->needsUpdate();
-
-		// Run the automatic update site refresh
-		$updateModel->refreshUpdateSite();
 
 		$this->addToolbar();
 		parent::display($tpl);

@@ -16,69 +16,7 @@ defined('_JEXEC') or die;
  */
 class HotspotsControllerUpdate extends JControllerLegacy
 {
-	/**
-	 * Looks for an update to the extension
-	 *
-	 * @return string
-	 */
-	public function updateinfo()
-	{
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
-
-		$updateModel = JModelLegacy::getInstance('Updates', 'HotspotsModel');
-		$updateInfo = (object) $updateModel->getUpdates(true);
-		$extensionName = 'Hotspots ' . (HOTSPOTS_PRO == 1 ? 'Professional' : 'Core');
-
-		$result = '';
-
-		if ($updateInfo->hasUpdate)
-		{
-			$strings = array(
-				'header'  => JText::sprintf('LIB_COMPOJOOM_DASHBOARD_MSG_UPDATEFOUND', $extensionName, $updateInfo->version),
-				'button'  => JText::sprintf('LIB_COMPOJOOM_DASHBOARD_MSG_UPDATENOW', $updateInfo->version),
-				'infourl' => $updateInfo->infoURL,
-				'infolbl' => JText::_('LIB_COMPOJOOM_DASHBOARD_MSG_MOREINFO'),
-			);
-
-			$result = <<<ENDRESULT
-	<div class="alert alert-warning">
-		<h3>
-			<span class="fa fa-warning"></span>
-			{$strings['header']}
-		</h3>
-		<p>
-			<a href="index.php?option=com_installer&view=update" class="btn btn-primary">
-				{$strings['button']}
-			</a>
-			<a href="{$strings['infourl']}" target="_blank" class="btn btn-small btn-info">
-				{$strings['infolbl']}
-			</a>
-		</p>
-	</div>
-ENDRESULT;
-		}
-
-		echo '###' . $result . '###';
-
-		// Cut the execution short
-		JFactory::getApplication()->close();
-	}
-
-	/**
-	 * Force joomla to check for updates
-	 *
-	 * @return void
-	 */
-	public function force()
-	{
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
-
-		JModelLegacy::getInstance('Updates', 'HotspotsModel')->getUpdates(true);
-
-		$url = 'index.php?option=' . JFactory::getApplication()->input->getCmd('option', '');
-		$msg = JText::_('LIB_COMPOJOOM_UPDATE_INFORMATION_RELOADED');
-		$this->setRedirect($url, $msg);
-	}
+	// TLWebdesign patch 2026-11-02: removed updateinfo() and force(), they asked compojoom.com for updates.
 
 	/**
 	 * Calls the model Multimedia to migrate the items

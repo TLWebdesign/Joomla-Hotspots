@@ -14,7 +14,6 @@
 	<files folder="components/com_hotspots">
         <file>controller.php</file>
 <folder>includes</folder>
-<file>jomsocial_rule.xml</file>
 <file>hotspots.php</file>
 <folder>models</folder>
 <file>hmvc.php</file>

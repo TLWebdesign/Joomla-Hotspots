@@ -31,9 +31,7 @@ echo HTMLHelper::_(
 	<tr>
 		<th colspan="2">
 			<div class="hotspots-logo">
-				<a href="https://compojoom.com/joomla-extensions/hotspots" target="_blank">
-					<img src="<?php echo JUri::root(); ?>media/com_hotspots/images/utils/logo.jpg" align="middle" alt="Hotspots logo"/>
-				</a>
+				<img src="<?php echo JUri::root(); ?>media/com_hotspots/images/utils/logo.jpg" align="middle" alt="Hotspots logo"/>
 			</div>
 		</th>
 	</tr>
@@ -45,11 +43,6 @@ echo HTMLHelper::_(
                onclick="document.getElementById('changelog').open();"
 			   title="<?php echo JText::_('LIB_COMPOJOOM_BTN_CHANGELOG'); ?>">
 				<i class="fa fa-list"></i>
-			</a>
-
-			<a id="hs-btn-reloadupdate" href="index.php?option=com_hotspots&task=update.force&<?php echo JFactory::getSession()->getFormToken(); ?>=1"
-			   class="btn btn-default btn-sm" title="<?php echo JText::_('LIB_COMPOJOOM_BTN_RELOAD_UPDATE'); ?>">
-				<i class="fa fa-repeat"></i>
 			</a>
 		</td>
 	</tr>

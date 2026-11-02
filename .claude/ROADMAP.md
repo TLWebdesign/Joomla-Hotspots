@@ -63,11 +63,33 @@ Small, safe fixes in the existing code, marked `TLWebdesign patch`, so the live 
 
 Smaller code base before the rewrite.
 
-- [ ] Drop integrations that are switched off and not coming back: AlphaUserPoints, JomSocial, K2, FlexiContent, SobiPro, Matukio, hotspotsanywhere, email (confirm per item in phase 0).
-- [ ] Drop the search plugin: com_search no longer exists since Joomla 4. Replace with a Smart Search plugin later only if needed.
-- [ ] Drop the legacy CB `plug_hotspots`.
-- [ ] Drop the Compojoom-only controllers and helpers: `jed.php`, `update.php`, the Compojoom update/live update code, the dashboard parts that call compojoom.com.
-- [ ] Map which parts of `lib_compojoom` Hotspots really calls; list the rest as dead.
+- [x] Drop integrations that are switched off: AlphaUserPoints, JomSocial (also `hotspotslinks/community`, `jomsocial_rule.xml`), K2, FlexiContent, SobiPro, Matukio, hotspotsanywhere, email, with their language files.
+- [x] Drop the search plugin: com_search no longer exists since Joomla 4. Replace with a Smart Search plugin later only if needed.
+- [x] Drop the legacy CB `plug_hotspots`.
+- [x] Drop the Compojoom-only parts: JED controller, stats model (sent data to stats.compojoom.com), update check and "reload update" tasks. The dashboard no longer calls compojoom.com (update check, JED prompt, news feed) and no longer re-adds the compojoom.com update site on every visit (`refreshUpdateSite()`).
+- [x] Map which parts of `lib_compojoom` Hotspots really calls (below). Deleted the dead ones: `testing`, `mvc`, `geolocation`, `layouts/jed`, `layouts/update`.
+- [ ] Still in the code, to decide: the SobiPro and Phoca importers (Components → Hotspots → Import), the AUP and CB parts of `script.php` / `libraries/compojoom/installer` (go with the new install script in phase 3), the avatar/profile providers for JomSocial, K2, Kunena and EasySocial (keep CB).
+- [ ] On the live site: uninstall the removed plugins and the legacy CB plugin (Extensions → Manage), and delete the compojoom.com update site.
+
+### What Hotspots uses of lib_compojoom (2026-11-02)
+
+Found by following class names and file paths from the Hotspots code, plus what is loaded by name (form fields through `addfieldpath`, layouts by id, tables through `JTable::getInstance(..., 'CompojoomTable')`, avatar/profile providers by setting).
+
+| Part | Used for | Replace with |
+|---|---|---|
+| `autoloader`, `include.php` | Loading `Compojoom*` classes | Component namespace |
+| `controller` (controller, customfield, multimedia) | Base controllers, file upload endpoint | Joomla `BaseController` / `FormController` in the component |
+| `model` (customfield(s), multimedia, update) | Custom fields, file uploads, Compojoom update model | Component models; `update` goes with the Joomla update server |
+| `table` (customfield, multimedia) | `#__compojoom_customfields`, `#__compojoom_multimedia` | Component tables (keep the database tables) |
+| `database` + `sql/xml` | Schema install/update from XML | Plain SQL install/update files (phase 3) |
+| `installer` (installer, cb, aup) | Install script helpers | Joomla `InstallerScript` (phase 3) |
+| `form/fields` (avatars, cmultimedia, customfields, explanation, loadcompojoom, profiles) | Config and edit forms | Component form fields |
+| `layout`, `layouts` (fileupload, galleria, social/shariff share) | Layout file loader, upload widget, gallery, share buttons | Joomla `FileLayout` + component layouts |
+| `html` (behavior, feed, ctemplate, string, html) | Admin page header/footer, CSS/JS helpers | WebAssetManager, Atum markup |
+| `image`, `galleria` | Thumbnails, image gallery | Joomla `Image` class, a small gallery script |
+| `avatars`, `profiles` | User avatar and profile link (CB on this site) | One CB provider in the component |
+| `helper`, `utils`, `query`, `language`, `template`, `changelog`, `ogp`, `component` | Small helpers | Joomla APIs or a few component helpers |
+| `cssmin`, `minifier`, `shrink` | Minifying CSS/JS at runtime | Ship minified files in the build instead |
 
 ## Phase 3: Package and release setup
 

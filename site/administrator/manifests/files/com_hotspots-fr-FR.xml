@@ -16,12 +16,7 @@
     </description>
     <fileset>
         <files folder="admin" target="administrator/language/fr-FR"><filename>fr-FR.com_hotspots.sys.ini</filename>
-<filename>fr-FR.plg_hotspots_email.sys.ini</filename>
-<filename>fr-FR.plg_hotspots_jomsocial.ini</filename>
-<filename>fr-FR.plg_hotspots_jomsocial.sys.ini</filename>
-<filename>fr-FR.plg_hotspotslinks_content.sys.ini</filename>
-<filename>fr-FR.plg_plug_hotspots.ini</filename>
-<filename>fr-FR.plg_search_hotspots.sys.ini</filename></files>
+<filename>fr-FR.plg_hotspotslinks_content.sys.ini</filename></files>
         <files folder="frontend" target="language/fr-FR"><filename>fr-FR.com_hotspots.ini</filename></files>
     </fileset>
 </extension>

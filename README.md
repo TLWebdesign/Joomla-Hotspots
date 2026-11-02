@@ -14,7 +14,7 @@ Pulled from the live site (`the web root` on the client's server) on 2026-11-02.
 
 ## Layout
 
-`site/` mirrors the Joomla root, so files can be diffed against the live site and copied back one to one. It is not yet an installable package.
+`site/` mirrors the Joomla root, so files can be diffed against the live site and copied back one to one. Since 2026-11-02 it no longer holds the integrations that are switched off on the site (see Notes).
 
 Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
@@ -33,4 +33,4 @@ Search for `TLWebdesign patch` to find them.
 ## Notes
 
 - The update server (compojoom.com, ARS stream id 4) is still listed in Joomla under Update Sites. Disable it once we publish our own builds.
-- Integrations installed but switched off on the site: AlphaUserPoints, JomSocial, K2, FlexiContent, SobiPro, Matukio, search, email, hotspotsanywhere.
+- Integrations installed but switched off on the site: AlphaUserPoints, JomSocial, K2, FlexiContent, SobiPro, Matukio, search, email, hotspotsanywhere. Removed from this repo on 2026-11-02 together with the legacy CB plugin; uninstall them on the site too.
