@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "com_hotspots",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Hotspots assets. The Google Maps API (com_hotspots.googlemaps) is registered at runtime because its URL holds the API key; MapHelper::registerGoogleMaps().",
   "license": "GPL-2.0-or-later",
   "assets": [

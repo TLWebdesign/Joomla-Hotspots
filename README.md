@@ -21,6 +21,7 @@ Pulled from the production site of a client on 2026-11-02. Hotspots was a paid e
 - `php build/build.php` builds `dist/pkg_hotspots-<version>.zip` (PHP 8.1+ with the zip extension). The version comes from `build/pkg_hotspots.xml`; the component, module and plugin manifests must have the same version.
 - Release: set the new version in those files, commit, and push a tag `V<version>` (for example `V6.1.0`). GitHub Actions builds the package, attaches it to a GitHub release and adds it to `updates.xml`.
 - `pkg_hotspots` installs over an existing Hotspots 6.0.x or 6.1.x and updates it in place. Requires Joomla 5.4+ and PHP 8.1+.
+- The package refuses to install while a Community Builder plugin still loads Hotspots 6 files (Compojoom's "CB Hotspots" `plug_hotspots`, or custom CB plugins built on it): Community Builder loads its plugin files even when they are unpublished, so its pages would fail. The message names the plugins to delete or update first.
 - Do not uninstall Hotspots on a site with data: Joomla deletes a component's categories when it is uninstalled, so the markers lose their category.
 
 Left out: `media/com_hotspots/cache` (1.5 GB of generated files).

@@ -2,12 +2,12 @@
 <extension type="plugin" group="hotspotslinks" method="upgrade">
 	<name>plg_hotspotslinks_external</name>
 	<author>TLWebdesign</author>
-	<creationDate>2026-11-02</creationDate>
+	<creationDate>2026-11-03</creationDate>
 	<copyright>(C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2012</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE</license>
 	<authorEmail>info@tlwebdesign.nl</authorEmail>
 	<authorUrl>https://tlwebdesign.nl</authorUrl>
-	<version>7.0.0</version>
+	<version>7.0.1</version>
 	<description>
         plg_hotspotslinks_external_DESC
 	</description>

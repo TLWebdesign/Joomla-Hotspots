@@ -2,8 +2,8 @@
 <extension type="package" method="upgrade">
 	<name>Hotspots</name>
 	<packagename>hotspots</packagename>
-	<version>7.0.0</version>
-	<creationDate>2026-11-02</creationDate>
+	<version>7.0.1</version>
+	<creationDate>2026-11-03</creationDate>
 	<author>TLWebdesign</author>
 	<authorEmail>info@tlwebdesign.nl</authorEmail>
 	<authorUrl>https://tlwebdesign.nl</authorUrl>

@@ -72,6 +72,53 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
     ];
 
     /**
+     * Stops the install while a Community Builder plugin that needs Hotspots 6 is on the site: both load
+     * administrator/components/com_hotspots/libraries/geocoder/geocoder.php, which Hotspots 7 removes, and
+     * Community Builder loads its plugin files even when they are unpublished, so CB pages would fail.
+     *
+     * @param   string            $type    install, update or discover_install
+     * @param   InstallerAdapter  $parent  The installer
+     *
+     * @return  boolean
+     */
+    public function preflight($type, $parent)
+    {
+        if (!parent::preflight($type, $parent)) {
+            return false;
+        }
+
+        if ($type === 'uninstall') {
+            return true;
+        }
+
+        $cbPlugins = JPATH_SITE . '/components/com_comprofiler/plugin/user';
+        $problems  = [];
+
+        // Any Community Builder user plugin that still loads the Hotspots 6 geocoder (Compojoom's "CB Hotspots"
+        // plugin, or custom plugins built on it).
+        foreach (glob($cbPlugins . '/*/*.php') ?: [] as $file) {
+            if (str_contains((string) file_get_contents($file), 'com_hotspots/libraries/geocoder/geocoder.php')) {
+                $problems[] = basename(\dirname($file));
+            }
+        }
+
+        $problems = array_unique($problems);
+
+        if ($problems) {
+            Factory::getApplication()->enqueueMessage(
+                'Hotspots 7 was not installed. These Community Builder plugins still load Hotspots 6 files and would break '
+                . 'Community Builder pages: ' . implode(', ', $problems) . '. Delete them or install a version for Hotspots 7 '
+                . '(Community Builder: Plugin Management), then install this package again.',
+                'error'
+            );
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Runs after the package and all its extensions are installed or updated.
      *
      * @param   string            $type    install, update or discover_install
