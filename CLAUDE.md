@@ -35,4 +35,4 @@ Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. the client site runs J
 - Mostly Joomla 3 style: about 142 of 267 PHP files use legacy classes, only 7 use `Joomla\CMS\` namespaces. No `services/provider.php`, no namespaced `src/`.
 - Depends on `lib_compojoom` 5.3.6 (`site/libraries/compojoom`), which is also Joomla 3 style.
 - Local fixes are marked `TLWebdesign patch`; keep them when refactoring.
-- `the client's CB plugin` (repo a separate private repo) uses `HotspotsGeocoder`; keep that class (or an alias) working.
+- `the client's CB plugin` (repo a separate private repo, local `(local path in CLAUDE.local.md)`) will be rewritten against the new component. Do not keep legacy classes, files or aliases around for it; give the new component a clean public API it can use instead (see ROADMAP, phase 5).

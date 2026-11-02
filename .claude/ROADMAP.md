@@ -13,7 +13,7 @@ Rules for every phase are in `CLAUDE.md` (target, reference code, PHP rules).
 | `lib_compojoom` | 17,200 | Generic Compojoom framework, Joomla 3 style. Much of it is probably unused by Hotspots (cssmin, shrink, minifier, galleria, testing, ogp, ...) |
 | Plugins | 2,600 | 17 plugins, most for integrations switched off on the site |
 | `mod_hotspots_list` | 130 | |
-| CB `plug_hotspots` | 560 | Legacy, disabled, replaced by `the client's CB plugin` |
+| CB `plug_hotspots` | 560 | Legacy, disabled, replaced by `the client's CB plugin` (removed in 6.1.0) |
 
 - Database: `#__hotspots_marker`, `#__hotspots_kmls`, `#__hotspots_mappings`, plus custom fields tables. Categories are Joomla categories (`extension = com_hotspots`). The schema is installed through Compojoom's XML installer (`sql/xml/mysql.xml`), not plain SQL files.
 - About 70 different legacy `J*` classes in use (`JFactory`, `JText`, `JControllerLegacy`, `JTable`, ...). They only work because the Behaviour - Backward Compatibility plugin (J5) / compat6 plugin (J6) maps them.
@@ -119,7 +119,13 @@ Found while testing: with the Backward Compatibility plugin switched off, every 
 ## Phase 5: Geocoder and shared services
 
 - [ ] Geocoder as a service in the component (`HttpFactory`, proxy and timeouts from the global configuration, as in the current patch).
-- [ ] Keep `HotspotsGeocoder` working as an alias or thin wrapper for `the client's CB plugin`, or update `the client's CB plugin` in the same release.
+- [ ] No legacy shims for `the client's CB plugin`: it is rewritten against the 7.0 component, released together with Hotspots 7.0. Today (6.x) it uses:
+  - `require_once administrator/components/com_hotspots/libraries/geocoder/geocoder.php` and `new HotspotsGeocoder()->geocode($address)` (CB registration and profile save).
+  - `file_exists(components/com_hotspots/includes/defines.php)` as the "is Hotspots installed" check, and `HOTSPOTS_PICTURE_CATEGORIES_PATH`.
+  - `JLoader::discover('HotspotsHelper', components/com_hotspots/helpers)` and `HotspotsHelperUtils::prepareHotspot()` for its CB profile tab.
+  - The admin layout `hotspots.map.map` (`administrator/components/com_hotspots/layouts`) to draw the map in the profile tab.
+  - Direct SQL on `#__hotspots_marker` and `#__hotspots_mappings` (these tables stay as they are).
+  The new component offers the replacements: a geocoder service, a marker preparation helper and a map layout, all namespaced; `ComponentHelper::isEnabled('com_hotspots')` replaces the file check.
 - [ ] reCAPTCHA library replaced by Joomla's captcha plugins.
 - [ ] RSS through Joomla's feed document (`format=feed`) instead of `feedcreator.php`.
 - [ ] Image handling, avatars and cache from `lib_compojoom` moved into the component or replaced by Joomla APIs.
@@ -135,8 +141,10 @@ Found while testing: with the Backward Compatibility plugin switched off, every 
 ## Phase 7: Module and plugins
 
 - [ ] `mod_hotspots_list` with `services/provider.php`, a Dispatcher and a Helper.
-- [ ] Kept plugins as namespaced plugins with `SubscriberInterface` and event classes; the `hotspotslinks` plugin group gets its own event names.
-- [ ] Content plugin (map in articles) checked for Joomla 5 events.
+- [x] Kept plugins as namespaced plugins with `SubscriberInterface` and event classes (branch `7.0-dev`). With the Backward Compatibility plugin off, the site no longer fails on every page; only pages that still run old Hotspots code do.
+- [ ] `onCreateLink` (hotspotslinks group) still comes as a generic event with positional arguments from the old helper; the plugins already read named arguments `linkId` and `type`. Give it an event class when the site component is rewritten.
+- [x] Content plugin (map in articles) on `ContentPrepareEvent`: replaces every `{hotspots hotspot=N}`, only published markers the visitor may see.
+- [ ] Content plugin: `renderMap()` still uses the old site helpers and `CompojoomLayoutFile`; switch to the new site component in phase 6.
 
 ## Phase 8: Test and release on Joomla 5
 
