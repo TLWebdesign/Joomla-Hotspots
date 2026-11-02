@@ -560,7 +560,8 @@ class HotspotsHelperUtils
 					JPluginHelper::importPlugin('hotspotslinks', $hotspot->params->get('link_to'));
 					$appl = JFactory::getApplication();
 					$links = $appl->triggerEvent('onCreateLink', array($hotspot->params->get('link_to_id'), $hotspot->id));
-					$hotspotsLink = $links[0];
+					// TLWebdesign patch 2026-11-02: the plugin may give no link (for example an unsafe URL).
+					$hotspotsLink = $links[0] ?? self::linkToHotspot($hotspot);
 				}
 				else
 				{
