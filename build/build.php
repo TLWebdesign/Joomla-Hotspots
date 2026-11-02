@@ -25,11 +25,6 @@ const DIST = ROOT . '/dist';
  * lists without a folder attribute; "lang" is the language folder of the extension's client.
  */
 const EXTENSIONS = [
-    'lib_compojoom' => [
-        'manifest' => 'administrator/manifests/libraries/compojoom.xml', 'zipManifest' => 'compojoom.xml',
-        'base' => 'libraries/compojoom', 'lang' => 'language', 'versionCheck' => false,
-        'pkg' => '<file type="library" id="compojoom">lib_compojoom.zip</file>',
-    ],
     'com_hotspots' => [
         'manifest' => 'administrator/components/com_hotspots/hotspots.xml', 'zipManifest' => 'hotspots.xml',
         'base' => 'administrator/components/com_hotspots', 'lang' => 'language', 'versionCheck' => true,

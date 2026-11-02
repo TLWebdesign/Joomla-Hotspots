@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Frontend marker form. Only the fields the form shows: the owner, dates, permissions, the custom icon and the
+	"link to" settings stay admin-only. Publishing fields are removed by the model for users without core.edit.state.
+-->
+<form addfieldprefix="TLWebdesign\Component\Hotspots\Administrator\Field">
+	<fieldset name="details">
+		<field name="id" type="hidden" default="0" filter="int"/>
+
+		<field name="created_by_alias" type="text" label="COM_HOTSPOTS_YOUR_NAME"
+			description="COM_HOTSPOTS_YOUR_NAME_DESC" required="true" maxlength="255" filter="string"/>
+
+		<field name="email" type="email" label="COM_HOTSPOTS_YOUR_EMAIL"
+			description="COM_HOTSPOTS_YOUR_EMAIL_DESC" required="true" validate="email"/>
+
+		<field name="title" type="text" label="COM_HOTSPOTS_HOTSPOT_TITLE_LABEL"
+			description="COM_HOTSPOTS_FIELD_TITLE_DESC" required="true" maxlength="255" filter="string"/>
+
+		<field name="catid" type="hotspotscategory" extension="com_hotspots" action="core.create" published="1"
+			label="COM_HOTSPOTS_CATEGORY" required="true" filter="int">
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+
+		<field name="hotspotText" type="editor" label="COM_HOTSPOTS_FIELD_DESCRIPTION"
+			description="COM_HOTSPOTS_FIELD_DESCRIPTION_DESC" rows="10" height="200" required="true"
+			buttons="true" hide="article,image,pagebreak,readmore,module,menu,contact,fields"
+			filter="\Joomla\CMS\Component\ComponentHelper::filterText"/>
+
+		<field name="picture" type="multimedia" label="COM_HOTSPOTS_PICTURE"
+			description="COM_HOTSPOTS_PICTURE_DESC"
+			url="index.php?option=com_hotspots&amp;task=multimedia.doIt"
+			component="com_hotspots" maxNumberOfFiles="10"/>
+
+		<field name="street" type="text" label="COM_HOTSPOTS_STREET" description="COM_HOTSPOTS_FIELD_STREET_DESC" maxlength="255" filter="string"/>
+		<field name="plz" type="text" label="COM_HOTSPOTS_ZIP" description="COM_HOTSPOTS_FIELD_ZIP_DESC" maxlength="10" filter="string"/>
+		<field name="town" type="text" label="COM_HOTSPOTS_FIELD_CITY" description="COM_HOTSPOTS_HOTSPOT_FIELD_CITY_DESC" maxlength="255" filter="string"/>
+		<field name="administrative_area_level_1" type="text" label="COM_HOTSPOTS_FIELD_POLITICAL_STATE_LABEL"
+			description="COM_HOTSPOTS_FIELD_POLITICAL_STATE_LABEL_DESC" maxlength="255" filter="string"/>
+		<field name="country" type="text" label="COM_HOTSPOTS_COUNTRY" description="COM_HOTSPOTS_FIELD_COUNTRY_DESC" maxlength="255" filter="string"/>
+
+		<field name="gmlat" type="number" label="COM_HOTSPOTS_LATITUDE" description="COM_HOTSPOTS_FIELD_LATITUDE_DESC"
+			required="true" min="-90" max="90" step="any" filter="float"/>
+		<field name="gmlng" type="number" label="COM_HOTSPOTS_LONGITUDE" description="COM_HOTSPOTS_FIELD_LONGITUDE_DESC"
+			required="true" min="-180" max="180" step="any" filter="float"/>
+
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" default="*">
+			<option value="*">JALL</option>
+		</field>
+
+		<field name="captcha" type="captcha" label="COM_HOTSPOTS_CAPTCHA" validate="captcha" namespace="com_hotspots"/>
+	</fieldset>
+
+	<fieldset name="publishing">
+		<field name="state" type="list" label="COM_HOTSPOTS_PUBLISHED" default="1" filter="int">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL" filter="int"/>
+		<field name="publish_up" type="calendar" label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			translateformat="true" showtime="true" filter="user_utc"/>
+		<field name="publish_down" type="calendar" label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			translateformat="true" showtime="true" filter="user_utc"/>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="params">
+			<field name="sticky" type="radio" layout="joomla.form.field.radio.switcher" default="1"
+				label="COM_HOTSPOTS_STICKY_MARKER" description="COM_HOTSPOTS_STICKY_MARKER_DESCRIPTION" filter="int">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

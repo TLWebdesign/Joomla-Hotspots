@@ -105,54 +105,31 @@ Found by following class names and file paths from the Hotspots code, plus what 
 
 Found while testing: with the Backward Compatibility plugin switched off, every page of the site fails (`Class "JPlugin" not found`), because the Hotspots plugins load on every request. When we get to the refactor, do the plugins first (phase 7 before 4-6), so a Hotspots problem can no longer take down the whole site.
 
-## Phase 4: Admin component on Joomla 5/6 MVC
+## Phases 4-7: Rewrite (branch `7.0-dev`, done 2026-11-02)
 
-- [ ] `services/provider.php`, Extension class (`MVCComponent` with `BootableExtensionInterface`, `RouterServiceInterface`, `CategoryServiceInterface`), namespaced `src/`.
-- [ ] Controllers: `DisplayController`, `FormController` / `AdminController` for markers, KMLs, custom fields; import controller.
-- [ ] Models: `ListModel` / `AdminModel` with `forms/*.xml` and `filter_*.xml`.
-- [ ] Tables: `Table` classes with typed properties, asset handling for markers.
-- [ ] Views: `HtmlView` with the toolbar from `Toolbar` / `ToolbarFactory`, tmpl in Joomla 5 admin markup (Atum, Bootstrap 5), no Bootstrap 2 / jQuery UI leftovers.
-- [ ] Submenu through the manifest; `access.xml`, `config.xml` checked against what is used.
-- [ ] Custom form fields (`elements/`) as namespaced `Field` classes.
-- [ ] Custom fields: decide between porting the Compojoom custom fields and moving to Joomla custom fields (`com_fields`, context `com_hotspots.marker`).
+Done in five parallel work packages (see `.claude/REFACTOR-7.md` for the split, conventions and shared API).
 
-## Phase 5: Geocoder and shared services
-
-- [ ] Geocoder as a service in the component (`HttpFactory`, proxy and timeouts from the global configuration, as in the current patch).
-- [ ] No legacy shims for `the client's CB plugin`: it is rewritten against the 7.0 component, released together with Hotspots 7.0. Today (6.x) it uses:
-  - `require_once administrator/components/com_hotspots/libraries/geocoder/geocoder.php` and `new HotspotsGeocoder()->geocode($address)` (CB registration and profile save).
-  - `file_exists(components/com_hotspots/includes/defines.php)` as the "is Hotspots installed" check, and `HOTSPOTS_PICTURE_CATEGORIES_PATH`.
-  - `JLoader::discover('HotspotsHelper', components/com_hotspots/helpers)` and `HotspotsHelperUtils::prepareHotspot()` for its CB profile tab.
-  - The admin layout `hotspots.map.map` (`administrator/components/com_hotspots/layouts`) to draw the map in the profile tab.
-  - Direct SQL on `#__hotspots_marker` and `#__hotspots_mappings` (these tables stay as they are).
-  The new component offers the replacements: a geocoder service, a marker preparation helper and a map layout, all namespaced; `ComponentHelper::isEnabled('com_hotspots')` replaces the file check.
-- [ ] reCAPTCHA library replaced by Joomla's captcha plugins.
-- [ ] RSS through Joomla's feed document (`format=feed`) instead of `feedcreator.php`.
-- [ ] Image handling, avatars and cache from `lib_compojoom` moved into the component or replaced by Joomla APIs.
-
-## Phase 6: Site component
-
-- [ ] Router with `RouterView` and `MenuRules` / `StandardRules` / `NomenuRules`; keep the current URLs working (or redirect).
-- [ ] Views hotspots, hotspot, form, userhotspots, kmls; JSON endpoints (`format=json`) and tiles (`format=png`) as view or controller formats. Remove the HMVC helper.
-- [ ] Assets through the WebAssetManager (`media/com_hotspots/joomla.asset.json`). No MooTools: keep the `v4/app.js` map if it is the current one, otherwise port the MooTools map to plain JS.
-- [ ] Frontend marker submission (form view, mail) with Joomla form validation and captcha.
-- [ ] Template overrides on the live site: list them and port them.
-
-## Phase 7: Module and plugins
-
-- [ ] `mod_hotspots_list` with `services/provider.php`, a Dispatcher and a Helper.
-- [x] Kept plugins as namespaced plugins with `SubscriberInterface` and event classes (branch `7.0-dev`). With the Backward Compatibility plugin off, the site no longer fails on every page; only pages that still run old Hotspots code do.
-- [ ] `onCreateLink` (hotspotslinks group) still comes as a generic event with positional arguments from the old helper; the plugins already read named arguments `linkId` and `type`. Give it an event class when the site component is rewritten.
-- [x] Content plugin (map in articles) on `ContentPrepareEvent`: replaces every `{hotspots hotspot=N}`, only published markers the visitor may see.
-- [ ] Content plugin: `renderMap()` still uses the old site helpers and `CompojoomLayoutFile`; switch to the new site component in phase 6.
+- [x] Component: `services/provider.php`, `HotspotsComponent` (MVC, categories, router), namespaced `src/` for administrator and site, `tmpl/`, `forms/`, `joomla.asset.json`.
+- [x] Admin: dashboard, markers (list, edit, batch, geocode, modal select), KMLs, KML import, custom fields, tiles, options and permissions. Toolbar API, Atum markup, CSRF and permission checks on every task.
+- [x] Shared services: `Service\Geocoder` (HttpFactory, global proxy, 3 s / 5 s timeouts), `MarkerHelper`, `SettingsHelper`, `SecurityHelper`, `MultimediaModel`, `CustomfieldsHelper`, `GalleryHelper`, `UserHelper` (CB), thumbnails with Joomla's Image class.
+- [x] Custom fields: kept Compojoom's own tables and field types (no data migration). Moving to Joomla custom fields stays possible later.
+- [x] Site: router (old SEF URLs keep working; also fixes `/edit/<id>` and `/userhotspots`), map view on the existing `js/v4` app, marker JSON / search / KML JSON, tiles, RSS/Atom through Joomla's feed document, marker page, frontend form with Joomla captcha plugins, own markers list, send-map and contact-author mail.
+- [x] Dropped: SobiPro and Phoca importers, marker API (`view=api`), MooTools files, runtime minifying and `media/com_hotspots/cache`, reCAPTCHA library, `feedcreator.php`, avatar/profile providers other than CB, CComment.
+- [x] `mod_hotspots_list`: services, Dispatcher, Helper; now checks access, state and publish dates.
+- [x] Plugins: content/hotspots on the new single-map layout; `onCreateLink` is dispatched with named arguments (`linkId`, `markerId`, `type`, `result`) by `MarkerHelper::link()`.
+- [x] lib_compojoom is no longer in the package; the package update detaches it so it can be uninstalled by hand.
+- [x] French site strings for everything new.
+- [ ] `the client's CB plugin` rewrite against 7.0 (separate repo). It used `HotspotsGeocoder`, `HotspotsHelperUtils::prepareHotspot()`, `components/com_hotspots/includes/defines.php` and `HOTSPOTS_PICTURE_CATEGORIES_PATH`, which are gone. Replacements: `Administrator\Service\Geocoder::geocode()`, `Administrator\Helper\MarkerHelper::prepare()` / `::iconBaseUrl()`, `ComponentHelper::isEnabled('com_hotspots')`, the admin layout `hotspots.map.map` (still fires the `onHotspotClick` window event). The tables `#__hotspots_marker` and `#__hotspots_mappings` are unchanged.
+- [ ] Template overrides on the live site: list them; old overrides of `views/*/tmpl` files no longer apply (new paths `tmpl/<view>/`).
+- [ ] Not tested yet: captcha with a captcha plugin enabled, geocoding against Google with a real API key, a backend user who is not Super User, the map with a real API key in a browser.
 
 ## Phase 8: Test and release on Joomla 5
 
-- [ ] Fresh install and update-over-6.0.13 on Joomla 5.4 + PHP 8.1 and PHP 8.4.
-- [ ] Turn the Backward Compatibility plugin off on the test site; nothing should break.
-- [ ] Checklist from phase 0, CB registration and profile save with `the client's CB plugin`, geocoding.
-- [ ] Remove `lib_compojoom` once nothing loads it (uninstall it from the live site after the update).
-- [ ] Release 7.0.0, update the live site.
+- [x] Update 6.1.0 → 7.0.0 and fresh install on the throwaway Joomla 5.4.10 / PHP 8.4, with the Backward Compatibility plugins (compat and compat6) off: all admin and site pages and JSON endpoints load without PHP notices or untranslated strings, marker and category save work, the map JS starts without errors, SQL injection probes do nothing. PHPCompatibility 8.1-8.4 clean.
+- [ ] Same on PHP 8.1.
+- [ ] Copy of the live database and `images/` on the test site (phase 0), then the checklist, CB registration and profile save with the rewritten `the client's CB plugin`.
+- [ ] Before updating live: `SELECT COUNT(*) FROM #__compojoom_multimedia WHERE origin LIKE 'com_hotspots.migrate%'` must be 0 (Hotspots 4 images that were never migrated).
+- [ ] Release 7.0.0 together with the new `the client's CB plugin`, update the live site, then uninstall lib_compojoom there if nothing else uses it.
 
 ## Phase 9: Joomla 6
 

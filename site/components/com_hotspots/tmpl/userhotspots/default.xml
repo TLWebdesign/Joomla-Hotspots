@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_USER_HOTSPOTS">
+		<message><![CDATA[COM_HOTSPOTS_USER_HOTSPOTS_DESCRIPTION]]></message>
+	</layout>
+	<fields name="params">
+		<fieldset name="basic">
+			<field name="hotspots_order" type="list" default="title ASC"
+				label="COM_HOTSPOTS_HOTSPOTS_ORDER" description="COM_HOTSPOTS_HOTSPOTS_ORDER_DESC">
+				<option value="title ASC">JGLOBAL_TITLE_ASC</option>
+				<option value="title DESC">JGLOBAL_TITLE_DESC</option>
+				<option value="created ASC">JDATE_ASC</option>
+				<option value="created DESC">JDATE_DESC</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

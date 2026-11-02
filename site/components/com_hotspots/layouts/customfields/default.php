@@ -1,30 +1,38 @@
 <?php
+
 /**
- * @package    Hotspots
- * @author     Daniel Dimitrov <daniel@compojoom.com>
- * @date       09.11.2015
+ * @package     Hotspots
+ * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @license     GNU General Public License version 2 or later; see LICENSE
  *
- * @copyright  Copyright (C) 2008 - 2015 compojoom.com . All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * The custom field values of a marker.
+ *
+ * @var  array  $displayData  customfieldsItem: slug => value (the marker's customfields JSON as array),
+ *                            customfieldsConfig: slug => field (CustomfieldsHelper::getFields())
  */
 
-defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Language\Text;
+use TLWebdesign\Component\Hotspots\Administrator\Helper\CustomfieldsHelper;
 
-$customfieldsItem = $displayData['customfieldsItem'];
-$customfieldsConfig = $displayData['customfieldsConfig'];
+\defined('_JEXEC') or die;
+
+$values = (array) ($displayData['customfieldsItem'] ?? []);
+$config = (array) ($displayData['customfieldsConfig'] ?? []);
+
+if (!$values || !$config) {
+    return;
+}
 ?>
+<dl class="hs-customfields dl-horizontal">
+    <?php foreach ($config as $slug => $field) : ?>
+        <?php
+        $value = $values[$slug] ?? null;
 
-<?php if ($customfieldsItem && $customfieldsConfig) : ?>
-
-		<?php foreach ($customfieldsItem as $key => $customFields): ?>
-			<?php if (isset($customfieldsConfig[$key])) : ?>
-				<?php if ($customFields): ?>
-					<dl class="dl-horizontal">
-						<dt><?php echo JText::_($customfieldsConfig[$key]->title); ?></dt>
-						<dd><?php echo CompojoomFormCustom::render($customfieldsConfig[$key], $customFields, 'com_hotspots'); ?></dd>
-					</dl>
-				<?php endif; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	</div>
-<?php endif; ?>
+        if ($value === null || $value === '' || $value === []) {
+            continue;
+        }
+        ?>
+        <dt><?php echo htmlspecialchars(Text::_($field->title), ENT_QUOTES, 'UTF-8'); ?></dt>
+        <dd><?php echo CustomfieldsHelper::render($field, $value); ?></dd>
+    <?php endforeach; ?>
+</dl>

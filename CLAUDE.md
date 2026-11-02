@@ -32,7 +32,6 @@ Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. the client site runs J
 
 ## State of the code
 
-- Mostly Joomla 3 style: about 142 of 267 PHP files use legacy classes, only 7 use `Joomla\CMS\` namespaces. No `services/provider.php`, no namespaced `src/`.
-- Depends on `lib_compojoom` 5.3.6 (`site/libraries/compojoom`), which is also Joomla 3 style.
-- Local fixes are marked `TLWebdesign patch`; keep them when refactoring.
+- `main` / tag `V6.1.0`: the Compojoom 6.0.13 code with security and PHP 8 fixes (Joomla 3 style, needs the Backward Compatibility plugin).
+- Branch `7.0-dev`: the rewrite. Namespaced component, module and plugins, no J-classes, no lib_compojoom. Conventions, folder layout and the shared helper API are in `.claude/REFACTOR-7.md`; keep that file current when the API changes.
 - `the client's CB plugin` (repo a separate private repo, local `(local path in CLAUDE.local.md)`) will be rewritten against the new component. Do not keep legacy classes, files or aliases around for it; give the new component a clean public API it can use instead (see ROADMAP, phase 5).

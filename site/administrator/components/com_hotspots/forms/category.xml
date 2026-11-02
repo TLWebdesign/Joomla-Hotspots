@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Extra options of a Hotspots category; com_categories loads this file for extension com_hotspots. -->
+<form>
+	<fields name="params">
+		<fieldset name="hotspots" label="COM_HOTSPOTS_CATEGORY_MANAGER_OPTIONS" addfieldprefix="TLWebdesign\Component\Hotspots\Administrator\Field">
+			<field name="icon" type="categorymarkericon" label="COM_HOTSPOTS_ICON" required="true" uploadfield="hs-marker-image"/>
+			<field name="hs-marker-image" type="media" label="COM_HOTSPOTS_UPLOAD_NEW_IMAGE" types="images" preview="false"/>
+			<field name="tile_marker_color" type="hotspotscolor" label="COM_HOTSPOTS_CUSTOM_TILE_MARKER_COLOR"
+				description="COM_HOTSPOTS_CUSTOM_TILE_MARKER_COLOR_DESC" required="true"/>
+			<field name="import_table" type="hidden" default=""/>
+			<field name="import_id" type="hidden" default=""/>
+		</fieldset>
+	</fields>
+</form>

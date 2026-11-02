@@ -63,6 +63,7 @@
 		<folder>js</folder>
 		<folder>backend</folder>
 		<folder>kml</folder>
+		<folder>vendor</folder>
 	</media>
 
 	<!-- Updates come through the Hotspots package (pkg_hotspots). -->

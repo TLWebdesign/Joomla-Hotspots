@@ -18,15 +18,26 @@ Pulled from the live site (`the web root` on the client's server) on 2026-11-02.
 
 ## Build and release
 
-- `php build/build.php` builds `dist/pkg_hotspots-<version>.zip` (PHP 8.1+ with the zip extension). The version comes from `build/pkg_hotspots.xml`; the component, module and plugin manifests and `version.php` must have the same version.
+- `php build/build.php` builds `dist/pkg_hotspots-<version>.zip` (PHP 8.1+ with the zip extension). The version comes from `build/pkg_hotspots.xml`; the component, module and plugin manifests must have the same version.
 - Release: set the new version in those files, commit, and push a tag `V<version>` (for example `V6.1.0`). GitHub Actions builds the package, attaches it to a GitHub release and adds it to `updates.xml`.
-- `pkg_hotspots` installs over an existing Hotspots 6.0.x and updates it in place. Requires Joomla 5.4+ and PHP 8.1+.
+- `pkg_hotspots` installs over an existing Hotspots 6.0.x or 6.1.x and updates it in place. Requires Joomla 5.4+ and PHP 8.1+.
+- Do not uninstall Hotspots on a site with data: Joomla deletes a component's categories when it is uninstalled, so the markers lose their category.
 
 Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
-## Local changes on top of Compojoom's code
+## Hotspots 7.0 (branch `7.0-dev`)
 
-Search for `TLWebdesign patch` to find them.
+A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility plugin and without lib_compojoom. Same database tables, same URLs, same map JavaScript (`media/com_hotspots/js/v4`). Conventions and the shared API are in `.claude/REFACTOR-7.md`.
+
+- Namespaced component (`TLWebdesign\Component\Hotspots`), module (`TLWebdesign\Module\HotspotsList`) and plugins, with `services/provider.php`, MVC classes, event classes and the web asset manager.
+- What lib_compojoom did (image uploads and gallery, custom fields, CB avatars and profile links, thumbnails) is now part of the component. The package no longer installs lib_compojoom; an update detaches it from the package so it can be uninstalled under Extensions: Manage (only if no other Compojoom extension needs it).
+- All 6.1.0 security fixes are kept. Also fixed on the way: the list module showed unpublished and access-restricted markers; frontend users could set a `javascript:` "read more" link; `{hotspots}` in articles showed unpublished markers; the contact-author form now has the same mail limit as "send map".
+- Dropped: the SobiPro and Phoca importers (the KML import stays), the marker API (`view=api`), the MooTools map files, avatar/profile providers other than Community Builder, CComment support, runtime minifying (`media/com_hotspots/cache`), Compojoom's dashboard feeds and update check.
+- `the client's CB plugin` must be updated for 7.0: `HotspotsGeocoder`, `HotspotsHelperUtils` and `components/com_hotspots/includes/defines.php` are gone. Use `Administrator\Service\Geocoder`, `Administrator\Helper\MarkerHelper::prepare()` and the admin layout `hotspots.map.map`.
+
+## Local changes on top of Compojoom's code (6.1.0)
+
+Search for `TLWebdesign patch` to find them in 6.1.0 (tag `V6.1.0`). In 7.0 the code is rewritten; the fixes are kept as behaviour.
 
 - **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. `the client's CB plugin` depends on this geocoder (`HotspotsGeocoder`).
 - **2026-11-02** Security fixes (not yet on the live site):

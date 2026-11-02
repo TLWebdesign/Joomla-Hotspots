@@ -1,27 +1,32 @@
 <?php
+
 /**
- * @package    Com_Hotspots
- * @author     DanielDimitrov <daniel@compojoom.com>
- * @date       12.05.2015
- *
- * @copyright  Copyright (C) 2008 - 2015 compojoom.com . All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @package     Hotspots
+ * @copyright   (C) 2008-2013 compojoom.com, (C) 2026 TLWebdesign
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
+\defined('_JEXEC') or die;
+
+/**
+ * Mail to the author of a marker. Data: hotspot, author (User), name, from, message.
+ *
+ * @var array $displayData
+ */
+
+$e = static fn ($text): string => htmlspecialchars((string) $text, ENT_QUOTES, 'UTF-8');
 ?>
-
-<?php echo JText::sprintf('COM_HOTSPOTS_CONTACT_AUTHOR_HELLO_LINE', $displayData['author']->name); ?><br />
-<br />
-<?php echo JText::sprintf('COM_HOTSPOTS_CONTACT_AUTHOR_MEMBER_IS_CONTACTING',
-	JFactory::getConfig()->get('sitename'), '"' . $displayData['hotspot']->title . '"'); ?><br />
-<br />
-
-<?php echo JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_NAME'); ?>: <?php echo $displayData['name']; ?><br />
-<?php echo JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_EMAIL'); ?>: <?php echo $displayData['from']; ?><br />
-<?php echo JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_MESSAGE'); ?>:<br />
-<?php echo $displayData['message']; ?><br />
-
-------------------------------------------------------------------------<br />
-<?php echo JText::_('COM_HOTSPOTS_CONTACT_AUTHOR_PRIVACY'); ?>
+<?php echo Text::sprintf('COM_HOTSPOTS_CONTACT_AUTHOR_HELLO_LINE', $e($displayData['author']->name)); ?><br>
+<br>
+<?php echo Text::sprintf('COM_HOTSPOTS_CONTACT_AUTHOR_MEMBER_IS_CONTACTING', $e(Factory::getApplication()->get('sitename')), '"' . $e($displayData['hotspot']->title) . '"'); ?><br>
+<br>
+<?php echo Text::_('COM_HOTSPOTS_CONTACT_AUTHOR_NAME'); ?>: <?php echo $e($displayData['name']); ?><br>
+<?php echo Text::_('COM_HOTSPOTS_CONTACT_AUTHOR_EMAIL'); ?>: <?php echo $e($displayData['from']); ?><br>
+<?php echo Text::_('COM_HOTSPOTS_CONTACT_AUTHOR_MESSAGE'); ?>:<br>
+<?php echo nl2br($e($displayData['message'])); ?><br>
+<br>
+------------------------------------------------------------------------<br>
+<?php echo Text::_('COM_HOTSPOTS_CONTACT_AUTHOR_PRIVACY'); ?>

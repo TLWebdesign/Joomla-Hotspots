@@ -1,112 +1,65 @@
 <?php
+
 /**
- * @package    com_hotspots
- * @author     DanielDimitrov <daniel@compojoom.com>
- * @date       06.05.2015
- *
- * @copyright  Copyright (C) 2008 - 2013 compojoom.com . All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @package     Hotspots
+ * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-require_once JPATH_LIBRARIES . '/compojoom/include.php';
+\defined('_JEXEC') or die;
 
-// Load language
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+use TLWebdesign\Component\Hotspots\Administrator\Helper\SettingsHelper;
+use TLWebdesign\Component\Hotspots\Site\Helper\MapHelper;
 
-CompojoomLanguage::load('com_hotspots', JPATH_ADMINISTRATOR);
-CompojoomLanguage::load('com_hotspots.sys', JPATH_ADMINISTRATOR);
-CompojoomLanguage::load('com_hotspots', JPATH_SITE);
+/**
+ * A simple Google map with markers; a click on a marker opens its link. Used by the dashboard
+ * (and by the client's CB plugin on the CB profile).
+ *
+ * Fire `window.dispatchEvent(new CustomEvent('onHotspotClick', {detail: {id: 12}}))` to zoom to a marker
+ * and open its info window.
+ *
+ * @var  array  $displayData  hotspots: list of prepared markers (MarkerHelper::prepare) with latitude,
+ *                            longitude, title, icon, link, description_small and hotspots_id or id;
+ *                            params: Registry (optional) with map_height (px, default 300).
+ */
 
-$document = JFactory::getDocument();
+$app = Factory::getApplication();
+$app->getLanguage()->load('com_hotspots', JPATH_ADMINISTRATOR);
+$app->getLanguage()->load('com_hotspots', JPATH_SITE);
 
-HotspotsHelperUtils::getJsLocalization();
-CompojoomHtmlBehavior::jquery();
+$params = ($displayData['params'] ?? null) instanceof Registry ? $displayData['params'] : new Registry($displayData['params'] ?? []);
+$height = (int) $params->get('map_height', 300) ?: 300;
+$apiKey = (string) SettingsHelper::get('api_key', '');
 
-if (HotspotsHelperSettings::get('emulate_bootstrap', 1))
-{
-    JHTML::_('stylesheet', 'media/lib_compojoom/css/bootstrap-232.css');
+if ($apiKey === '') {
+    echo '<div class="alert alert-warning">' . Text::_('COM_HOTSPOTS_API_KEY_MISSING') . '</div>';
+
+    return;
 }
 
-JHTML::_('stylesheet', 'media/com_hotspots/css/hotspot.css');
+$markers = [];
 
-JHTML::stylesheet('media/lib_compojoom/third/font-awesome/css/font-awesome.min.css');
-;
-
-$hotspots = $displayData['hotspots'];
-$params       = $displayData['params'];
-$width        = $params->get('map_width', '') ? $params->get('map_width') . 'px' : '100%';
-$width        = $params->get('map_height', '') ? $params->get('map_height') . 'px' : '300px';
-
-$document->addScript(HotspotsHelperUtils::getGmapsUrl(), array(), array('defer' => true, 'async' => "async"));
-
-$apiKey = HotspotsHelperSettings::get('api_key', "");
-JText::script('COM_HOTSPOTS_READ_MORE');
-
-
-if ($apiKey) {
-
-    $document->addScriptDeclaration(
-        "
-                var latesthotspots = " . json_encode($hotspots) . ";
-                var markers = {}
-                function initMap() {
-                    var startPos = {lat: 10, lng: 10};
-                    
-                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                      zoom: 4,
-                      center: startPos
-                    });
-                    
-                    var bounds = new google.maps.LatLngBounds()
-                    latesthotspots.map(hotspot => {
-                      const position = {lat: parseFloat(hotspot.latitude), lng: parseFloat(hotspot.longitude)}
-                    
-                      bounds.extend(position)
-                      const marker = new google.maps.Marker({
-                        position: position,
-                        content: hotspot.description_small,
-                        link: hotspot.link,
-                        map: map,
-                        title: hotspot.title,
-                        icon: hotspot.icon
-                      });
-                      
-                      markers[hotspot.hotspots_id] = marker
-                      
-                      marker.addListener('click', function() {
-                        window.location.href = hotspot.link;
-                      });
-                      
-                     
-                })
-                
-                 window.addEventListener('onHotspotClick', function(e) {
-                 var id = e.detail.id
-                 var clickedMarker = markers[id]
-                        map.setZoom(17);
-                        map.panTo(clickedMarker.position);
-                        
-                        var contentString  = '<h2>'+clickedMarker.title + '</h2>' + clickedMarker.content + 
-                        '<a href=\"' + clickedMarker.link + '\">' + Joomla.JText._('COM_HOTSPOTS_READ_MORE') + '</a>'
-                          const infowindow = new google.maps.InfoWindow({
-                            content: contentString,
-                          });
-
-                        infowindow.open(map, clickedMarker);
-                      })
-                      
-                map.fitBounds(bounds)
-  }
-                  jQuery(document).ready(function() {
-                    initMap()
-                })
-  "
-    );
+foreach ($displayData['hotspots'] ?? [] as $hotspot) {
+    $hotspot   = (object) $hotspot;
+    $markers[] = [
+        'id'          => (int) ($hotspot->hotspots_id ?? $hotspot->id ?? 0),
+        'lat'         => (float) ($hotspot->latitude ?? $hotspot->gmlat ?? 0),
+        'lng'         => (float) ($hotspot->longitude ?? $hotspot->gmlng ?? 0),
+        'title'       => (string) ($hotspot->title ?? ''),
+        'icon'        => (string) ($hotspot->icon ?? ''),
+        'link'        => (string) ($hotspot->link ?? ''),
+        'description' => (string) ($hotspot->description_small ?? ''),
+    ];
 }
+
+Text::script('COM_HOTSPOTS_READ_MORE');
+
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('com_hotspots.simple-map', 'com_hotspots/simple-map.js', [], ['defer' => true]);
+$wa->registerAndUseScript('com_hotspots.googlemaps.simple-map', MapHelper::getGmapsUrl('HotspotsSimpleMap.init'), [], ['defer' => true], ['com_hotspots.simple-map']);
 ?>
-<div style="height: 300px;">
-
-		<div id="map_canvas" class="map_canvas"
-		     style="height:300px;"></div>
-
-	</div>
+<div class="hotspots-simple-map" style="height: <?php echo $height; ?>px;"
+     data-markers="<?php echo htmlspecialchars(json_encode($markers), ENT_QUOTES, 'UTF-8'); ?>"></div>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field name="search" type="text" inputmode="search" label="JSEARCH_FILTER" hint="JSEARCH_FILTER"/>
+
+		<field name="published" type="status" label="JSTATUS" onchange="this.form.submit();" optionsFilter="0,1">
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field name="category_id" type="category" extension="com_hotspots" label="JCATEGORY" onchange="this.form.submit();" published="0,1">
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field name="fullordering" type="list" label="JGLOBAL_SORT_BY" default="kmls.title ASC" onchange="this.form.submit();" validate="options">
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="kmls.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="kmls.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="cat.title ASC">JCATEGORY_ASC</option>
+			<option value="cat.title DESC">JCATEGORY_DESC</option>
+			<option value="kmls.created ASC">JDATE_ASC</option>
+			<option value="kmls.created DESC">JDATE_DESC</option>
+			<option value="kmls.state ASC">JSTATUS_ASC</option>
+			<option value="kmls.state DESC">JSTATUS_DESC</option>
+			<option value="kmls.hotspots_kml_id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="kmls.hotspots_kml_id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field name="limit" type="limitbox" label="JGLOBAL_LIST_LIMIT" default="25" onchange="this.form.submit();"/>
+	</fields>
+</form>

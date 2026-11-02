@@ -103,6 +103,7 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
 
         if ($type === 'update') {
             $this->uninstallObsoletePlugins($db);
+            $this->releaseCompojoomLibrary($db);
         }
 
         return true;
@@ -136,6 +137,38 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
         }
 
         Factory::getApplication()->enqueueMessage('Hotspots: removed the compojoom.com update site.', 'message');
+    }
+
+    /**
+     * Hotspots 7 no longer uses lib_compojoom. It is not uninstalled here, because other Compojoom
+     * extensions may need it, but it is detached from the package so it can be uninstalled by hand
+     * (the package blocks uninstalling its own extensions).
+     */
+    private function releaseCompojoomLibrary(DatabaseInterface $db): void
+    {
+        $query = $db->getQuery(true)
+            ->select($db->quoteName(['extension_id', 'package_id']))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('compojoom'));
+        $library = $db->setQuery($query)->loadObject();
+
+        if (!$library) {
+            return;
+        }
+
+        if ((int) $library->package_id !== 0) {
+            $query = $db->getQuery(true)
+                ->update($db->quoteName('#__extensions'))
+                ->set($db->quoteName('package_id') . ' = 0')
+                ->where($db->quoteName('extension_id') . ' = ' . (int) $library->extension_id);
+            $db->setQuery($query)->execute();
+        }
+
+        Factory::getApplication()->enqueueMessage(
+            'Hotspots no longer needs the Compojoom library (lib_compojoom). If no other Compojoom extension is installed, uninstall it under Extensions: Manage.',
+            'notice'
+        );
     }
 
     /**

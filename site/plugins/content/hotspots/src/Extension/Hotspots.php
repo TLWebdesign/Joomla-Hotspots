@@ -10,12 +10,14 @@ namespace TLWebdesign\Plugin\Content\Hotspots\Extension;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
+use TLWebdesign\Component\Hotspots\Administrator\Helper\MarkerHelper;
 
 \defined('_JEXEC') or die;
 
@@ -25,6 +27,8 @@ use Joomla\Registry\Registry;
 final class Hotspots extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
+
+    private bool $mapRendered = false;
 
     private const CONTEXTS = ['mod_custom.content', 'com_content.article', 'com_content.featured', 'com_content.category'];
 
@@ -110,37 +114,35 @@ final class Hotspots extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * Renders the single marker map layout of the component.
+     * Renders the single marker map layout of the component (one map per page).
      */
     private function renderMap(object $marker): string
     {
-        $frontend = JPATH_SITE . '/components/com_hotspots';
+        if ($this->mapRendered) {
+            return '';
+        }
 
-        // TODO phase 6: use the namespaced site component instead of the old helpers.
-        require_once JPATH_LIBRARIES . '/compojoom/include.php';
-        require_once $frontend . '/includes/defines.php';
-        \JLoader::discover('HotspotsHelper', $frontend . '/helpers/');
+        $this->mapRendered = true;
 
-        $marker = \HotspotsHelperUtils::prepareHotspot($marker);
-        $icon   = $marker->params->get('markerimage') ?: $marker->cat_icon;
+        $marker = MarkerHelper::prepare($marker);
+        $icon   = $marker->params->get('markerimage')
+            ? MarkerHelper::iconBaseUrl() . $marker->params->get('markerimage')
+            : ($marker->cat_icon ? Uri::root() . $marker->cat_icon : '');
 
-        $address = array_values(array_filter([$marker->street, $marker->town, $marker->plz, $marker->country]));
-
-        $hotspot = [
-            'id'        => (int) $marker->id,
-            'latitude'  => $marker->gmlat,
-            'longitude' => $marker->gmlng,
-            'title'     => htmlspecialchars((string) $marker->title, ENT_QUOTES, 'UTF-8'),
-            'icon'      => $icon ? Uri::root() . $icon : '',
-        ];
-
-        $layout = new \CompojoomLayoutFile('hotspots.single-map', JPATH_ROOT . '/components/com_hotspots/layouts');
-
-        return $layout->render([
-            'hotspot'      => $hotspot,
-            'addressArray' => array_map(static fn ($part) => htmlspecialchars((string) $part, ENT_QUOTES, 'UTF-8'), $address),
-            'params'       => $this->params,
-            'frontend'     => $frontend,
-        ]);
+        return LayoutHelper::render(
+            'hotspots.single-map',
+            [
+                'hotspot' => [
+                    'id'        => (int) $marker->id,
+                    'latitude'  => (float) $marker->gmlat,
+                    'longitude' => (float) $marker->gmlng,
+                    'title'     => (string) $marker->title,
+                    'icon'      => $icon,
+                ],
+                'addressArray' => array_values(array_filter([$marker->street, $marker->town, $marker->plz, $marker->country])),
+                'params'       => $this->params,
+            ],
+            JPATH_SITE . '/components/com_hotspots/layouts'
+        );
     }
 }
