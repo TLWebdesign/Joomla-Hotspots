@@ -38,6 +38,9 @@ class HtmlView extends BaseHtmlView
 
     public function display($tpl = null)
     {
+        // The form has one template (tmpl/form/form.php), whatever layout the URL or menu item names.
+        $this->setLayout('form');
+
         /** @var FormModel $model */
         $model = $this->getModel();
         $user  = $this->getCurrentUser();

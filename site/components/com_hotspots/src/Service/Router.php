@@ -22,7 +22,7 @@ use TLWebdesign\Component\Hotspots\Site\Helper\RouteHelper;
  *
  * - marker under a map menu item:   <menu route>/<catid>:<category alias>/<id>:<marker alias>
  * - marker under its own menu item: <menu route>
- * - frontend edit form:             <menu route>/edit/<id>
+ * - frontend edit form:             <menu route>/edit/<id> (also read: form/edit, form, ?a_id=<id>)
  * - without a menu item:            component/hotspots/<view>[/<catid>:<alias>]/<id>:<alias>
  */
 class Router extends RouterBase
@@ -106,16 +106,21 @@ class Router extends RouterBase
             }
         }
 
+        // The form has one layout; its URL is "<menu route>/edit[/<id>]", or just the route of a form menu item.
+        if ($view === 'form') {
+            unset($query['layout']);
+
+            if ($mView !== 'form') {
+                $segments[] = 'edit';
+            }
+        }
+
         if (isset($query['layout'])) {
             if ($query['layout'] !== 'userhotspots' && $query['layout'] !== 'default') {
                 $segments[] = $query['layout'];
             }
 
             unset($query['layout']);
-        }
-
-        if ($view === 'form' && !\in_array('edit', $segments, true)) {
-            $segments[] = 'edit';
         }
 
         if (isset($query['id'])) {
@@ -139,9 +144,17 @@ class Router extends RouterBase
         }
 
         if ($segments[0] === 'edit' || $segments[0] === 'form') {
-            array_shift($segments);
+            // "form/edit", "form" or "edit" (Hotspots 6 links), with the marker id as ?a_id= or as the next segment.
+            while ($segments && \in_array($segments[0], ['form', 'edit'], true)) {
+                array_shift($segments);
+            }
+
             $vars['view']   = 'form';
-            $vars['layout'] = 'edit';
+            $vars['layout'] = 'form';
+
+            if (!$segments) {
+                return $vars;
+            }
         } elseif (\in_array($segments[0], self::VIEWS, true)) {
             $vars['view'] = array_shift($segments);
         }
