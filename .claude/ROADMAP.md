@@ -120,7 +120,7 @@ Done in five parallel work packages (see `.claude/REFACTOR-7.md` for the split, 
 - [x] lib_compojoom is no longer in the package; the package update detaches it so it can be uninstalled by hand.
 - [x] French site strings for everything new.
 - [x] Compojoom traces removed (2026-11-02): branding, CSS classes, gallery theme, option texts of removed features; own `#__hotspots_*` tables for custom fields and images (moved on update, tested with and without rows of other Compojoom extensions). Only the GPL credit lines and the cleanup code for the old Compojoom pieces mention Compojoom.
-- [ ] Optional: rename the GitHub repo (it is called Compojoom-Hotspots); the update server URL in `build/pkg_hotspots.xml` must change with it.
+- [x] GitHub repo renamed to TLWebdesign/Joomla-Hotspots (2026-11-02); update server and download URLs changed with it.
 - [x] `the client's CB plugin` 2.0.0 for Hotspots 7 (repo a separate private repo, branch `hotspots-7`): uses `Service\Geocoder`, `MarkerHelper::prepare()` / `::iconBaseUrl()` and the layout `hotspots.map.map`. Tested in a harness on the test site (stub CB base class, fake geocoder): registration, address change, rule change, missing old user, failed geocoding, profile tab. Not tested in a real Community Builder yet. Install Hotspots 7 first; without it the plugin does nothing.
 - [ ] Template overrides on the live site: list them; old overrides of `views/*/tmpl` files no longer apply (new paths `tmpl/<view>/`).
 - [ ] Not tested yet: captcha with a captcha plugin enabled, geocoding against Google with a real API key, a backend user who is not Super User, the map with a real API key in a browser.

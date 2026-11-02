@@ -24,6 +24,6 @@
 		<file type="file" id="com_hotspots-fr-FR">files_com_hotspots-fr-FR.zip</file>
 	</files>
 	<updateservers>
-		<server type="extension" priority="1" name="Hotspots (TLWebdesign)">https://raw.githubusercontent.com/TLWebdesign/Compojoom-Hotspots/main/updates.xml</server>
+		<server type="extension" priority="1" name="Hotspots (TLWebdesign)">https://raw.githubusercontent.com/TLWebdesign/Joomla-Hotspots/main/updates.xml</server>
 	</updateservers>
 </extension>
