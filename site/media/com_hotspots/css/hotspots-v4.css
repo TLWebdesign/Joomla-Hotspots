@@ -82,7 +82,7 @@
 	font-size: 13px;
 }
 
-.compojoom-bootstrap .hs-tabs ul li a {
+.hotspots-bootstrap .hs-tabs ul li a {
 	color: #CCCCCC;
 	padding: 5px 10px 0px;
 	display: inline-block;
@@ -375,7 +375,7 @@
 	vertical-align: middle;
 }
 
-.compojoom-bootstrap .hs-toolbar .btn-mini {
+.hotspots-bootstrap .hs-toolbar .btn-mini {
 	padding: 0;
 	font-size: 9.75px;
 }
@@ -576,10 +576,10 @@
 	background: #FCF9F9;
 }
 
-.compojoom-bootstrap .ui-widget input,
-.compojoom-bootstrap .ui-widget select,
-.compojoom-bootstrap .ui-widget textarea,
-.compojoom-bootstrap .ui-widget button {
+.hotspots-bootstrap .ui-widget input,
+.hotspots-bootstrap .ui-widget select,
+.hotspots-bootstrap .ui-widget textarea,
+.hotspots-bootstrap .ui-widget button {
 	font-size: 12px;
 }
 
@@ -612,28 +612,28 @@
 }
 
 
-.compojoom-bootstrap .ui-tabs {
+.hotspots-bootstrap .ui-tabs {
 	padding: 0;
 }
-.compojoom-bootstrap .ui-tabs .ui-tabs-panel {
+.hotspots-bootstrap .ui-tabs .ui-tabs-panel {
 	padding: 0;
 }
-.compojoom-bootstrap .ui-tabs .ui-tabs-nav li {
+.hotspots-bootstrap .ui-tabs .ui-tabs-nav li {
 	float: none;
 	margin: 0;
 }
-.compojoom-bootstrap .ui-widget-header {
+.hotspots-bootstrap .ui-widget-header {
 	background: none;
 	border: none;
 }
-.compojoom-bootstrap .ui-state-default,
-.compojoom-bootstrap .ui-widget-content .ui-state-default,
-.compojoom-bootstrap .ui-widget-header .ui-state-default {
+.hotspots-bootstrap .ui-state-default,
+.hotspots-bootstrap .ui-widget-content .ui-state-default,
+.hotspots-bootstrap .ui-widget-header .ui-state-default {
 	background: none;
 	border: none;
 	font-weight: normal;
 }
-.compojoom-bootstrap .ui-widget {
+.hotspots-bootstrap .ui-widget {
 	font-size: 13px;
 }
 
@@ -644,7 +644,7 @@
 
 
 
-.compojoom-bootstrap  .ui-widget-content {
+.hotspots-bootstrap  .ui-widget-content {
 	border: none;
 	background: transparent;
 }

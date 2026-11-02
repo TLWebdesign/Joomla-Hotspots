@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2012 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2012
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 

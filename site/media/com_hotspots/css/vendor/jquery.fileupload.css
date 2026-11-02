@@ -10,11 +10,11 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-.compojoom-bootstrap .fileinput-button {
+.hotspots-bootstrap .fileinput-button {
   position: relative;
   overflow: hidden;
 }
-.compojoom-bootstrap .fileinput-button input {
+.hotspots-bootstrap .fileinput-button input {
   position: absolute;
   top: 0;
   right: 0;
@@ -28,7 +28,7 @@
 
 /* Fixes for IE < 8 */
 @media screen\9 {
-  .compojoom-bootstrap .fileinput-button input {
+  .hotspots-bootstrap .fileinput-button input {
     filter: alpha(opacity=0);
     font-size: 100%;
     height: 100%;

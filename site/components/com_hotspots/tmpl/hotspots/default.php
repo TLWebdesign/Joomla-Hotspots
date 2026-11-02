@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2014 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2014
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use TLWebdesign\Component\Hotspots\Site\Helper\MapHelper;
 /** @var \TLWebdesign\Component\Hotspots\Site\View\Hotspots\HtmlView $this */
 ?>
 
-<div id="hs" class="compojoom-bootstrap <?php echo $this->escape((string) $this->settings->get('pageclass_sfx')); ?>">
+<div id="hs" class="hotspots-bootstrap <?php echo $this->escape((string) $this->settings->get('pageclass_sfx')); ?>">
 	<?php if ($this->settings->get('show_page_title', 1)) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape((string) $this->settings->get('page_heading', 'Hotspots')); ?> </h1>

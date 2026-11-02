@@ -30,7 +30,7 @@ class Pkg_HotspotsInstallerScript extends InstallerScript
     protected $minimumPhp = '8.1.0';
 
     /**
-     * Plugins enabled on a fresh install (as in Compojoom's script).
+     * Plugins enabled on a fresh install.
      *
      * @var array<string, string>  element => folder
      */

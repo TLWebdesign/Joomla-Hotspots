@@ -2,7 +2,7 @@
 
 /**
  * @package    Hotspots
- * @copyright  (C) 2008-2023 compojoom.com - Daniel Dimitrov, (C) 2026 TLWebdesign
+ * @copyright  (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2023
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,8 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Install script for com_hotspots 7.
  *
- * Replaces Compojoom's script (2026-11-02). The database tables come from sql/install.mysql.utf8.sql and
- * sql/updates/mysql. Plugins and modules are installed by the package (pkg_hotspots), not by this script.
+ * The database tables come from sql/install.mysql.utf8.sql and sql/updates/mysql. Plugins and modules are installed by the package (pkg_hotspots), not by this script.
  */
 class Com_HotspotsInstallerScript extends InstallerScript
 {
@@ -151,14 +150,14 @@ class Com_HotspotsInstallerScript extends InstallerScript
 
         $this->removeFiles();
         $this->setConfigurationDefaults();
+        $this->moveRowsFromCompojoomTables();
         $this->warnAboutUnmigratedImages();
 
         return true;
     }
 
     /**
-     * Drops the Hotspots tables only when "complete uninstall" is set in the options, as Compojoom's script did.
-     * The shared #__compojoom_* tables stay; only the Hotspots rows are removed from them.
+     * Drops the Hotspots tables only when "complete uninstall" is set in the options.
      *
      * @param   InstallerAdapter  $parent  The installer
      *
@@ -172,25 +171,9 @@ class Com_HotspotsInstallerScript extends InstallerScript
 
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        foreach (['#__hotspots_marker', '#__hotspots_kmls', '#__hotspots_mappings'] as $table) {
+        foreach (['#__hotspots_marker', '#__hotspots_kmls', '#__hotspots_mappings', '#__hotspots_customfields',
+            '#__hotspots_customfields_cats', '#__hotspots_multimedia'] as $table) {
             $db->setQuery('DROP TABLE IF EXISTS ' . $db->quoteName($table))->execute();
-        }
-
-        $tables = $db->getTableList();
-        $prefix = $db->getPrefix();
-
-        if (\in_array($prefix . 'compojoom_multimedia', $tables, true)) {
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__compojoom_multimedia'))
-                ->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_hotspots.hotspot'));
-            $db->setQuery($query)->execute();
-        }
-
-        if (\in_array($prefix . 'compojoom_customfields', $tables, true)) {
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__compojoom_customfields'))
-                ->where($db->quoteName('component') . ' = ' . $db->quote('com_hotspots.hotspot'));
-            $db->setQuery($query)->execute();
         }
 
         return true;
@@ -272,6 +255,85 @@ class Com_HotspotsInstallerScript extends InstallerScript
     }
 
     /**
+     * Up to 6.x the custom fields and images were in the #__compojoom_* tables of lib_compojoom, which other
+     * Compojoom extensions can share. 7.0 has its own tables: copy the Hotspots rows over (once, while the new
+     * table is empty), remove them from the old tables, and drop an old table only when nothing is left in it.
+     *
+     * @return  void
+     */
+    private function moveRowsFromCompojoomTables(): void
+    {
+        $db     = Factory::getContainer()->get(DatabaseInterface::class);
+        $prefix = $db->getPrefix();
+        $tables = $db->getTableList();
+        $has    = static fn (string $name): bool => \in_array($prefix . $name, $tables, true);
+        $empty  = static fn (string $table): bool => !(int) $db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName($table))->loadResult();
+        $moved  = [];
+
+        $db->transactionStart();
+
+        try {
+            if ($has('compojoom_customfields') && $has('hotspots_customfields') && $empty('#__hotspots_customfields')) {
+                $columns = '`id`, `title`, `slug`, `component`, `show`, `type`, `options`, `default`, `allow_empty`, `params`, '
+                    . '`enabled`, `filter`, `ordering`, `created_by`, `created_on`, `modified_by`, `modified_on`';
+                $db->setQuery(
+                    'INSERT INTO ' . $db->quoteName('#__hotspots_customfields') . " ($columns) SELECT $columns FROM "
+                    . $db->quoteName('#__compojoom_customfields') . ' WHERE `component` = ' . $db->quote('com_hotspots.hotspot')
+                )->execute();
+                $moved[] = $db->getAffectedRows() . ' custom fields';
+
+                if ($has('compojoom_customfields_cats')) {
+                    $db->setQuery(
+                        'INSERT INTO ' . $db->quoteName('#__hotspots_customfields_cats') . ' (`customfield_id`, `catid`)'
+                        . ' SELECT c.`compojoom_customfields_id`, c.`catid` FROM ' . $db->quoteName('#__compojoom_customfields_cats') . ' AS c'
+                        . ' INNER JOIN ' . $db->quoteName('#__hotspots_customfields') . ' AS f ON f.`id` = c.`compojoom_customfields_id`'
+                    )->execute();
+                    $db->setQuery(
+                        'DELETE c FROM ' . $db->quoteName('#__compojoom_customfields_cats') . ' AS c'
+                        . ' INNER JOIN ' . $db->quoteName('#__hotspots_customfields') . ' AS f ON f.`id` = c.`compojoom_customfields_id`'
+                    )->execute();
+                }
+
+                $db->setQuery(
+                    'DELETE FROM ' . $db->quoteName('#__compojoom_customfields') . ' WHERE `component` = ' . $db->quote('com_hotspots.hotspot')
+                )->execute();
+            }
+
+            if ($has('compojoom_multimedia') && $has('hotspots_multimedia') && $empty('#__hotspots_multimedia')) {
+                $columns = '`item_id`, `type_alias`, `title`, `description`, `mangled_filename`, `mime_type`, `origin`, '
+                    . '`created_on`, `created_by`, `enabled`, `params`';
+                $db->setQuery(
+                    'INSERT INTO ' . $db->quoteName('#__hotspots_multimedia') . " (`id`, $columns) SELECT `compojoom_multimedia_id`, $columns FROM "
+                    . $db->quoteName('#__compojoom_multimedia') . ' WHERE `type_alias` = ' . $db->quote('com_hotspots.hotspot')
+                )->execute();
+                $moved[] = $db->getAffectedRows() . ' images';
+
+                $db->setQuery(
+                    'DELETE FROM ' . $db->quoteName('#__compojoom_multimedia') . ' WHERE `type_alias` = ' . $db->quote('com_hotspots.hotspot')
+                )->execute();
+            }
+
+            $db->transactionCommit();
+        } catch (\Throwable $e) {
+            $db->transactionRollback();
+            Factory::getApplication()->enqueueMessage('Hotspots: could not move the custom fields and images to the new tables: ' . $e->getMessage(), 'error');
+
+            return;
+        }
+
+        // Drop the old tables once no other extension has rows in them (DROP TABLE ends a transaction, so after the commit).
+        foreach (['compojoom_customfields_cats', 'compojoom_customfields', 'compojoom_multimedia'] as $name) {
+            if ($has($name) && $empty('#__' . $name) && ($name !== 'compojoom_customfields_cats' || !$has('compojoom_customfields') || $empty('#__compojoom_customfields'))) {
+                $db->setQuery('DROP TABLE ' . $db->quoteName('#__' . $name))->execute();
+            }
+        }
+
+        if ($moved) {
+            Factory::getApplication()->enqueueMessage('Hotspots: moved ' . implode(' and ', $moved) . ' to the Hotspots tables.', 'message');
+        }
+    }
+
+    /**
      * Hotspots 5 moved the images of Hotspots 4 (media/com_hotspots/images/hotspots) on the dashboard, one by one.
      * 7.0 no longer has that step, so warn when a site still has images waiting for it.
      *
@@ -281,13 +343,13 @@ class Com_HotspotsInstallerScript extends InstallerScript
     {
         $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-        if (!\in_array($db->getPrefix() . 'compojoom_multimedia', $db->getTableList(), true)) {
+        if (!\in_array($db->getPrefix() . 'hotspots_multimedia', $db->getTableList(), true)) {
             return;
         }
 
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->quoteName('#__compojoom_multimedia'))
+            ->from($db->quoteName('#__hotspots_multimedia'))
             ->where($db->quoteName('origin') . ' LIKE ' . $db->quote('com_hotspots.migrate%'));
 
         $count = (int) $db->setQuery($query)->loadResult();
@@ -295,7 +357,7 @@ class Com_HotspotsInstallerScript extends InstallerScript
         if ($count > 0) {
             Factory::getApplication()->enqueueMessage(
                 \sprintf(
-                    'Hotspots: %d images from Hotspots 4 were never moved to the Hotspots 5 storage (#__compojoom_multimedia rows with origin "com_hotspots.migrate"). Hotspots 7 cannot move them; they stay in media/com_hotspots/images/hotspots.',
+                    'Hotspots: %d images from Hotspots 4 were never moved to the Hotspots 5 storage (#__hotspots_multimedia rows with origin "com_hotspots.migrate"). Hotspots 7 cannot move them; they stay in media/com_hotspots/images/hotspots.',
                     $count
                 ),
                 'warning'

@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,11 +85,11 @@ abstract class GalleryHelper
         }
 
         if (!$wa->assetExists('script', 'com_hotspots.galleria.theme')) {
-            $wa->registerScript('com_hotspots.galleria.theme', 'media/com_hotspots/vendor/galleria/themes/compojoom/galleria.compojoom.js', [], ['defer' => true], ['com_hotspots.galleria']);
+            $wa->registerScript('com_hotspots.galleria.theme', 'media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.js', [], ['defer' => true], ['com_hotspots.galleria']);
         }
 
         if (!$wa->assetExists('style', 'com_hotspots.galleria.theme')) {
-            $wa->registerStyle('com_hotspots.galleria.theme', 'media/com_hotspots/vendor/galleria/themes/compojoom/galleria.compojoom.css');
+            $wa->registerStyle('com_hotspots.galleria.theme', 'media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.css');
         }
 
         $wa->useScript('com_hotspots.galleria.theme')->useStyle('com_hotspots.galleria.theme');

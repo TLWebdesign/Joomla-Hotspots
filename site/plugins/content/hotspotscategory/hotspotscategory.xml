@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="content" method="upgrade">
     <name>Content - Hotspots Category (don't turn off!)</name>
-    <author>TLWebdesign (originally compojoom.com)</author>
+    <author>TLWebdesign</author>
     <creationDate>2026-11-02</creationDate>
-    <copyright>(C) 2012 compojoom.com, (C) 2026 TLWebdesign</copyright>
+    <copyright>(C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2012</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE</license>
     <authorEmail>info@tlwebdesign.nl</authorEmail>
     <authorUrl>https://tlwebdesign.nl</authorUrl>

@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -258,10 +258,10 @@ class MultimediaModel extends BaseDatabaseModel
         $typeAlias = self::TYPE_ALIAS;
         $query     = $db->getQuery(true)
             ->select('*')
-            ->from($db->quoteName('#__compojoom_multimedia'))
+            ->from($db->quoteName('#__hotspots_multimedia'))
             ->whereIn($db->quoteName('item_id'), $ids)
             ->where($db->quoteName('type_alias') . ' = :alias')
-            ->order($db->quoteName('compojoom_multimedia_id') . ' ASC')
+            ->order($db->quoteName('id') . ' ASC')
             ->bind(':alias', $typeAlias);
 
         return $db->setQuery($query)->loadObjectList($key) ?: [];
@@ -340,7 +340,7 @@ class MultimediaModel extends BaseDatabaseModel
         $typeAlias = self::TYPE_ALIAS;
         $query     = $db->getQuery(true)
             ->select('*')
-            ->from($db->quoteName('#__compojoom_multimedia'))
+            ->from($db->quoteName('#__hotspots_multimedia'))
             ->where($db->quoteName('mangled_filename') . ' = :file')
             ->where($db->quoteName('item_id') . ' = :id')
             ->where($db->quoteName('type_alias') . ' = :alias')
@@ -369,10 +369,10 @@ class MultimediaModel extends BaseDatabaseModel
             }
         }
 
-        $rowId = (int) $image->compojoom_multimedia_id;
+        $rowId = (int) $image->id;
         $query = $db->getQuery(true)
-            ->delete($db->quoteName('#__compojoom_multimedia'))
-            ->where($db->quoteName('compojoom_multimedia_id') . ' = :rowid')
+            ->delete($db->quoteName('#__hotspots_multimedia'))
+            ->where($db->quoteName('id') . ' = :rowid')
             ->bind(':rowid', $rowId, ParameterType::INTEGER);
         $db->setQuery($query)->execute();
 
@@ -393,7 +393,7 @@ class MultimediaModel extends BaseDatabaseModel
         $db        = $this->getDatabase();
         $typeAlias = self::TYPE_ALIAS;
         $query     = $db->getQuery(true)
-            ->delete($db->quoteName('#__compojoom_multimedia'))
+            ->delete($db->quoteName('#__hotspots_multimedia'))
             ->where($db->quoteName('item_id') . ' = :id')
             ->where($db->quoteName('type_alias') . ' = :alias')
             ->bind(':id', $itemId, ParameterType::INTEGER)
@@ -421,7 +421,7 @@ class MultimediaModel extends BaseDatabaseModel
                 $path .= '/thumbs';
             }
         } else {
-            $path = JPATH_ROOT . '/' . trim((string) $params->get('tmp_file_path', 'cache/com_hotspots.multimedia'), '/') . '/lib_compojoom.multimedia';
+            $path = JPATH_ROOT . '/' . trim((string) $params->get('tmp_file_path', 'cache/com_hotspots.multimedia'), '/') . '/uploads';
         }
 
         return Path::clean($path . '/' . $file);

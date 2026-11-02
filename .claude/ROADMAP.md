@@ -119,6 +119,8 @@ Done in five parallel work packages (see `.claude/REFACTOR-7.md` for the split, 
 - [x] Plugins: content/hotspots on the new single-map layout; `onCreateLink` is dispatched with named arguments (`linkId`, `markerId`, `type`, `result`) by `MarkerHelper::link()`.
 - [x] lib_compojoom is no longer in the package; the package update detaches it so it can be uninstalled by hand.
 - [x] French site strings for everything new.
+- [x] Compojoom traces removed (2026-11-02): branding, CSS classes, gallery theme, option texts of removed features; own `#__hotspots_*` tables for custom fields and images (moved on update, tested with and without rows of other Compojoom extensions). Only the GPL credit lines and the cleanup code for the old Compojoom pieces mention Compojoom.
+- [ ] Optional: rename the GitHub repo (it is called Compojoom-Hotspots); the update server URL in `build/pkg_hotspots.xml` must change with it.
 - [x] `the client's CB plugin` 2.0.0 for Hotspots 7 (repo a separate private repo, branch `hotspots-7`): uses `Service\Geocoder`, `MarkerHelper::prepare()` / `::iconBaseUrl()` and the layout `hotspots.map.map`. Tested in a harness on the test site (stub CB base class, fake geocoder): registration, address change, rule change, missing old user, failed geocoding, profile tab. Not tested in a real Community Builder yet. Install Hotspots 7 first; without it the plugin does nothing.
 - [ ] Template overrides on the live site: list them; old overrides of `views/*/tmpl` files no longer apply (new paths `tmpl/<view>/`).
 - [ ] Not tested yet: captcha with a captcha plugin enabled, geocoding against Google with a real API key, a backend user who is not Super User, the map with a real API key in a browser.
@@ -128,7 +130,7 @@ Done in five parallel work packages (see `.claude/REFACTOR-7.md` for the split, 
 - [x] Update 6.1.0 → 7.0.0 and fresh install on the throwaway Joomla 5.4.10 / PHP 8.4, with the Backward Compatibility plugins (compat and compat6) off: all admin and site pages and JSON endpoints load without PHP notices or untranslated strings, marker and category save work, the map JS starts without errors, SQL injection probes do nothing. PHPCompatibility 8.1-8.4 clean.
 - [ ] Same on PHP 8.1.
 - [ ] Copy of the live database and `images/` on the test site (phase 0), then the checklist, CB registration and profile save with the rewritten `the client's CB plugin`.
-- [ ] Before updating live: `SELECT COUNT(*) FROM #__compojoom_multimedia WHERE origin LIKE 'com_hotspots.migrate%'` must be 0 (Hotspots 4 images that were never migrated).
+- [ ] Before updating live: `SELECT COUNT(*) FROM #__compojoom_multimedia WHERE origin LIKE 'com_hotspots.migrate%'` must be 0 (the 7.0 update moves the rows to `#__hotspots_multimedia`) (Hotspots 4 images that were never migrated).
 - [ ] Release 7.0.0 together with the new `the client's CB plugin`, update the live site, then uninstall lib_compojoom there if nothing else uses it.
 
 ## Phase 9: Joomla 6

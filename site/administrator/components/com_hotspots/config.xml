@@ -196,12 +196,6 @@
 		       label="COM_HOTSPOTS_SUPPORT_AVATARS_LABEL" description="COM_HOTSPOTS_SUPPORT_AVATARS_DESC" />
 		<field name="profile_link" type="profiles" default=""
 		       label="COM_HOTSPOTS_SUPPORT_PROFILES_LABEL" description="COM_HOTSPOTS_SUPPORT_PROFILES_DESC" />
-		<field name="josc_support" label="COM_HOTSPOTS_JOSC_SUPPORT"
-		       description="COM_HOTSPOTS_JOSC_SUPPORT_DESC"
-		       class="btn-group" type="radio" default="0">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
 		<field name="marker_allow_plugin" label="COM_HOTSPOTS_MARKER_ALLOW_PLUGIN"
 		       description="COM_HOTSPOTS_MARKER_ALLOW_PLUGIN_DESC"
 		       class="btn-group" type="radio" default="0">

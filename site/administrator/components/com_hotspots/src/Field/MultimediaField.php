@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Session\Session;
 \defined('_JEXEC') or die;
 
 /**
- * Image upload for markers. Replaces lib_compojoom's "cmultimedia".
+ * Image upload for markers.
  *
  * <field name="picture" type="multimedia" url="index.php?option=com_hotspots&amp;task=multimedia.doIt"
  *        component="com_hotspots" label="..."/>

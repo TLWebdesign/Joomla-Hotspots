@@ -24,7 +24,7 @@
     {
       "name": "com_hotspots.galleria.theme",
       "type": "script",
-      "uri": "media/com_hotspots/vendor/galleria/themes/compojoom/galleria.compojoom.min.js",
+      "uri": "media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.min.js",
       "dependencies": [
         "com_hotspots.galleria"
       ]
@@ -32,7 +32,7 @@
     {
       "name": "com_hotspots.galleria.theme",
       "type": "style",
-      "uri": "media/com_hotspots/vendor/galleria/themes/compojoom/galleria.compojoom.css",
+      "uri": "media/com_hotspots/vendor/galleria/themes/hotspots/galleria.hotspots.css",
       "dependencies": []
     },
     {

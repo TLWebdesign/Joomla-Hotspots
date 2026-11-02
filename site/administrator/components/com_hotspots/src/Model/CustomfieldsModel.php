@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,7 @@ class CustomfieldsModel extends ListModel
         $component = CustomfieldsHelper::COMPONENT;
         $query     = $db->getQuery(true)
             ->select('cf.*')
-            ->from($db->quoteName('#__compojoom_customfields', 'cf'))
+            ->from($db->quoteName('#__hotspots_customfields', 'cf'))
             ->where($db->quoteName('cf.component') . ' = :component')
             ->bind(':component', $component);
 
@@ -103,10 +103,10 @@ class CustomfieldsModel extends ListModel
         $db  = $this->getDatabase();
 
         $query = $db->getQuery(true)
-            ->select([$db->quoteName('j.compojoom_customfields_id', 'field_id'), $db->quoteName('j.catid'), $db->quoteName('c.title')])
-            ->from($db->quoteName('#__compojoom_customfields_cats', 'j'))
+            ->select([$db->quoteName('j.customfield_id', 'field_id'), $db->quoteName('j.catid'), $db->quoteName('c.title')])
+            ->from($db->quoteName('#__hotspots_customfields_cats', 'j'))
             ->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('j.catid'))
-            ->whereIn($db->quoteName('j.compojoom_customfields_id'), $ids);
+            ->whereIn($db->quoteName('j.customfield_id'), $ids);
 
         $cats = [];
 

@@ -1,6 +1,5 @@
 /**
- * Galleria Compojoom Theme 04.03.2015
- * https://compojoom.com
+ * Galleria theme for Hotspots, based on the Compojoom theme (04.03.2015)
  *
  * Licensed under the GPL license
  * https://raw.github.com/aino/galleria/master/LICENSE
@@ -12,8 +11,8 @@
 	/*global window, jQuery, Galleria */
 
 	Galleria.addTheme({
-		name: 'compojoom',
-		author: 'Daniel Dimitrov daniel@compojoom.com',
+		name: 'hotspots',
+		author: 'TLWebdesign, based on the compojoom theme by Daniel Dimitrov',
 		version: 1.5,
 		defaults: {
 			transition: 'pulse',

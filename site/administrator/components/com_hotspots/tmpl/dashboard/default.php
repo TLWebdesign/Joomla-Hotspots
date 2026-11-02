@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2023 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2023
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ $date   = $this->version['date'] !== '' ? HTMLHelper::_('date', $this->version['
             <h2 class="card-header h5"><?php echo Text::_('COM_HOTSPOTS_VERSION'); ?></h2>
             <div class="card-body">
                 <p class="mb-1"><strong>Hotspots <?php echo $this->escape($this->version['version']); ?></strong> <?php echo $this->escape($date); ?></p>
-                <p class="small mb-1">Copyright &copy; 2008&ndash;2023 Daniel Dimitrov / compojoom.com, &copy; 2026 TLWebdesign.</p>
+                <p class="small mb-1">Copyright &copy; 2026 TLWebdesign. Based on Hotspots by compojoom.com (2008&ndash;2023).</p>
                 <p class="small mb-0">
                     Hotspots is free software released under the
                     <a href="https://www.gnu.org/licenses/gpl.html" target="_blank" rel="noopener">GNU General Public License</a>,

@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  *
  * Image upload widget (jQuery File Upload) of the Multimedia form field.
@@ -72,7 +72,7 @@ $meta = htmlspecialchars($displayData['formControl'] . '[' . $displayData['field
     <div class="fileupload-buttonbar">
         <input type="file" name="files[]" id="file-upload-real" class="d-none" multiple
                accept="<?php echo htmlspecialchars('.' . implode(',.', $displayData['fileTypes']), ENT_QUOTES, 'UTF-8'); ?>">
-        <div class="card compojoom-notes">
+        <div class="card hotspots-upload-notes">
             <div class="card-body">
                 <span class="fileupload-process"><span class="fa fa-spinner fa-pulse" aria-hidden="true"></span></span>
                 <?php echo Text::sprintf('COM_HOTSPOTS_MULTIMEDIA_DRAG_DROP_OR', '<button id="file-upload-fake" type="button" class="btn btn-link p-0 align-baseline">', '</button>'); ?>
@@ -87,7 +87,7 @@ $meta = htmlspecialchars($displayData['formControl'] . '[' . $displayData['field
                     </div>
                     <div class="progress-extended">&nbsp;</div>
                 </div>
-                <div class="alert alert-warning hide d-none compojoom-max-number-files">
+                <div class="alert alert-warning hide d-none hotspots-max-number-files">
                     <?php echo Text::sprintf('COM_HOTSPOTS_MULTIMEDIA_MAX_FILES_REACHED', (int) $displayData['maxNumberOfFiles']); ?>
                 </div>
                 <table role="presentation" class="table table-striped">

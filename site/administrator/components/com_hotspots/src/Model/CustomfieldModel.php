@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\Database\ParameterType;
 \defined('_JEXEC') or die;
 
 /**
- * One custom field; its categories ($item->catid, an array) are kept in #__compojoom_customfields_cats.
+ * One custom field; its categories ($item->catid, an array) are kept in #__hotspots_customfields_cats.
  */
 class CustomfieldModel extends AdminModel
 {
@@ -52,8 +52,8 @@ class CustomfieldModel extends AdminModel
             $id    = (int) $item->id;
             $query = $db->getQuery(true)
                 ->select($db->quoteName('catid'))
-                ->from($db->quoteName('#__compojoom_customfields_cats'))
-                ->where($db->quoteName('compojoom_customfields_id') . ' = :id')
+                ->from($db->quoteName('#__hotspots_customfields_cats'))
+                ->where($db->quoteName('customfield_id') . ' = :id')
                 ->bind(':id', $id, ParameterType::INTEGER);
 
             $item->catid = array_map('intval', $db->setQuery($query)->loadColumn());
@@ -77,15 +77,15 @@ class CustomfieldModel extends AdminModel
         $db = $this->getDatabase();
 
         $query = $db->getQuery(true)
-            ->delete($db->quoteName('#__compojoom_customfields_cats'))
-            ->where($db->quoteName('compojoom_customfields_id') . ' = :id')
+            ->delete($db->quoteName('#__hotspots_customfields_cats'))
+            ->where($db->quoteName('customfield_id') . ' = :id')
             ->bind(':id', $id, ParameterType::INTEGER);
         $db->setQuery($query)->execute();
 
         if (($data['show'] ?? 'all') === 'category') {
             foreach ($catids as $catid) {
-                $row = (object) ['compojoom_customfields_id' => $id, 'catid' => $catid];
-                $db->insertObject('#__compojoom_customfields_cats', $row);
+                $row = (object) ['customfield_id' => $id, 'catid' => $catid];
+                $db->insertObject('#__hotspots_customfields_cats', $row);
             }
         }
 
@@ -98,7 +98,7 @@ class CustomfieldModel extends AdminModel
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
                 ->select('MAX(' . $db->quoteName('ordering') . ')')
-                ->from($db->quoteName('#__compojoom_customfields'));
+                ->from($db->quoteName('#__hotspots_customfields'));
 
             $table->ordering = (int) $db->setQuery($query)->loadResult() + 1;
         }

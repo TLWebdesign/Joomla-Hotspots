@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,8 +19,8 @@ use Joomla\Event\DispatcherInterface;
 \defined('_JEXEC') or die;
 
 /**
- * Custom field definitions (#__compojoom_customfields). The categories of a field are in
- * #__compojoom_customfields_cats, saved by the CustomfieldModel.
+ * Custom field definitions (#__hotspots_customfields). The categories of a field are in
+ * #__hotspots_customfields_cats, saved by the CustomfieldModel.
  */
 class CustomfieldTable extends Table
 {
@@ -28,7 +28,7 @@ class CustomfieldTable extends Table
     {
         $this->setColumnAlias('published', 'enabled');
 
-        parent::__construct('#__compojoom_customfields', 'id', $db, $dispatcher);
+        parent::__construct('#__hotspots_customfields', 'id', $db, $dispatcher);
     }
 
     public function check()
@@ -55,7 +55,7 @@ class CustomfieldTable extends Table
         $id    = (int) $this->id;
         $query = $db->getQuery(true)
             ->select('COUNT(*)')
-            ->from($db->quoteName('#__compojoom_customfields'))
+            ->from($db->quoteName('#__hotspots_customfields'))
             ->where($db->quoteName('slug') . ' = :slug')
             ->where($db->quoteName('component') . ' = :component')
             ->where($db->quoteName('id') . ' != :id')
@@ -105,8 +105,8 @@ class CustomfieldTable extends Table
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
-            ->delete($db->quoteName('#__compojoom_customfields_cats'))
-            ->where($db->quoteName('compojoom_customfields_id') . ' = :id')
+            ->delete($db->quoteName('#__hotspots_customfields_cats'))
+            ->where($db->quoteName('customfield_id') . ' = :id')
             ->bind(':id', $id, ParameterType::INTEGER);
         $db->setQuery($query)->execute();
 

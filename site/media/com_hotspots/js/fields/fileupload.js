@@ -6,7 +6,7 @@
 
   function toggleMaxNotice($widget, max) {
     var reached = $widget.fileupload('option').getNumberOfFiles() >= max;
-    jQuery('.compojoom-max-number-files').toggleClass('hide d-none', !reached);
+    jQuery('.hotspots-max-number-files').toggleClass('hide d-none', !reached);
   }
 
   function init() {

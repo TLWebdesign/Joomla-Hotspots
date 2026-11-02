@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,7 @@ MapHelper::loadSingleMap(
 		</div>
 	</script>
 
-	<div id="hotspots-id-<?php echo (int) $hotspot['id']; ?>" class="hotspots compojoom-bootstrap">
+	<div id="hotspots-id-<?php echo (int) $hotspot['id']; ?>" class="hotspots hotspots-bootstrap">
 		<div class="row-fluid">
 
 			<div class="row-fluid">

@@ -2,7 +2,7 @@
 
 /**
  * @package     Hotspots
- * @copyright   (C) 2008-2015 compojoom.com, (C) 2026 TLWebdesign
+ * @copyright   (C) 2026 TLWebdesign. Based on Hotspots by compojoom.com, (C) 2008-2015
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,7 @@ use TLWebdesign\Component\Hotspots\Administrator\Customfield\UrlType;
 \defined('_JEXEC') or die;
 
 /**
- * Hotspots' own custom fields (#__compojoom_customfields). A marker stores its values as JSON in
+ * Hotspots' own custom fields (#__hotspots_customfields). A marker stores its values as JSON in
  * #__hotspots_marker.customfields, keyed by the field slug.
  */
 abstract class CustomfieldsHelper
@@ -74,15 +74,15 @@ abstract class CustomfieldsHelper
         $component = self::COMPONENT;
         $query     = $db->getQuery(true)
             ->select('f.*')
-            ->from($db->quoteName('#__compojoom_customfields', 'f'))
+            ->from($db->quoteName('#__hotspots_customfields', 'f'))
             ->where($db->quoteName('f.enabled') . ' = 1')
             ->where($db->quoteName('f.component') . ' = :component')
             ->bind(':component', $component);
 
         if ($catids) {
             $sub = $db->getQuery(true)
-                ->select($db->quoteName('c.compojoom_customfields_id'))
-                ->from($db->quoteName('#__compojoom_customfields_cats', 'c'))
+                ->select($db->quoteName('c.customfield_id'))
+                ->from($db->quoteName('#__hotspots_customfields_cats', 'c'))
                 // The subquery goes into the outer query as a string, so its values are inlined (ints only).
                 ->where($db->quoteName('c.catid') . ' IN (' . implode(',', $catids) . ')');
 
