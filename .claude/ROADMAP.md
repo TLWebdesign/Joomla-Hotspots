@@ -1,0 +1,129 @@
+# Hotspots refactor roadmap
+
+Goal: Hotspots runs natively on Joomla 5.4 and 6.x, on PHP 8.1 to 8.4, without the Backward Compatibility plugin and without lib_compojoom. Live site the client site runs Joomla 5.4.10 (2026-11-02).
+
+Rules for every phase are in `CLAUDE.md` (target, reference code, PHP rules).
+
+## Starting point (scan of 2026-11-02)
+
+| Part | PHP lines | Notes |
+|---|---|---|
+| `com_hotspots` admin | 11,300 | 8 views, 11 controllers, 3 tables, own libraries: cache, geocoder, importers, maps, recaptcha, rss |
+| `com_hotspots` site | 8,600 | views hotspots, hotspot, form, userhotspots, kmls, tile, json/jsonv4, api; HMVC helper; old router |
+| `lib_compojoom` | 17,200 | Generic Compojoom framework, Joomla 3 style. Much of it is probably unused by Hotspots (cssmin, shrink, minifier, galleria, testing, ogp, ...) |
+| Plugins | 2,600 | 17 plugins, most for integrations switched off on the site |
+| `mod_hotspots_list` | 130 | |
+| CB `plug_hotspots` | 560 | Legacy, disabled, replaced by `the client's CB plugin` |
+
+- Database: `#__hotspots_marker`, `#__hotspots_kmls`, `#__hotspots_mappings`, plus custom fields tables. Categories are Joomla categories (`extension = com_hotspots`). The schema is installed through Compojoom's XML installer (`sql/xml/mysql.xml`), not plain SQL files.
+- About 70 different legacy `J*` classes in use (`JFactory`, `JText`, `JControllerLegacy`, `JTable`, ...). They only work because the Behaviour - Backward Compatibility plugin (J5) / compat6 plugin (J6) maps them.
+- Classes removed in Joomla 4 that fail as soon as the code runs: `JError` (admin entry point `hotspots.php:17`, `lib_compojoom/database/installer.php`), `JException` (`tables/kmls.php:86,117`), `JSubMenuHelper` (`helpers/hotspots.php:44`).
+- Old JavaScript: a MooTools map layer in `media/com_hotspots/js/moo/` (Joomla 4+ no longer ships MooTools) next to a newer `js/v4/app.js`. Find out which one the live map uses.
+- Google Maps JS API and Geocoding API (the geocoder has our proxy and timeout patch).
+
+### PHP compatibility scan (PHPCompatibility, testVersion 8.1-8.4)
+
+Errors (fail or give wrong results on PHP 8):
+
+- `admin/libraries/rss/feedcreator.php:1485`: `each()` was removed in PHP 8. Fatal error.
+- `admin/libraries/rss/feedcreator.php:1738` and `libraries/compojoom/layout/joomla/base.php:145`: `join()` / `implode()` with the arguments in the old order. Fatal error (TypeError) on PHP 8.
+- `components/com_hotspots/helpers/mappings.php:94` and CB `plug_hotspots/hotspots.php:373`: `$object->$fields[1]`. Since PHP 7 this reads `($object->$fields)[1]`, so the custom field mapping has silently returned the wrong value. Fix: `$object->{$fields[1]}`.
+
+Warnings (deprecations on PHP 8.4):
+
+- Implicitly nullable parameters: `tables/marker.php:334` and 7 places in `libraries/compojoom/cssmin/cssmin.php`.
+- Optional parameter before required: `feedcreator.php:266`.
+- `gethotspotsTab::__constructor` in the legacy CB plugin (double underscore name, never called as a constructor).
+
+The scan cannot see runtime-only issues, mainly dynamic properties (deprecated since PHP 8.2). Those are covered by the rewrite (declared properties) and by testing with `E_ALL` on PHP 8.4.
+
+To rerun: the checker is installed in the session scratchpad; reinstall with `composer require --dev squizlabs/php_codesniffer:^4.0 phpcompatibility/php-compatibility:dev-develop` and run `vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.1-8.4 --extensions=php site`.
+
+## Phase 0: Decide and set up
+
+- [ ] Answer the open questions below.
+- [ ] Local test site: Joomla 5.4.10 on PHP 8.4 with a copy of the live database and `images/`, error reporting on Maximum, compat plugin still on.
+- [ ] List what the client site uses (menu items, modules, plugins, admin screens, CB integration via `the client's CB plugin`) and write a manual test checklist from it. This list decides what we port and what we drop.
+- [ ] Baseline screenshots / HTML of the map pages to compare against later (the Joomla-Playwright-TestSuite repo could hold this).
+
+## Phase 1: PHP 8.4 hotfix on the current code (ship to live)
+
+Small, safe fixes in the existing code, marked `TLWebdesign patch`, so the live site is clean while the rewrite happens.
+
+- [ ] Fix the 5 errors and 10 warnings above.
+- [ ] Replace `JError::raiseWarning` in the admin entry point, `JException` in `tables/kmls.php` and `JSubMenuHelper` with what Joomla 5 offers.
+- [ ] Run the site with `E_ALL` on PHP 8.4, click through the checklist, fix what shows up in the log.
+- [ ] Copy to the live site, check, commit.
+
+## Phase 2: Trim
+
+Smaller code base before the rewrite.
+
+- [ ] Drop integrations that are switched off and not coming back: AlphaUserPoints, JomSocial, K2, FlexiContent, SobiPro, Matukio, hotspotsanywhere, email (confirm per item in phase 0).
+- [ ] Drop the search plugin: com_search no longer exists since Joomla 4. Replace with a Smart Search plugin later only if needed.
+- [ ] Drop the legacy CB `plug_hotspots`.
+- [ ] Drop the Compojoom-only controllers and helpers: `jed.php`, `update.php`, the Compojoom update/live update code, the dashboard parts that call compojoom.com.
+- [ ] Map which parts of `lib_compojoom` Hotspots really calls; list the rest as dead.
+
+## Phase 3: Package and release setup
+
+- [ ] Repo layout for an installable package (`pkg_hotspots` with the component, module and kept plugins) next to or instead of the `site/` mirror.
+- [ ] Build script (zip) and our own update server XML; remove the compojoom.com update site from the live site.
+- [ ] Version 7.0.0 for the refactored release.
+- [ ] Replace the XML schema installer with `sql/install.mysql.utf8.sql`, `sql/uninstall.mysql.utf8.sql` and `sql/updates/mysql/7.0.0.sql`. Keep the existing tables and columns so no data migration is needed.
+- [ ] Install script as `InstallerScript` (namespaced), checking Joomla 5.4+ and PHP 8.1+.
+- [ ] GitHub Actions: `php -l` on 8.1 and 8.4, PHPCompatibility, PHPStan.
+
+## Phase 4: Admin component on Joomla 5/6 MVC
+
+- [ ] `services/provider.php`, Extension class (`MVCComponent` with `BootableExtensionInterface`, `RouterServiceInterface`, `CategoryServiceInterface`), namespaced `src/`.
+- [ ] Controllers: `DisplayController`, `FormController` / `AdminController` for markers, KMLs, custom fields; import controller.
+- [ ] Models: `ListModel` / `AdminModel` with `forms/*.xml` and `filter_*.xml`.
+- [ ] Tables: `Table` classes with typed properties, asset handling for markers.
+- [ ] Views: `HtmlView` with the toolbar from `Toolbar` / `ToolbarFactory`, tmpl in Joomla 5 admin markup (Atum, Bootstrap 5), no Bootstrap 2 / jQuery UI leftovers.
+- [ ] Submenu through the manifest; `access.xml`, `config.xml` checked against what is used.
+- [ ] Custom form fields (`elements/`) as namespaced `Field` classes.
+- [ ] Custom fields: decide between porting the Compojoom custom fields and moving to Joomla custom fields (`com_fields`, context `com_hotspots.marker`).
+
+## Phase 5: Geocoder and shared services
+
+- [ ] Geocoder as a service in the component (`HttpFactory`, proxy and timeouts from the global configuration, as in the current patch).
+- [ ] Keep `HotspotsGeocoder` working as an alias or thin wrapper for `the client's CB plugin`, or update `the client's CB plugin` in the same release.
+- [ ] reCAPTCHA library replaced by Joomla's captcha plugins.
+- [ ] RSS through Joomla's feed document (`format=feed`) instead of `feedcreator.php`.
+- [ ] Image handling, avatars and cache from `lib_compojoom` moved into the component or replaced by Joomla APIs.
+
+## Phase 6: Site component
+
+- [ ] Router with `RouterView` and `MenuRules` / `StandardRules` / `NomenuRules`; keep the current URLs working (or redirect).
+- [ ] Views hotspots, hotspot, form, userhotspots, kmls; JSON endpoints (`format=json`) and tiles (`format=png`) as view or controller formats. Remove the HMVC helper.
+- [ ] Assets through the WebAssetManager (`media/com_hotspots/joomla.asset.json`). No MooTools: keep the `v4/app.js` map if it is the current one, otherwise port the MooTools map to plain JS.
+- [ ] Frontend marker submission (form view, mail) with Joomla form validation and captcha.
+- [ ] Template overrides on the live site: list them and port them.
+
+## Phase 7: Module and plugins
+
+- [ ] `mod_hotspots_list` with `services/provider.php`, a Dispatcher and a Helper.
+- [ ] Kept plugins as namespaced plugins with `SubscriberInterface` and event classes; the `hotspotslinks` plugin group gets its own event names.
+- [ ] Content plugin (map in articles) checked for Joomla 5 events.
+
+## Phase 8: Test and release on Joomla 5
+
+- [ ] Fresh install and update-over-6.0.13 on Joomla 5.4 + PHP 8.1 and PHP 8.4.
+- [ ] Turn the Backward Compatibility plugin off on the test site; nothing should break.
+- [ ] Checklist from phase 0, CB registration and profile save with `the client's CB plugin`, geocoding.
+- [ ] Remove `lib_compojoom` once nothing loads it (uninstall it from the live site after the update).
+- [ ] Release 7.0.0, update the live site.
+
+## Phase 9: Joomla 6
+
+- [ ] Install on Joomla 6.1 with compat6 off; check deprecations against `git -C ../joomla-cms diff 5.4.10 6.1.4`.
+- [ ] Fix, release 7.x, then upgrade the live site to Joomla 6.
+
+## Open questions
+
+1. Namespace / vendor: `TLWebdesign\Component\Hotspots`? And the element name stays `com_hotspots` (it has to, to keep the data and update over 6.0.13)?
+2. Which features does the client site use: KML layers, import, frontend submission, user hotspots, tiles, RSS, the list module, the content plugin?
+3. Custom fields: keep Compojoom's own or move to Joomla custom fields?
+4. Do other sites run Hotspots, or only the client site? That decides how much we keep for others.
+5. Google Maps: keep it (API key, cost), or move to Leaflet + OpenStreetMap while the map JS is being rewritten anyway?
