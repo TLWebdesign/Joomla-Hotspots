@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension method="upgrade" type="component" version="3.4">
+<extension type="component" method="upgrade">
 	<name>COM_HOTSPOTS</name>
-	<author>Compojoom.com</author>
-	<creationDate>2023-09-19</creationDate>
-	<copyright>(C) 2008-2013 compojoom.com - Daniel Dimitrov</copyright>
-	<authorEmail>daniel@compojoom.com</authorEmail>
-	<authorUrl>https://compojoom.com</authorUrl>
-	<version>6.0.13</version>
-	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
-	<description><![CDATA[<div style="text-align:left">Hotspots is an advanced google maps manager by Compojoom.com</div>]]>
+	<author>TLWebdesign (originally Compojoom.com)</author>
+	<creationDate>2026-11-02</creationDate>
+	<copyright>(C) 2008-2023 compojoom.com - Daniel Dimitrov, (C) 2026 TLWebdesign</copyright>
+	<authorEmail>info@tlwebdesign.nl</authorEmail>
+	<authorUrl>https://tlwebdesign.nl</authorUrl>
+	<version>6.1.0</version>
+	<license>GNU General Public License version 2 or later; see LICENSE</license>
+	<description><![CDATA[<div style="text-align:left">Hotspots is an advanced Google Maps manager, originally by Compojoom.com, maintained by TLWebdesign</div>]]>
 	</description>
     <scriptfile>script.php</scriptfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
 	<files folder="components/com_hotspots">
         <file>controller.php</file>
 <folder>includes</folder>
@@ -68,7 +78,5 @@
 <folder>kml</folder>
 	</media>
 
-	<updateservers>
-		<server type="extension" priority="1" name="Hotspots Professional"><![CDATA[https://compojoom.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=4&dummy=extension.xml]]></server>
-	</updateservers>
+	<!-- Updates come through the Hotspots package (pkg_hotspots). -->
 </extension>

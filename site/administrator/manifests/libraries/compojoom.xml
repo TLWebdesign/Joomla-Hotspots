@@ -3,13 +3,13 @@
     <name>Library - compojoom</name>
     <libraryname>compojoom</libraryname>
     <description>LIB_COMPOJOOM_DESC</description>
-    <creationDate>2017-09-27</creationDate>
-    <author>compojoom.com</author>
+    <creationDate>2026-11-02</creationDate>
+    <author>TLWebdesign (originally compojoom.com)</author>
     <authorEmail>contact-us@compojoom.com</authorEmail>
     <authorUrl>https://compojoom.com</authorUrl>
     <copyright>(C) 2008 - 2017 Daniel Dimitrov and Yves Hoppe</copyright>
     <license>GNU GPLv2 or later</license>
-    <version>5.3.6</version>
+    <version>5.4.0</version>
 
     <languages folder="language">
         <language tag="en-GB">en-GB/en-GB.lib_compojoom.ini</language>
@@ -27,17 +27,14 @@
         <folder>minifier</folder>
         <folder>component</folder>
         <folder>html</folder>
-        <folder>database</folder>
         <folder>ogp</folder>
         <folder>language</folder>
         <file>include.php</file>
         <folder>utils</folder>
         <folder>layouts</folder>
-        <folder>installer</folder>
         <folder>template</folder>
         <folder>changelog</folder>
         <folder>galleria</folder>
-        <folder>sql</folder>
         <folder>form</folder>
         <file>compojoom.xml</file>
         <folder>controller</folder>

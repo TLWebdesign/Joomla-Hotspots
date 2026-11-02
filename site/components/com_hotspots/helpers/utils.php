@@ -478,7 +478,7 @@ class HotspotsHelperUtils
 		$base = JURI::base(true) . '/';
 
 		$regex = '#href="index.php\?([^"]*)#m';
-		$content = preg_replace_callback($regex, array('self', 'route'), $content);
+		$content = preg_replace_callback($regex, array(self::class, 'route'), $content); // TLWebdesign patch 2026-11-02: "self" in callables is deprecated (PHP 8.2)
 
 		// To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
 		$protocols = '[a-zA-Z0-9]+:';

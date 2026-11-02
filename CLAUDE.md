@@ -4,6 +4,13 @@ See README.md for what this repo is and where the code came from. `site/` mirror
 
 The refactor plan and progress live in `.claude/ROADMAP.md`. Tick items off there as they are done.
 
+## Build and check
+
+- Build the package: `php build/build.php` (output in `dist/`, git-ignored).
+- Lint: `find site build -name '*.php' -exec php -d error_reporting=-1 -l {} \;` must print no Deprecated/Warning lines (CI runs this on PHP 8.1 and 8.4).
+- New and changed files keep their line endings (many Compojoom files use CRLF).
+- Mark changes to Compojoom code with `TLWebdesign patch <date>` and list them in README "Local changes".
+
 ## Target
 
 Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. the client site runs Joomla 5.4.10 (2026-11-02), so test there first; Joomla 6 support is for the later upgrade.

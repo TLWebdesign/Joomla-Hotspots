@@ -30,9 +30,6 @@ class HotspotsViewDashboard extends JViewLegacy
 		// TLWebdesign patch 2026-11-02: no more compojoom.com update site, download ID or stats checks.
 		$updateModel = JModelLegacy::getInstance('Updates', 'HotspotsModel');
 
-		// Run the automatic database check
-		$updateModel->checkAndFixDatabase();
-
 		$this->currentVersion = $updateModel->getVersion();
 
 		// Make sure that the user has all config values set properly

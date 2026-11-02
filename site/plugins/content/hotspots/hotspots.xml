@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="content" method="upgrade">
+<extension type="plugin" group="content" method="upgrade">
     <name>plg_content_hotspots</name>
-    <author>compojoom.com</author>
-    <creationDate>2023-09-19</creationDate>
+    <author>TLWebdesign (originally compojoom.com)</author>
+    <creationDate>2026-11-02</creationDate>
     <copyright>Copyright (C) 2012. All rights reserved.</copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
     <authorEmail>daniel@compojoom.com</authorEmail>
     <authorUrl>https://compojoom.com</authorUrl>
-    <version>6.0.13</version>
+    <version>6.1.0</version>
     <isapplication>true</isapplication>
     <description>
         plg_content_hotspots_DESC

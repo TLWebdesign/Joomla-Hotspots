@@ -1,0 +1,107 @@
+name: Release
+
+# Push a tag like V6.1.0 to build pkg_hotspots-6.1.0.zip, attach it to a GitHub release and add it to
+# updates.xml. The version in build/pkg_hotspots.xml and the extension manifests must match the tag.
+
+on:
+  push:
+    tags:
+      - 'V*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          extensions: zip
+
+      - name: Version and download URL
+        id: vars
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#V}"
+          ZIP_NAME="pkg_hotspots-${VERSION}.zip"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+          echo "zip_url=https://github.com/${{ github.repository }}/releases/download/${TAG}/${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Build package
+        id: build
+        run: |
+          php build/build.php "${{ steps.vars.outputs.version }}"
+          echo "sha256=$(sha256sum "dist/${{ steps.vars.outputs.zip_name }}" | awk '{print $1}')" >> "$GITHUB_OUTPUT"
+
+      # Publish the package before updates.xml points sites at it.
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.vars.outputs.tag }}
+          VERSION: ${{ steps.vars.outputs.version }}
+          ZIP: dist/${{ steps.vars.outputs.zip_name }}
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" "$ZIP" --clobber
+          else
+            gh release create "$TAG" "$ZIP" --title "Hotspots $VERSION" --generate-notes --verify-tag
+          fi
+
+      - name: Add the release to updates.xml on main
+        env:
+          VERSION: ${{ steps.vars.outputs.version }}
+          ZIP_URL: ${{ steps.vars.outputs.zip_url }}
+          SHA256: ${{ steps.build.outputs.sha256 }}
+        run: |
+          git fetch origin main
+          git checkout main
+          python3 - <<'EOF'
+          import os, re
+
+          version, zip_url, sha256 = os.environ["VERSION"], os.environ["ZIP_URL"], os.environ["SHA256"]
+          content = open("updates.xml").read()
+
+          blocks = re.findall(r'[ \t]*<update>.*?</update>', content, re.DOTALL)
+          if not blocks:
+              raise SystemExit("No <update> block found in updates.xml.")
+
+          # The first release replaces the placeholder entry; later releases add a block.
+          placeholder = next((b for b in blocks if re.search(r'<sha256>0{64}</sha256>', b)), None)
+          if f"<version>{version}</version>" in content and placeholder is None:
+              print(f"Version {version} is already in updates.xml.")
+              raise SystemExit(0)
+
+          template = placeholder or blocks[-1]
+          old_version = re.search(r'<version>([^<]+)</version>', template).group(1).strip()
+          block = template.replace(f"<version>{old_version}</version>", f"<version>{version}</version>")
+          block = re.sub(r'(<name>[^<]*?)' + re.escape(old_version), lambda m: m.group(1) + version, block)
+          block = re.sub(r'(<downloadurl\b[^>]*>)\s*[^<\s]+\s*(</downloadurl>)', lambda m: m.group(1) + zip_url + m.group(2), block)
+          block = re.sub(r'<sha256>[0-9a-f]+</sha256>', f'<sha256>{sha256}</sha256>', block)
+
+          if placeholder is not None:
+              content = content.replace(placeholder, block)
+          else:
+              content = content.replace('</updates>', block + '\n</updates>')
+
+          open("updates.xml", "w").write(content)
+          print(f"updates.xml: {version} ({sha256})")
+          EOF
+
+      - name: Commit updates.xml
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add updates.xml
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Add ${{ steps.vars.outputs.tag }} to updates.xml"
+          git push origin main

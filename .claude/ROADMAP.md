@@ -93,12 +93,17 @@ Found by following class names and file paths from the Hotspots code, plus what 
 
 ## Phase 3: Package and release setup
 
-- [ ] Repo layout for an installable package (`pkg_hotspots` with the component, module and kept plugins) next to or instead of the `site/` mirror.
-- [ ] Build script (zip) and our own update server XML; remove the compojoom.com update site from the live site.
-- [ ] Version 7.0.0 for the refactored release.
-- [ ] Replace the XML schema installer with `sql/install.mysql.utf8.sql`, `sql/uninstall.mysql.utf8.sql` and `sql/updates/mysql/7.0.0.sql`. Keep the existing tables and columns so no data migration is needed.
-- [ ] Install script as `InstallerScript` (namespaced), checking Joomla 5.4+ and PHP 8.1+.
-- [ ] GitHub Actions: `php -l` on 8.1 and 8.4, PHPCompatibility, PHPStan.
+- [x] Installable package built from the `site/` mirror: `php build/build.php` makes `dist/pkg_hotspots-<version>.zip` with lib_compojoom, the component, the module, the 4 kept plugins and the French language files. The build reads each manifest, copies the files from where Joomla installs them and fails when a listed file is missing.
+- [x] Our own update server: `updates.xml` in the repo root, `<updateservers>` in `build/pkg_hotspots.xml`. The package script removes the compojoom.com update sites of the Hotspots extensions on install and update.
+- [x] Version **6.1.0** for the release with the phase 1 and 2 fixes (lib_compojoom 5.4.0). 7.0.0 stays for the refactored release.
+- [x] `sql/install.mysql.utf8.sql` and `sql/updates/mysql/6.1.0.sql` replace the XML schema installer (removed, with `checkAndFixDatabase()` on the dashboard and the Hotspots 4 category migration). Same tables and columns, so no data migration. No uninstall SQL: tables are only dropped when "complete uninstall" is set (as before), by the install script.
+- [x] New install script (`InstallerScript`): Joomla 5.4+ and PHP 8.1+, removes the files dropped since 6.0.13, fills in missing option defaults from `config.xml`. It no longer reinstalls the legacy CB plugin. The package script enables the category and content link plugins on a fresh install, and on update uninstalls the dropped Compojoom plugins if they are disabled.
+- [x] GitHub Actions: `ci.yml` (lint on PHP 8.1 and 8.4 including deprecations, PHPCompatibility 8.1-8.4, test build), `release.yml` (tag `V6.1.0` → build, GitHub release, entry in `updates.xml`). PHPStan comes with phase 4; on the Joomla 3 style code it would only report the legacy classes.
+- [x] Tested on a throwaway Joomla 5.4.10 on PHP 8.4 (MySQL 9.5, error reporting maximum): fresh install, update without a schema version (the live situation), saving a marker in the admin, and 19 admin and site pages and JSON endpoints load without any PHP notice. Found and fixed on the way: saving a marker failed on a fresh InnoDB table (`params` NOT NULL without default) and four PHP 8 notices.
+- [ ] **The repo is private**, so Joomla cannot fetch `updates.xml` or the release zip. Either make the repo public (Hotspots is GPL) or host `updates.xml` and the zips somewhere public; until then, install updates by uploading the zip.
+- [ ] First release: tag `V6.1.0`, then install `pkg_hotspots-6.1.0.zip` on the live site (it updates the existing extensions in place).
+
+Found while testing: with the Backward Compatibility plugin switched off, every page of the site fails (`Class "JPlugin" not found`), because the Hotspots plugins load on every request. When we get to the refactor, do the plugins first (phase 7 before 4-6), so a Hotspots problem can no longer take down the whole site.
 
 ## Phase 4: Admin component on Joomla 5/6 MVC
 

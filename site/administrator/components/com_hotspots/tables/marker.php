@@ -213,6 +213,24 @@ class TableMarker extends Table
 
 		self::generateAlias();
 
+		// TLWebdesign patch 2026-11-02: these columns are NOT NULL without a default; strict SQL mode
+		// (InnoDB, Joomla's default sql_mode) refuses an INSERT that leaves them out.
+		foreach (array('params', 'description', 'description_small', 'street', 'plz', 'town', 'country', 'administrative_area_level_1', 'created_by_alias', 'alias') as $column)
+		{
+			if ($this->$column === null)
+			{
+				$this->$column = '';
+			}
+		}
+
+		foreach (array('asset_id', 'created_by', 'modified_by') as $column)
+		{
+			if ($this->$column === null || $this->$column === '')
+			{
+				$this->$column = 0;
+			}
+		}
+
         // Set publish_up to null if not set
         if (!$this->publish_up)
         {

@@ -5,13 +5,13 @@
            method="upgrade"
 		>
 	<name>mod_hotspots_list</name>
-	<author>compojoom.com</author>
-	<creationDate>2023-09-19</creationDate>
+	<author>TLWebdesign (originally compojoom.com)</author>
+	<creationDate>2026-11-02</creationDate>
 	<copyright>Copyright (C) 2012 Daniel Dimitrov - compojoom.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>daniel@compojoom.com</authorEmail>
 	<authorUrl>compojoom.com</authorUrl>
-	<version>6.0.13</version>
+	<version>6.1.0</version>
 	<description>MOD_HOTSPOTS_LIST_DESCRIPTION</description>
 	<files>
 		<folder>tmpl</folder>

@@ -22,6 +22,13 @@ class CompojoomUtilsComponent
 	private static $instance = null;
 
 	/**
+	 * TLWebdesign patch 2026-11-02: declared (dynamic properties are deprecated since PHP 8.2).
+	 *
+	 * @var \Joomla\Registry\Registry
+	 */
+	public $config;
+
+	/**
 	 * The constructor
 	 *
 	 * @param   string  $component  - the component name

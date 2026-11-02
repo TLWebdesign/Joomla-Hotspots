@@ -50,7 +50,7 @@ class HotspotsHelperHotspot
 			'address'        => $address,
 			'date'           => $hotspot->created,
 			'readmore'       => $hotspot->link,
-			'multimedia'     => $hotspot->multimedia,
+			'multimedia'     => $hotspot->multimedia ?? array(), // TLWebdesign patch 2026-11-02: not set on every marker
 		);
 
 		// Add the custom fields to the array

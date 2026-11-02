@@ -9,5 +9,5 @@
 defined('_JEXEC') or die('Restricted Access');
 
 define('HOTSPOTS_PRO', '1');
-define('HOTSPOTS_VERSION', '6.0.13');
-define('HOTSPOTS_DATE', '2023-09-19');
+define('HOTSPOTS_VERSION', '6.1.0');
+define('HOTSPOTS_DATE', '2026-11-02');

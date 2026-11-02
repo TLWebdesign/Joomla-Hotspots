@@ -337,8 +337,9 @@ class HotspotsModelJson extends JModelLegacy
 		{
 			$ne = $input->getString('ne');
 			$sw = $input->getString('sw');
-			list($nelat, $nelng) = explode(',', $ne);
-			list($swlat, $swlng) = explode(',', $sw);
+			// TLWebdesign patch 2026-11-02: no warnings when ne/sw are missing or incomplete.
+			list($nelat, $nelng) = explode(',', (string) $ne) + array('', '');
+			list($swlat, $swlng) = explode(',', (string) $sw) + array('', '');
 
 			/**
 			 * We need to take in account the meridian in the Mercator

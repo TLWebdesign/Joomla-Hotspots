@@ -29,7 +29,7 @@ class HotspotsModelForm extends HotspotsModelHotspot
         $input = JFactory::getApplication()->input;
 
         $return = $input->get('return', null, 'base64');
-        $this->setState('returnPage', base64_decode($return));
+        $this->setState('returnPage', base64_decode((string) $return)); // TLWebdesign patch 2026-11-02: PHP 8.1 null deprecation
 
         parent::populateState();
     }

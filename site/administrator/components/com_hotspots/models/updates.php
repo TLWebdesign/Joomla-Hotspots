@@ -55,35 +55,6 @@ class HotspotsModelUpdates extends CompojoomModelUpdate
 	}
 
 	/**
-	 * Checks the database for missing / outdated tables and installs or
-	 * updates the database using the SQL xml file if necessary.
-	 *
-	 * @return	void
-	 */
-	public function checkAndFixDatabase()
-	{
-		// Makes sure that the compojoom library tables are created
-		$libraryInstaller = new CompojoomDatabaseInstaller(
-			array(
-				'dbinstaller_directory' => JPATH_LIBRARIES . '/compojoom/sql/xml'
-			)
-		);
-
-		$hotspotsInstaller = new CompojoomDatabaseInstaller(
-			array(
-				'dbinstaller_directory' => JPATH_ADMINISTRATOR . '/components/' . $this->component . '/sql/xml'
-			)
-		);
-
-		$libraryInstaller->updateSchema();
-		$hotspotsInstaller->updateSchema();
-
-		// Fix everything related to the new categories in Hotspots 5
-		HotspotsHelperUpdate::fixCategories();
-	}
-
-
-	/**
 	 * Checks if the multimedia needs any updating
 	 *
 	 * @return mixed

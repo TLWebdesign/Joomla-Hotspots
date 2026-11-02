@@ -16,6 +16,12 @@ Pulled from the live site (`the web root` on the client's server) on 2026-11-02.
 
 `site/` mirrors the Joomla root, so files can be diffed against the live site and copied back one to one. Since 2026-11-02 it no longer holds the integrations that are switched off on the site (see Notes).
 
+## Build and release
+
+- `php build/build.php` builds `dist/pkg_hotspots-<version>.zip` (PHP 8.1+ with the zip extension). The version comes from `build/pkg_hotspots.xml`; the component, module and plugin manifests and `version.php` must have the same version.
+- Release: set the new version in those files, commit, and push a tag `V<version>` (for example `V6.1.0`). GitHub Actions builds the package, attaches it to a GitHub release and adds it to `updates.xml`.
+- `pkg_hotspots` installs over an existing Hotspots 6.0.x and updates it in place. Requires Joomla 5.4+ and PHP 8.1+.
+
 Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
 ## Local changes on top of Compojoom's code
@@ -43,5 +49,5 @@ Search for `TLWebdesign patch` to find them.
 
 ## Notes
 
-- The update server (compojoom.com, ARS stream id 4) is still listed in Joomla under Update Sites. Disable it once we publish our own builds.
+- The update server (compojoom.com, ARS stream id 4) is still listed in Joomla under Update Sites. Installing `pkg_hotspots` 6.1.0 removes it.
 - Integrations installed but switched off on the site: AlphaUserPoints, JomSocial, K2, FlexiContent, SobiPro, Matukio, search, email, hotspotsanywhere. Removed from this repo on 2026-11-02 together with the legacy CB plugin; uninstall them on the site too.
