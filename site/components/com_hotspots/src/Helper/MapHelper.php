@@ -86,7 +86,8 @@ abstract class MapHelper
         $config['searchZoom'] = $int('search_zoom', 14);
 
         if ($isMap) {
-            $config['startCat'] = array_values(array_map('intval', (array) $s->get('hs_startcat', [])));
+            // Only categories that still exist and are visible: a deleted start category breaks the map script.
+            $config['startCat'] = array_values(array_intersect(array_map('intval', (array) $s->get('hs_startcat', [])), self::getCategoryIds()));
         }
 
         $config += [

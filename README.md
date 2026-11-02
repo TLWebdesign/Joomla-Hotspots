@@ -37,6 +37,12 @@ A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility
 - Dropped: the SobiPro and Phoca importers (the KML import stays), the marker API (`view=api`), the MooTools map files, avatar/profile providers other than Community Builder, CComment support, runtime minifying (`media/com_hotspots/cache`), Compojoom's dashboard feeds and update check.
 - `the client's CB plugin` must be updated for 7.0: `HotspotsGeocoder`, `HotspotsHelperUtils` and `components/com_hotspots/includes/defines.php` are gone. Use `Administrator\Service\Geocoder`, `Administrator\Helper\MarkerHelper::prepare()` and the admin layout `hotspots.map.map`.
 
+### Template overrides on the client site
+
+`overrides/yootheme/html/` holds the site's template overrides for Hotspots 7, to copy to `templates/yootheme/html/` on the site. Overrides made for Hotspots 6 break the page in 7.0 (they call the removed `HotspotsHelper*` classes).
+
+- `com_hotspots/hotspots/default_hotspot.php`: the marker in the map's list; the title links to the author's Community Builder profile. The only change compared to the Hotspots 7 template.
+
 ## Local changes on top of Compojoom's code (6.1.0)
 
 Search for `TLWebdesign patch` to find them in 6.1.0 (tag `V6.1.0`). In 7.0 the code is rewritten; the fixes are kept as behaviour.

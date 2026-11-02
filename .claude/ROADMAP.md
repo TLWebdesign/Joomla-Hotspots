@@ -122,7 +122,8 @@ Done in five parallel work packages (see `.claude/REFACTOR-7.md` for the split, 
 - [x] Compojoom traces removed (2026-11-02): branding, CSS classes, gallery theme, option texts of removed features; own `#__hotspots_*` tables for custom fields and images (moved on update, tested with and without rows of other Compojoom extensions). Only the GPL credit lines and the cleanup code for the old Compojoom pieces mention Compojoom.
 - [x] GitHub repo renamed to TLWebdesign/Joomla-Hotspots (2026-11-02); update server and download URLs changed with it.
 - [x] `the client's CB plugin` 2.0.0 for Hotspots 7 (repo a separate private repo, branch `hotspots-7`): uses `Service\Geocoder`, `MarkerHelper::prepare()` / `::iconBaseUrl()` and the layout `hotspots.map.map`. Tested in a harness on the test site (stub CB base class, fake geocoder): registration, address change, rule change, missing old user, failed geocoding, profile tab. Not tested in a real Community Builder yet. On update install the client's CB plugin 2.0 first, then Hotspots 7: 1.3 breaks CB pages once Hotspots 6 files are gone, while 2.0 does nothing until Hotspots 7 is there.
-- [ ] Template overrides on the live site: list them; old overrides of `views/*/tmpl` files no longer apply (new paths `tmpl/<view>/`).
+- [x] Template overrides on the live site: only `templates/yootheme/html/com_hotspots/hotspots/default_hotspot.php` (title links to the CB profile). It broke the map after the 7.0 update (`HotspotsHelperSettings` not found); ported to 7.0 in `overrides/yootheme/` (2026-11-02).
+- [x] The map script failed when the menu item's start category no longer existed; start categories are now limited to existing, visible ones.
 - [ ] Not tested yet: captcha with a captcha plugin enabled, geocoding against Google with a real API key, a backend user who is not Super User, the map with a real API key in a browser.
 
 ## Phase 8: Test and release on Joomla 5
