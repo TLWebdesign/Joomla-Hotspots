@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_MAP">
+		<message>
+			<![CDATA[COM_HOTSPOTS_MAP_DESC]]>
+		</message>
+	</layout>
+
+	<name>COM_HOTSPOTS_MAP</name>
+	<description>COM_HOTSPOTS_MAP_DESC</description>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request">
+			<!-- dirty stuff for language loading-->
+			<field name="invisible_load_language" type="hotspotsLanguage" hidden="true" languages="com_hotspots"/>
+		</fieldset>
+	</fields>
+
+	<!-- the params-->
+	<fields name="params" addfieldpath="/administrator/components/com_hotspots/models/fields">
+		<fieldset name="basic" description="COM_HOTSPOTS_HOTSPOTS_MENU_FIELDSET_DESC">
+			<field name="hs_startcat" type="category"
+				   extension="com_hotspots"
+				   label="COM_HOTSPOTS_CATEGORY"
+				   description="COM_HOTSPOTS_MENU_CATEGORY"
+				   class="inputbox chzn-done"
+				   size="5" multiple="true"
+
+			>
+			</field>
+			<field name="exclude_categories" type="category"
+				   extension="com_hotspots"
+				   label="COM_HOTSPOTS_EXCLUDE_CATEGORIES_LBL"
+				   description="COM_HOTSPOTS_EXCLUDE_CATEGORIES_DESC"
+				   class="inputbox chzn-done"
+				   size="5" multiple="true"
+			>
+			</field>
+
+			<field name="start_closed_menu" type="radio" class="radio btn-group" default="0"
+				   label="COM_HOTSPOTS_START_CLOSED_MENU_LABEL" description="COM_HOTSPOTS_START_CLOSED_MENU_DESC">
+				<option value="0">COM_HOTSPOTS_NO</option>
+				<option value="1">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="tab_opened" type="list" class="chzn-done" default="hotspots"
+				   label="COM_HOTSPOTS_OPENED_TAB_LABEL" description="COM_HOTSPOTS_OPENED_TAB_DESC">
+				<option value="directions">COM_HOTSPOTS_DIRECTIONS</option>
+				<option value="hotspots">COM_HOTSPOTS_HOTSPOTS</option>
+				<option value="settings">COM_HOTSPOTS_SETTINGS</option>
+			</field>
+
+			<field name="show_tabs_hotspots" type="radio" class="radio btn-group "
+				   labelclass=""
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_HOTSPOTS_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_HOTSPOTS_DESC">
+				<option value="0" disabled="false">COM_HOTSPOTS_NO</option>
+				<option value="1" disabled="false">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="show_tabs_directions" type="radio" class="radio btn-group "
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_DIRECTIONS_LABEL"
+				   labelclass=""
+				   description="COM_HOTSPOTS_SHOW_TABS_DIRECTIONS_DESC">
+				<option value="0" disabled="false">COM_HOTSPOTS_NO</option>
+				<option value="1" disabled="false">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="show_tabs_settings" type="radio" class="radio btn-group "
+				   labelclass=""
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_SETTINGS_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_SETTINGS_DESC">
+				<option value="0" disabled="false">COM_HOTSPOTS_NO</option>
+				<option value="1" disabled="false">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="show_tabs_title" type="radio" class="radio btn-group "
+				   labelclass=""
+				   default="1" label="COM_HOTSPOTS_SHOW_TABS_TITLE_LABEL"
+				   description="COM_HOTSPOTS_SHOW_TABS_TITLE_DESC">
+				<option value="0" disabled="false">COM_HOTSPOTS_NO</option>
+				<option value="1" disabled="false">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="hs_start_fullscreen" type="radio" class="radio btn-group " default="0"
+				   label="COM_HOTSPOTS_START_FULLSCREEN_LABEL" labelclass=""
+				   description="COM_HOTSPOTS_START_FULLSCREEN_DESC">
+				<option value="0" disabled="false">COM_HOTSPOTS_NO</option>
+				<option value="1" disabled="false">COM_HOTSPOTS_YES</option>
+			</field>
+
+			<field name="map_centertyp" type="list" class="chzn-done" default="1" label="COM_HOTSPOTS_MAP_CENTER"
+				   description="COM_HOTSPOTS_MAP_CENTER_DESC">
+				<option value="1">COM_HOTSPOTS_BY_CATEGORY_BOUNDS</option>
+				<option value="0">COM_HOTSPOTS_BY_STARTPOSITION_STARTZOOM</option>
+				<option value="2" disabled="false">COM_HOTSPOTS_BY_USERS_POSITION</option>
+			</field>
+
+			<field name="high_accuracy" type="radio" class="radio btn-group "
+				   labelclass=""
+				   default="0" label="COM_HOTSPOTS_HIGH_ACCURACY_LABEL" description="COM_HOTSPOTS_HIGH_ACCURACY_DESC">
+				<option value="0" disabled="false">JNO</option>f
+				<option value="1" disabled="false">JYES</option>
+			</field>
+			<field name="map_center_user_zoom" default="15" type="text" label="COM_HOTSPOTS_MAP_CENTER_USER_ZOOM_LABEL"
+				   description="COM_HOTSPOTS_MAP_CENTER_USER_ZOOM_DESC" filter="int" disabled="false"
+				   labelclass=""/>
+
+			<field name="styled_maps" type="textarea" label="COM_HOTSPOTS_STYLED_MAPS"
+				   description="COM_HOTSPOTS_STYLED_MAPS_DESC" filter="raw" disabled="false"
+				   labelclass=""/>
+			<field name="settings_override" type="textarea" label="COM_HOTSPOTS_SETTINGS_OVERRIDE_LABEL"
+				   description="COM_HOTSPOTS_SETTINGS_OVERRIDE_DESC" filter="raw" disabled="false"
+				   labelclass=""/>
+		</fieldset>
+	</fields>
+</metadata>

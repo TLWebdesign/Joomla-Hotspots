@@ -1,0 +1,712 @@
+.hs-map-region {
+	left: 0;
+	position: absolute;
+	top: 0;
+	/*width: 100%;*/
+	/*height: 100%;*/
+	width: 100%;
+}
+
+.slide_menu {
+	background: none repeat scroll 0 0 #FFFFFF;
+	box-shadow: 0 10px 10px #565656;
+	color: #000000;
+	/*height: 200px;*/
+	left: 100%;
+	width: 300px;
+	z-index: 20;
+	position: absolute;
+}
+
+#toggle-menu {
+	background: url("../images/utils/toggle-menu.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 1px 1px 0 #FFFFFF inset, -3px 4px 4px #888888;
+	cursor: pointer;
+	display: block;
+	height: 49px;
+	left: -24px;
+	position: absolute;
+	top: 130px;
+	width: 24px;
+}
+
+#toggle-menu.toggle-off {
+	background-position: 0 -49px !important;
+}
+#toggle-menu.toggle-off:hover {
+	background-position: 24px -49px !important;
+}
+#toggle-menu.toggle-on {
+	background-position: 0 0 !important;
+}
+#toggle-menu.toggle-on:hover {
+	background-position: 24px 0px !important;
+}
+
+.hs-menu-region {
+	position: absolute;
+	left: 100%;
+	height: 100%;
+}
+
+.hs-main-region {
+	border: 1px solid #cccccc;
+	position: relative;
+	overflow: hidden;
+}
+
+.hs-main-region img{
+	max-width: none;
+}
+
+.hs-tabs-content > div:first-child {
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.hs-tabs {
+	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid #E5E5E5;
+}
+
+.hs-tabs ul {
+	margin: 0 auto;
+	text-align: center;
+
+}
+
+.hs-tabs ul li {
+	list-style: none;
+	display: inline-block;
+	font-size: 13px;
+}
+
+.compojoom-bootstrap .hs-tabs ul li a {
+	color: #CCCCCC;
+	padding: 5px 10px 0px;
+	display: inline-block;
+	text-decoration: none;
+}
+.hs-tabs ul li a:hover {
+	color: #333333;
+	border-bottom: 3px solid #333333;
+	transition: all 150ms ease-in-out 0s;
+}
+.hs-tabs ul li a span {
+	display: block;
+	margin: 0 auto;
+	font-size: 21px;
+}
+
+.hs-tabs ul li.ui-tabs-active a {
+	color: #333333;
+	border-bottom: 3px solid #333333;
+}
+.hs-tabs ul li.ui-tabs-active a:focus {
+	outline: none;
+}
+#tab-content {
+	overflow-y: auto;
+}
+
+.hs-tab-list-item {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 2px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	margin: 20px 0;
+	padding: 5px;
+}
+
+.hs-tab-list-item.hs-selected,
+.hs-tab-list-item:hover {
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+	-webkit-filter: none;
+	-moz-filter: none;
+	filter: none;
+}
+
+.hs-filters {
+	background: #f1f1f1;
+	text-align: center;
+	margin: -10px -10px 10px;
+	padding: 10px;
+}
+
+.hs-address {
+	margin-bottom: 5px;
+}
+
+
+.hs-tab-list-item h3 {
+	color: #333333;
+	font-size: 16px;
+	vertical-align: top;
+	margin: 0 0 5px;
+}
+
+.hs-hotspots-overview {
+	color: #666666;
+	margin-bottom: 5px;
+}
+
+.hs-tab-content-region {
+	padding: 10px;
+}
+
+.hs-directions {
+	/*margin-top: 20px;*/
+}
+
+.hs-routing-mode {
+	margin: 10px 0 10px 0;
+	text-align: left;
+}
+.hs-routing-mode div {
+	display: inline-block;
+	color: #cccccc;
+	font-size: 15px;
+	cursor: pointer;
+	padding: 5px 5px 0;
+}
+
+.hs-routing-mode .active {
+	color: #000000;
+	border-bottom: 3px solid #000000;
+}
+
+.hs-routing-mode div:hover {
+	color: #000000;
+	border-bottom: 3px solid #000000;
+	transition: all 150ms ease-in-out 0s;
+}
+
+.sortable .hs-drag {
+	/*display: none;*/
+	text-align: center;
+	width: 20px;
+	/*vertical-align: sub;*/
+}
+
+.hs-drag.fa-map-marker {
+	color: red;
+	font-size: 20px;
+}
+
+.hs-hide {
+	display: none;
+}
+
+.hs-filters-actions button {
+	margin-left: 5px;
+}
+
+.hs-filters-actions span {
+	margin-right: 5px;
+}
+
+.hs-close {
+	color: #cccccc;
+	font-size: 14px;
+	/*margin-left: 5px;*/
+	cursor: pointer;
+}
+
+.hs-close:hover {
+	color: #000000;
+}
+
+.hs-directions form {
+	margin-bottom: 0;
+}
+
+.hs-directions .help-block {
+	margin-bottom: 0;
+	margin-left: 30px;
+	text-align: left;
+}
+
+.hs-address-result {
+	background: none repeat scroll 0 0 #F1F1F1;
+	border-bottom: 1px solid #CCCCCC;
+	border-top: 1px solid #CCCCCC;
+	margin: 10px -10px -10px;
+	padding: 10px;
+	text-align: center;
+}
+
+.search-location {
+	margin-top: 10px;
+	text-align: center;
+}
+
+.search-location label {
+	display: block;
+	font-weight: normal;
+	text-align: left;
+	text-transform: none;
+}
+
+.search-location .hs-icon-direction:before {
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.hs-directions-actions {
+	margin-bottom: 5px;
+}
+
+.hs-directions-actions span {
+	cursor: pointer;
+}
+
+.hs-directions-actions span:hover {
+	color: #000000;
+}
+
+.hs-directions-options-container {
+	display: none;
+	background: none repeat scroll 0 0 #F1F1F1;
+	border: 1px solid #CCCCCC;
+	border-radius: 3px;
+	margin: 5px 0 10px;
+	padding: 10px;
+}
+
+.hs-units input[type=radio] {
+	margin-top: 0;
+}
+
+.hs-units {
+	margin-bottom: 5px;
+}
+
+.hs-units div {
+	margin-right: 15px;
+	display: inline-block;
+}
+
+.hs-search-directions {
+	margin: 0 auto;
+	max-width: 265px;
+}
+.hs-search-directions input {
+	width: 196px;
+
+}
+
+.hs-drag-info {
+	margin: 0 0 5px 5px;
+}
+
+.hs-back-address {
+	cursor: pointer;
+	margin-top: 10px;
+}
+.hs-filter-options label.checkbox,
+.hs-settings label.checkbox {
+	padding-bottom: 1px;
+	padding-left: 25px;
+}
+
+.hs-filter-options label.checkbox:hover,
+.hs-settings label.checkbox:hover {
+	box-shadow: 0 0 4px 0 #CCCCCC;
+}
+.hs-bike {
+	display: block;
+	margin-left: 25px;
+}
+
+.hs-bike span {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.hs-bike-trail {
+	background: no-repeat url('../images/v4/icons/bike.png') 0 0;
+	width: 10px;
+	height: 3px;
+}
+
+.hs-bike-path {
+	background: no-repeat url('../images/v4/icons/bike.png') 0 -5px;
+	width: 10px;
+	height: 1px;
+}
+
+.hs-bike-friendly-road {
+	background: no-repeat url('../images/v4/icons/bike.png') 0 -14px;
+	width: 10px;
+	height: 2px;
+}
+
+.hs-streetmap {
+	width: 100%;
+	height: 60px;
+	position: relative;
+	margin-bottom: 5px;
+}
+
+.hs-streetmap label {
+	position: absolute;
+	bottom: 0;
+	left: 10px;
+	color: #ffffff;
+}
+
+.hs-get-directions .input-prepend.input-append input {
+	border-left: none;
+}
+.input-prepend.input-append .hs-quick-dir.add-on:first-child,
+.input-prepend .hs-quick-dir.add-on {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.hs-toolbar {
+	margin-bottom: 5px;
+	display: none;
+}
+.hs-toolbar-separator:before {
+	content: '·';
+	margin: 0 3px;
+	vertical-align: middle;
+}
+
+.compojoom-bootstrap .hs-toolbar .btn-mini {
+	padding: 0;
+	font-size: 9.75px;
+}
+
+.hs-place-summary div.hs-hotspots-overview-short {
+	display: block;
+}
+
+.hs-place-summary div.hs-hotspots-overview {
+	display: none;
+}
+
+.hs-selected .hs-place-summary .hs-hotspots-overview-short {
+	display: none;
+}
+
+.hs-selected .hs-place-summary .hs-hotspots-overview {
+	display: block;
+}
+
+.hs-selected .hs-toolbar {
+	display: block;
+}
+
+.hs-checkbox-filter-cats {
+	text-align: left;
+}
+.hs-checkbox-filter-cats img {
+	width: 20px;
+}
+
+.hs-filter-options {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 2px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+	margin-top: 5px;
+	padding: 10px;
+	width: 100%;
+}
+
+.hs-active-filters {
+	text-align: left;
+}
+.hs-active-filters img {
+	width: 15px;
+}
+
+.hs-toggle-show-filter {
+	cursor: pointer;
+}
+.hs-toggle-show-filter:hover {
+	color: #000000;
+}
+.hs-quick-filter-img {
+	display: inline-block;
+	position: relative;
+}
+
+.hs-quick-filter-img span {
+	display: none;
+
+}
+.hs-quick-filter-img:hover span {
+	color: #FFFFFF;
+	display: block;
+	font-size: 16px;
+	left: 1px;
+	/*margin: 0 auto;*/
+	position: absolute;
+	/*width: 20px;*/
+	cursor: pointer;
+}
+
+.hs-loading {
+	opacity: 0.5;
+	pointer-events: none;
+	transition-duration: 0.16s;
+	transition-property: opacity;
+	transition-timing-function: ease-out;
+}
+
+.hs-init-loading {
+	width: 200px;
+	margin: 0 auto;
+	position: relative;
+}
+
+
+.hs-buttons-map div {
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+	color: #565656;
+	padding: 8px 10px;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.hs-buttons-map div:first-child {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+.hs-buttons-map div:last-child {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-right: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+}
+
+.hs-buttons-map {
+	margin: 10px;
+}
+
+.hs-buttons-map div:hover {
+	background: #EBEBEB;
+	color: #000000;
+}
+.hs-buttons-map span.fa {
+	font-size: 20px;
+}
+
+.hs-fullscreen {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+.hs-fa-close i:first-child {
+	font-size: 16px;
+}
+
+.hs-fa-close i:last-child {
+	font-size: 10px;
+}
+
+@-moz-keyframes pulsate {
+	from {
+		-moz-transform: scale(0.25);
+		opacity: 1.0;
+	}
+	95% {
+		-moz-transform: scale(1.3);
+		opacity: 0;
+	}
+	to {
+		-moz-transform: scale(0.3);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes pulsate {
+	from {
+		-webkit-transform: scale(0.25);
+		opacity: 1.0;
+	}
+	95% {
+		-webkit-transform: scale(1.3);
+		opacity: 0;
+	}
+	to {
+		-webkit-transform: scale(0.3);
+		opacity: 0;
+	}
+}
+
+.hs-map-region div.hs-my-position-dot {
+	-moz-animation: pulsate 1.5s ease-in-out infinite;
+	-webkit-animation: pulsate 1.5s ease-in-out infinite;
+	border:1pt solid #fff;
+	/* make a circle */
+	-moz-border-radius:51px;
+	-webkit-border-radius:51px;
+	border-radius:51px;
+	/* multiply the shadows, inside and outside the circle */
+	-moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+	-webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+	box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+	/* set the ring's new dimension and re-center it */
+	height:51px!important;
+	margin:-18px 0 0 -18px;
+	width:51px!important;
+}
+
+.hs-map-region div.hs-my-position-dot img {
+	display:none;
+}
+
+.hs-tab-list-item-tile {
+	background: #FCF9F9;
+}
+
+.compojoom-bootstrap .ui-widget input,
+.compojoom-bootstrap .ui-widget select,
+.compojoom-bootstrap .ui-widget textarea,
+.compojoom-bootstrap .ui-widget button {
+	font-size: 12px;
+}
+
+.hs-map-region img {
+	max-width: none!important;
+}
+.hs-filters-actions {
+	display: table;
+	width: 100%
+}
+
+.hs-settings label,
+.hs-filter-options label {
+	display: block;
+	text-transform: none;
+	font-weight: normal;
+	font-size: 12px;
+}
+.hs-settings label:hover,
+.hs-filter-options label:hover {
+	cursor: pointer;
+}
+.hs-settings label img,
+.hs-filter-options label img {
+	vertical-align: middle;
+}
+.hs-settings label input,
+.hs-filter-options label input {
+	width: auto;
+}
+
+
+.compojoom-bootstrap .ui-tabs {
+	padding: 0;
+}
+.compojoom-bootstrap .ui-tabs .ui-tabs-panel {
+	padding: 0;
+}
+.compojoom-bootstrap .ui-tabs .ui-tabs-nav li {
+	float: none;
+	margin: 0;
+}
+.compojoom-bootstrap .ui-widget-header {
+	background: none;
+	border: none;
+}
+.compojoom-bootstrap .ui-state-default,
+.compojoom-bootstrap .ui-widget-content .ui-state-default,
+.compojoom-bootstrap .ui-widget-header .ui-state-default {
+	background: none;
+	border: none;
+	font-weight: normal;
+}
+.compojoom-bootstrap .ui-widget {
+	font-size: 13px;
+}
+
+
+.hs-hotspots-overview img {
+	max-width: 200px;
+}
+
+
+
+.compojoom-bootstrap  .ui-widget-content {
+	border: none;
+	background: transparent;
+}
+
+.hs-infowindow-region {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background: #ffffff;
+}
+
+.hs-infowindow-marker {
+	padding: 10px;
+	display: none;
+	box-shadow: 10px 0 11px #565656
+}
+.hs-infowindow-marker .hs-toolbar {
+	display: block;
+}
+
+.hs-small-device .hs-menu-region {
+	height: auto;
+	left: 0;
+	position: relative;
+}
+
+.hs-small-device .slide_menu {
+	left: 0;
+	width: 100%;
+	margin-left: 0!important;
+}
+
+.hs-small-device .hs-tabs ul li a span {
+	display: inline-block;
+	font-size: 11px;
+}
+
+.hs-small-device .hs-tabs ul li a {
+	font-size: 11px;
+}
+
+.hs-small-device .hs-map-container {
+	/*width: 100%!important;*/
+}
+
+.hs-place-avatar-small {
+	height: 20px;
+}
+
+.hs-filter-options ul {
+	list-style-type: none;
+	margin: 0 0 0 15px;
+}
+.hs-filter-options ul:first-child {
+	margin: 0;
+}
+.hs-filter-options ul li {
+
+}
+
+.hs-galleria{
+	max-width: 650px;
+	height: 150px;
+	background: #000;
+}

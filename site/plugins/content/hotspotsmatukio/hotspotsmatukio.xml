@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="content" method="upgrade">
+	<name>Content - Hotspots Matukio</name>
+	<author>compojoom.com</author>
+	<creationDate>2023-09-19</creationDate>
+	<copyright>Copyright (C) 2012. All rights reserved.</copyright>
+	<license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>daniel@compojoom.com</authorEmail>
+	<authorUrl>https://compojoom.com</authorUrl>
+	<version>6.0.13</version>
+	<isapplication>true</isapplication>
+	<description>
+		This plugin creates a Hotspot entry for each event
+	</description>
+	<languages folder="administrator/language">
+		
+	</languages>
+	<files>
+		<file plugin="hotspotsmatukio">hotspotsmatukio.php</file>
+	</files>
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_hotspots/models/fields">
+			<fieldset name="basic">
+				<field name="catid" type="category" extension="com_hotspots"
+				       label="COM_HOTSPOTS_CATEGORY" description="JFIELD_CATEGORY_DESC"
+				       class="inputbox" required="true"
+					>
+				</field>
+				<field name="catmappings" type="textarea" label="Category mapping"
+				       description="Using this option you can create a mapping between your Matukio categories and the hotspots Categories. Use format MatukioCatId=hotspotCatId -> one item per line. If we cannot find a category mapping we'll use the default category specified above."
+					/>
+
+				<field name="link_to" type="list" default="1" label="Link to"
+				       description="Determines whether the readmore button should lead to single view of a Hotspot or to Matukio">
+					<option value="0">Hotspot</option>
+					<option value="1">Matukio</option>
+				</field>
+
+				<field name="name" type="text" required="true"
+				       label="Hotspot name"
+				       default="{title}"
+				       description="This would be the title for each hotspot in this category. {user} is a placeholder for the user's name. You can use all available cb user fields with curly braces here.">
+				</field>
+				<field name="description" type="textarea"
+				       required="true" label="Description"
+				       default="{shortdesc}&lt;hr id='system-readmore' /&gt;{description}"
+				       filter="raw"
+				       description="The description of the hotspot">
+				</field>
+				<field name="custom_fields" type="textarea"
+				       label="Custom fields mapping"
+				       description="In this field you can specify any custom fields mapping between hotspot and Matukio. Use the format hotspot_field=matukio_field. Add each mapping on a new line!"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

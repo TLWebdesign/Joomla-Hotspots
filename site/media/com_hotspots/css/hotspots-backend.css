@@ -1,0 +1,106 @@
+#map-add {
+	width: 100%; 
+	height: 300px;
+	background: #CCC;
+	border: 1px solid #CCC;
+}
+
+#hotspots-geolocation {
+	float: right;
+	cursor: pointer;
+}
+
+#hotspots-geolocation img {
+	width: 32px;
+}
+
+.clear-both {
+	clear: both;
+	margin: 0 !important;
+}
+#select-icon {
+	margin-bottom: 10px;
+}
+
+#select-sample-image {
+	max-width: 530px;
+	height: 300px;
+	overflow-y: scroll;
+}
+#select-sample-shadow div,
+#select-sample-image div {
+	float: left;
+	width: 120px;
+	margin-bottom: 10px;
+	text-align: center;
+	cursor: pointer;
+	padding: 3px;
+}
+#select-sample-shadow div:hover,
+#select-sample-image div:hover {
+	background: #f0f0f0;
+}
+#select-sample-shadow div img,
+#select-sample-image div img {
+	display: block;
+	margin: 0 auto;
+}
+
+.validation-failed {
+    border-color: #ff0000;
+    background-color: #ffdddd;
+}
+
+.validation-advice {
+    padding-bottom: 5px;
+    font-weight: bold;
+    color: #ff0000;
+	margin: 0;
+}
+
+/** fixes for the add map */
+#map-add {
+	margin-bottom: 10px;
+}
+#map-add div {
+	margin: 0;
+	clear: none;
+}
+
+#map-add label {
+	display: inline;
+	float: none;
+	margin: 0;
+}
+
+.icon-32-geocoding {
+	background: url('../images/utils/earth_geolocation.png');
+}
+
+
+/** joomla 3.0 layout issues */
+#map-add img {
+	max-width: none;
+}
+
+.adminformlist li {
+	list-style: none;
+}
+
+.adminformlist label {
+	float: left;
+	width: 100px;
+}
+
+.adminformlist .faux-label {
+	float: left;
+	width: 100px;
+}
+
+.adminformlist .button2-left {
+	margin-bottom: 5px;
+}
+
+#category-icon {
+	float: left;
+}

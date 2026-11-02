@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_USER_HOTSPOTS">
+		<message>
+			<![CDATA[COM_HOTSPOTS_USER_HOTSPOTS_DESCRIPTION]]>
+		</message>
+	</layout>
+	<name>COM_HOTSPOTS_USER_HOTSPOTS</name>
+	<description>COM_HOTSPOTS_USER_HOTSPOTS_DESCRIPTION</description>
+	<!-- joomla 1.6-->
+	<fields name="params">
+		<fieldset name="basic" addpath="/administrator/components/com_hotspots/elements">
+			<field name="hotspots_order" label="COM_HOTSPOTS_HOTSPOTS_ORDER"
+				   description="COM_HOTSPOTS_HOTSPOTS_ORDER_DESC"
+				   type="list" default="title ASC">
+				<option value="title ASC">Hotspots name</option>
+				<option value="title DESC">Hotspots name(desc)</option>
+				<option value="created ASC">Date</option>
+				<option value="created DESC">Date (desc)</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hotspotslinks" method="upgrade">
+	<name>plg_hotspotslinks_content</name>
+	<author>compojoom.com</author>
+	<creationDate>2023-09-19</creationDate>
+	<copyright>Copyright (C) 2012. All rights reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+	<authorEmail>daniel@compojoom.com</authorEmail>
+	<authorUrl>https://compojoom.com</authorUrl>
+	<version>6.0.13</version>
+	<description>
+        plg_hotspotslinks_content_DESC
+	</description>
+    <languages folder="administrator/language">
+        <language tag="en-GB">en-GB/en-GB.plg_hotspotslinks_content.sys.ini</language>
+    </languages>
+    <files>
+        <file plugin="content">content.php</file>
+    </files>
+</extension>

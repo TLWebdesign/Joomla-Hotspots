@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/libraries/compojoom/form/fields">
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
+		       readonly="true" class="readonly"
+		       description="JGLOBAL_FIELD_ID_DESC"/>
+
+		<field name="title" type="text" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_TITLE_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_TITLE_DESC" required="true"/>
+		<field name="component" type="hidden" default="com_hotspots.hotspot"/>
+		<field name="slug" type="text" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_SLUG_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_SLUG_DESC"/>
+		<field name="show" type="list" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_SHOW_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_SHOW_DESC">
+			<option value="all">COM_HOTSPOTS_CUSTOM_FIELDS_ALL_CATS_LABEL</option>
+			<option value="category">COM_HOTSPOTS_CUSTOM_FIELDS_SPECIFIC_CATEGORY_LABEL</option>
+		</field>
+		<field name="catid" type="category" extension="com_hotspots" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_HOTSPOTS_CATEGORIES_LABEL"
+		       multiple="true" description="COM_HOTSPOTS_CUSTOM_FIELDS_HOTSPOTS_CATEGORIES_DESC"/>
+		<field name="type" type="customfields" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       component="com_hotspots"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_FIELD_TYPE_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_FIELD_TYPE_DESC" />
+		<field name="options" type="textarea" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_OPTIONS_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_OPTIONS_DESC"/>
+		<field name="default" type="text" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_DEFAULT_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_DEFAULT_DESC"/>
+		<field name="allow_empty" type="list" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+		       default="" label="COM_HOTSPOTS_CUSTOM_FIELDS_ALLOW_EMPTY_LABEL"
+		       description="COM_HOTSPOTS_CUSTOM_FIELDS_ALLOW_EMPTY_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+</form>

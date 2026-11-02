@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module"
+           version="2.5"
+           client="site"
+           method="upgrade"
+		>
+	<name>mod_hotspots_list</name>
+	<author>compojoom.com</author>
+	<creationDate>2023-09-19</creationDate>
+	<copyright>Copyright (C) 2012 Daniel Dimitrov - compojoom.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>daniel@compojoom.com</authorEmail>
+	<authorUrl>compojoom.com</authorUrl>
+	<version>6.0.13</version>
+	<description>MOD_HOTSPOTS_LIST_DESCRIPTION</description>
+	<files>
+		<folder>tmpl</folder>
+<folder>language</folder>
+<file>helper.php</file>
+<file module="mod_hotspots_list">mod_hotspots_list.php</file>
+<folder>media</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.mod_hotspots_list.sys.ini</language>
+<language tag="en-GB">en-GB/en-GB.mod_hotspots_list.ini</language>
+	</languages>
+	<media destination="mod_hotspots_list" folder="media/mod_hotspots_list">
+		<folder>css</folder>
+	</media>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="catid"
+						type="category"
+						extension="com_hotspots"
+						multiple="true"
+						size="10"
+						default=""
+						published="1"
+						label="JCATEGORY"
+						description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC">
+				</field>
+				<field
+					name="author"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_HOTSPOTS_SHOW_AUTHOR_LABEL"
+					description="MOD_HOTSPOTS_SHOW_AUTHOR_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="image"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						default="0"
+						label="MOD_HOTSPOTS_SHOW_IMAGE_LABEL"
+						description="MOD_HOTSPOTS_SHOW_IMAGE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="description"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						default="0"
+						label="MOD_HOTSPOTS_SHOW_DESCRIPTION_LABEL"
+						description="MOD_HOTSPOTS_SHOW_DESCRIPTION_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="address"
+						type="radio"
+						class="btn-group btn-group-yesno"
+						default="0"
+						label="MOD_HOTSPOTS_SHOW_ADDRESS_LABEL"
+						description="MOD_HOTSPOTS_SHOW_ADDRESS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="date"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_HOTSPOTS_SHOW_DATE_LABEL"
+					description="MOD_HOTSPOTS_SHOW_DATE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="limit"
+						type="text"
+						default="10"
+						label="MOD_HOTSPOTS_LIST_FIELD_LIMIT_LABEL"
+						description="MOD_HOTSPOTS_LIST_FIELD_LIMIT_DESC"/>
+
+				<field
+						name="ordering"
+						type="list"
+						default="created"
+						label="MOD_HOTSPOTS_LIST_FIELD_ORDERING_LABEL"
+						description="MOD_HOTSPOTS_LIST_FIELD_ORDERING_DESC">
+					<option
+							value="created">MOD_HOTSPOTS_LIST_VALUE_CREATED
+					</option>
+					<option
+							value="title">MOD_HOTSPOTS_LIST_VALUE_NAME
+					</option>
+				</field>
+
+				<field
+						name="direction"
+						type="list"
+						default="desc"
+						label="MOD_HOTSPOTS_LIST_FIELD_DIRECTION_LABEL"
+						description="MOD_HOTSPOTS_LIST_FIELD_DIRECTION_DESC">
+					<option
+							value="asc">MOD_HOTSPOTS_LIST_VALUE_ASC
+					</option>
+					<option
+							value="desc">MOD_HOTSPOTS_LIST_VALUE_DSC
+					</option>
+				</field>
+
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

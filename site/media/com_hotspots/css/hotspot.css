@@ -1,0 +1,87 @@
+.hs-map-card-container  {
+	box-shadow: 0 0 2px 1px #CCC;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.hs-map-card-container .hs-main-region {
+	border: 1px solid #CCC;
+}
+
+.one-line-address {
+	border: 1px solid #CCC;
+	margin-bottom: 10px;
+	background: #F2F2F2 none repeat scroll 0% 0%;
+	font-style: italic;
+	padding: 5px;
+	margin-top: -1px;
+}
+
+.hs-social {
+	margin: 10px 0 15px
+}
+
+.hs-social div {
+	float: left;
+}
+
+.hs-creation-info {
+	font-style: italic;
+}
+
+.hs-fullscreen {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+.hs-fullscreen .hs-map-container {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 9999;
+}
+
+.hs-buttons-map div {
+	background-clip: padding-box;
+	background-color: #FFFFFF;
+	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+	color: #565656;
+	padding: 8px 10px;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.hs-buttons-map div:first-child {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top-left-radius: 2px;
+	border-bottom-left-radius: 2px;
+}
+
+.hs-buttons-map div:last-child {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-right: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+}
+
+.hs-buttons-map {
+	margin: 10px;
+}
+
+.hs-buttons-map span.fa {
+	font-size: 20px;
+}
+
+.box-shadow {
+	box-shadow: 0px 0px 2px 1px rgb(204, 204, 204);
+	padding: 10px;
+}

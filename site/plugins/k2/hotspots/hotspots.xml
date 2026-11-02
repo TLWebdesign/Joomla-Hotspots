@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="k2" method="upgrade">
+    <name>K2 - Hotspots</name>
+    <author>compojoom.com</author>
+    <creationDate>2023-09-19</creationDate>
+    <copyright>Copyright (C) 2012. All rights reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <authorEmail>daniel@compojoom.com</authorEmail>
+    <authorUrl>https://compojoom.com</authorUrl>
+    <version>6.0.13</version>
+    <isapplication>true</isapplication>
+    <description>
+        This plugin creates a Hotspot entry for each event
+    </description>
+    <languages folder="administrator/language">
+        
+    </languages>
+    <files>
+        <file plugin="hotspots">hotspots.php</file>
+<folder>layouts</folder>
+<folder>media</folder>
+    </files>
+	<media destination="plg_k2_hotspots" folder="media/plg_k2_hotspots">
+		<folder>css</folder>
+<folder>js</folder>
+	</media>
+    <config>
+        <fields name="params" addfieldpath="/administrator/components/com_hotspots/models/fields">
+            <fieldset name="basic">
+	            <field type="hotspotslanguage" name="invisible_load_language" hidden="true" languages="com_hotspots, plg_content_hotspots.sys"/>
+	            <field name="catid" type="category" extension="com_hotspots"
+	                   label="COM_HOTSPOTS_CATEGORY" description="JFIELD_CATEGORY_DESC"
+	                   class="inputbox" required="true"
+		            >
+	            </field>
+	            <field name="catmappings" type="textarea" label="Category mapping"
+	                   description="Using this option you can create a mapping between your k2 categories and the hotspots Categories. Use format k2catId=hotspotCatId -> one item per line. If we cannot find a category mapping we'll use the default category specified above."
+	                   />
+
+	            <field name="link_to" type="list" default="1" label="Link to" description="Determines whether the readmore button should lead to single view of a Hotspot or to Matukio">
+		            <option value="0">Hotspot</option>
+		            <option value="1">K2</option>
+	            </field>
+
+	            <field	name="name" type="text" required="true"
+	                      label="Hotspot name"
+	                      default="{title}"
+	                      description="This would be the title for each hotspot in this category. {user} is a placeholder for the user's name. You can use all available cb user fields with curly braces here.">
+	            </field>
+	            <field name="description" type="textarea"
+	                      required="true" label="Description"
+	                      default="{introtext}&lt;hr id='system-readmore' /&gt;{fulltext}"
+	                      filter="raw"
+	                      description="The description of the hotspot">
+	            </field>
+
+	            <field name="lat" type="text" default="49.149682" required="true" label="Default latitude"/>
+	            <field name="lng" type="text" default="8.304147" required="true" label="Default longitude"/>
+
+	            <field name="show_map" type="radio" class="btn-group"
+	                   default="1" label="Show map" description="Determines whether to show the map after the K2 item">
+		            <option value="0">JNO</option>
+		            <option value="1">JYES</option>
+	            </field>
+
+	            <field name="map_height" type="input"
+	                   label="PLG_CONTENT_HOTSPOTS_MAP_HEIGHT"
+	                   description="PLG_CONTENT_HOTSPOTS_MAP_HEIGHT_DESC"
+	                   default="400"
+		            />
+
+	            <field name="zoom" type="input"
+	                   label="PLG_CONTENT_HOTSPOTS_MAP_ZOOM_LABEL"
+	                   description="PLG_CONTENT_HOTSPOTS_MAP_ZOOM_DESC"
+	                   filter="int"
+	                   default="12"
+		            />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

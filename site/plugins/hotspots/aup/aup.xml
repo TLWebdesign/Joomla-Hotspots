@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hotspots" method="upgrade">
+	<name>Hotspots - AlphaUserPoints integration</name>
+	<author>Compojoom</author>
+	<creationDate>2023-09-19</creationDate>
+	<copyright>Copyright (C) 2013 - compojoom.com . All rights reserved.</copyright>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<authorEmail>daniel@compojoom.com</authorEmail>
+	<authorUrl>https://compojoom.com</authorUrl>
+	<version>6.0.13</version>
+	<isapplication>true</isapplication>
+	<description>
+		This plugin allows you to use AphauserPoints with Hotspots
+	</description>
+	<languages folder="administrator/language">
+		<language tag="en-GB">en-GB/en-GB.plg_hotspots_aup.ini</language>
+	</languages>
+	<files>
+		<file plugin="aup">aup.php</file>
+	</files>
+	<config>
+	</config>
+</extension>

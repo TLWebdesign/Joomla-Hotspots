@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_HOTSPOTS_SINGLE_LAYOUT">
+		<message>
+			<![CDATA[COM_HOTSPOTS_SINGLE_LAYOUT_DESC]]>
+		</message>
+	</layout>
+	<name>COM_HOTSPOTS_SINGLE_LAYOUT</name>
+	<description>COM_HOTSPOTS_SINGLE_LAYOUT_DESC</description>
+
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_hotspots/models/fields">
+
+			<field name="id" type="modal_hotspot"
+				label="COM_HOTSPOTS_SELECT_HOTSPOT"
+				required="true"
+				description="COM_HOTSPOTS_A_HOTSPOT"
+			/>
+		</fieldset>
+	</fields>
+	
+	<fields name="params">
+		<fieldset name="basic" addpath="/administrator/components/com_hotspots/elements">
+	
+			<field name="hs_show_controllmenu" type="radio" default="1" label="COM_HOTSPOTS_SHOW_MAP_CONTROL_MENU">
+				<option value="0">COM_HOTSPOTS_NO</option>
+				<option value="1">COM_HOTSPOTS_YES</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

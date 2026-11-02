@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<alphauserpoints type="plugin">
+	<rule>New hotspots</rule>
+	<description>This is the rule to give points to registered users on submitting a new hotspot.</description>
+	<component>com_hotspots</component>
+	<plugin_function>plgaup_hotspots_hotspot</plugin_function>
+	<fixed_points>true</fixed_points>
+</alphauserpoints>

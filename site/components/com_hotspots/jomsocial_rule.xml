@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jomsocial>
+     <component>com_hotspots</component>
+     <rules>
+          <rule>
+	      <name>Add new Hotspot</name>
+	      <description>Give points if an user adds a new hotspot</description>
+	      <action_string>com_hotspots.addHotspot</action_string>
+	      <publish>true</publish>
+	      <points>1</points>
+	      <access_level>1</access_level>
+          </rule> 
+     </rules>
+</jomsocial>

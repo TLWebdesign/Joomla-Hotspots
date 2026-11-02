@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field name="hotspots_kml_id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
+			readonly="true" labelclass="col-sm-2 compojoom-control-label" class="readonly form-control"
+			description="JGLOBAL_FIELD_ID_DESC"/>
+
+        <field name="title" type="text" default="" label="COM_HOTSPOTS_KML_FILE_TITLE"
+               description="COM_HOTSPOTS_KML_FILE_TITLE_DESC"
+               labelclass="col-sm-2 compojoom-control-label" class="form-control" required="true" />
+
+        <field name="catid" type="category" extension="com_hotspots"
+               label="COM_HOTSPOTS_CATEGORY" description="JFIELD_CATEGORY_DESC"
+               labelclass="col-sm-2 compojoom-control-label" class="form-control" required="true">
+            <option value="">JOPTION_SELECT_CATEGORY</option>
+        </field>
+
+        <field name="kml_file" type="file" label="COM_HOTSPOTS_KML_FILE"
+               labelclass="col-sm-2 compojoom-control-label" class="btn btn-default"
+               description="COM_HOTSPOTS_KML_FILE_DESC" required="true"/>
+
+        <field name="description" type="editor" labelclass="col-sm-2 compojoom-control-label" class="form-control"
+               label="COM_HOTSPOTS_KML_FILE_DESCRIPTION" description="COM_HOTSPOTS_KML_FILE_DESCRIPTION_DESC"
+               filter="JComponentHelper::filterText" buttons="true" />
+
+        <field name="created" type="calendar"
+               label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_CREATED_DESC"
+               labelclass="col-sm-4 compojoom-control-label" class="form-control" format="%Y-%m-%d %H:%M:%S"
+               filter="user_utc" />
+
+        <field name="created_by" type="user"
+               labelclass="col-sm-4 compojoom-control-label" class="form-control"
+               label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_Desc" />
+
+        <field  name="state"
+                type="list"
+                label="JSTATUS"
+                description="JFIELD_PUBLISHED_DESC"
+                labelclass="col-sm-2 compojoom-control-label" class="form-control"
+                size="1"
+                default="1">
+            <option
+                    value="1">JPUBLISHED</option>
+            <option
+                    value="0">JUNPUBLISHED</option>
+        </field>
+	</fieldset>
+</form>

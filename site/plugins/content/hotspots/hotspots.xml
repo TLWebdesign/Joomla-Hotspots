@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="content" method="upgrade">
+    <name>plg_content_hotspots</name>
+    <author>compojoom.com</author>
+    <creationDate>2023-09-19</creationDate>
+    <copyright>Copyright (C) 2012. All rights reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <authorEmail>daniel@compojoom.com</authorEmail>
+    <authorUrl>https://compojoom.com</authorUrl>
+    <version>6.0.13</version>
+    <isapplication>true</isapplication>
+    <description>
+        plg_content_hotspots_DESC
+    </description>
+    <languages folder="administrator/language">
+        <language tag="en-GB">en-GB/en-GB.plg_content_hotspots.sys.ini</language>
+    </languages>
+    <files>
+        <file plugin="hotspots">hotspots.php</file>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="map_height" type="input"
+                       label="PLG_CONTENT_HOTSPOTS_MAP_HEIGHT"
+                       description="PLG_CONTENT_HOTSPOTS_MAP_HEIGHT_DESC"
+                       default="400"
+                        />
+	            <field name="map_width" type="input"
+	                   label="PLG_CONTENT_HOTSPOTS_MAP_WIDTH_LABEL"
+	                   description="PLG_CONTENT_HOTSPOTS_MAP_WIDTH_DESC"
+	                   filter="int"
+	                   default="0"
+			            />
+	            <field name="zoom" type="input"
+	                   label="PLG_CONTENT_HOTSPOTS_MAP_ZOOM_LABEL"
+	                   description="PLG_CONTENT_HOTSPOTS_MAP_ZOOM_DESC"
+	                   filter="int"
+	                   default="12"
+			            />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

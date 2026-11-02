@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension method="upgrade" type="component" version="3.4">
+	<name>COM_HOTSPOTS</name>
+	<author>Compojoom.com</author>
+	<creationDate>2023-09-19</creationDate>
+	<copyright>(C) 2008-2013 compojoom.com - Daniel Dimitrov</copyright>
+	<authorEmail>daniel@compojoom.com</authorEmail>
+	<authorUrl>https://compojoom.com</authorUrl>
+	<version>6.0.13</version>
+	<license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+	<description><![CDATA[<div style="text-align:left">Hotspots is an advanced google maps manager by Compojoom.com</div>]]>
+	</description>
+    <scriptfile>script.php</scriptfile>
+	<files folder="components/com_hotspots">
+        <file>controller.php</file>
+<folder>includes</folder>
+<file>jomsocial_rule.xml</file>
+<file>hotspots.php</file>
+<folder>models</folder>
+<file>hmvc.php</file>
+<folder>layouts</folder>
+<folder>api</folder>
+<file>router.php</file>
+<folder>controllers</folder>
+<folder>views</folder>
+<folder>assets</folder>
+<folder>helpers</folder>
+	</files>
+	<languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.com_hotspots.ini</language>
+	</languages>
+	<administration>
+		<menu img="../media/com_hotspots/backend/images/hotspots-16px.png">COM_HOTSPOTS</menu>
+		<submenu>
+			<menu view="dashboard">COM_HOTSPOTS_DASHBOARD</menu>
+			<menu img="../media/com_hotspots/backend/images/hotspots-16px.png" view="hotspots">COM_HOTSPOTS_LOCATIONS</menu>
+			<menu link="option=com_categories&amp;extension=com_hotspots" img="../media/com_hotspots/backend/images/categories-16px.png">COM_HOTSPOTS_CATEGORIES</menu>
+			<menu view="kmls">COM_HOTSPOTS_KMLS</menu>
+			<menu view="customfields">COM_HOTSPOTS_CUSTOM_FIELDS</menu>
+			<menu img="../media/com_hotspots/backend/images/import-16px.png" view="import">COM_HOTSPOTS_IMPORT</menu>
+		</submenu>
+		<files folder="administrator/components/com_hotspots">
+            <file>access.xml</file>
+<folder>tables</folder>
+<file>controller.php</file>
+<folder>libraries</folder>
+<file>hotspots.php</file>
+<folder>models</folder>
+<file>config.xml</file>
+<folder>elements</folder>
+<folder>layouts</folder>
+<file>version.php</file>
+<folder>controllers</folder>
+<folder>views</folder>
+<folder>helpers</folder>
+<file>CHANGELOG.php</file>
+<folder>sql</folder>
+		</files>
+		<languages folder="administrator/language">
+            <language tag="en-GB">en-GB/en-GB.com_hotspots.ini</language>
+<language tag="en-GB">en-GB/en-GB.com_hotspots.sys.ini</language>
+        </languages>
+	</administration>
+	<media destination="com_hotspots" folder="media/com_hotspots">
+        <folder>css</folder>
+<folder>images</folder>
+<folder>js</folder>
+<folder>backend</folder>
+<folder>kml</folder>
+	</media>
+
+	<updateservers>
+		<server type="extension" priority="1" name="Hotspots Professional"><![CDATA[https://compojoom.com/index.php?option=com_ars&view=update&task=stream&format=xml&id=4&dummy=extension.xml]]></server>
+	</updateservers>
+</extension>

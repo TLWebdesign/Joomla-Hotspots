@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="hotspots" method="upgrade">
+    <name>plg_hotspots_jomsocial</name>
+    <author>compojoom.com</author>
+    <creationDate>2023-09-19</creationDate>
+    <copyright>Copyright (C) 2012. All rights reserved.</copyright>
+    <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <authorEmail>daniel@compojoom.com</authorEmail>
+    <authorUrl>https://compojoom.com</authorUrl>
+    <version>6.0.13</version>
+    <isapplication>true</isapplication>
+    <description>
+        plg_hotspots_jomsocial_DESC
+    </description>
+    <languages folder="administrator/language">
+        <language tag="en-GB">en-GB/en-GB.plg_hotspots_jomsocial.ini</language>
+<language tag="en-GB">en-GB/en-GB.plg_hotspots_jomsocial.sys.ini</language>
+    </languages>
+    <files>
+        <file plugin="jomsocial">jomsocial.php</file>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="activityStreamNewHotspot" type="list" default="1" label="Activity Stream new hotspot" description="User activity such as adding new hotspot will be published in the user profile">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </field>
+                <field name="userPointsOnAddHotspot" type="list" default="1" label="User Points new hotspot" description="Select whether the user should receive points for new hotspot">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
