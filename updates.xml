@@ -4,6 +4,7 @@
         <description>Hotspots for Joomla 5 and 6, maintained by TLWebdesign</description>
         <element>pkg_hotspots</element>
         <type>package</type>
+        <client>site</client>
         <version>6.1.0</version>
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/TLWebdesign/Joomla-Hotspots/releases/download/V6.1.0/pkg_hotspots-6.1.0.zip</downloadurl>
@@ -22,6 +23,7 @@
         <description>Hotspots for Joomla 5 and 6, maintained by TLWebdesign</description>
         <element>pkg_hotspots</element>
         <type>package</type>
+        <client>site</client>
         <version>7.0.1</version>
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/TLWebdesign/Joomla-Hotspots/releases/download/V7.0.1/pkg_hotspots-7.0.1.zip</downloadurl>
