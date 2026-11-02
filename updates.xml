@@ -8,7 +8,7 @@
         <downloads>
             <downloadurl type="full" format="zip">https://github.com/TLWebdesign/Compojoom-Hotspots/releases/download/V6.1.0/pkg_hotspots-6.1.0.zip</downloadurl>
         </downloads>
-        <sha256>0000000000000000000000000000000000000000000000000000000000000000</sha256>
+        <sha256>222b8d823aac743a04517dc3b9365388ed72184a32d6cbfd63a6d822af0d1841</sha256>
         <tags>
             <tag>stable</tag>
         </tags>
