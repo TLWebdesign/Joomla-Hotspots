@@ -11,21 +11,19 @@ defined('_JEXEC') or die;
 ?>
 <script>
     function geocodeLocation(e) {
-        var checkboxes = jQuery("#adminForm input[name='cid[]']");
         var ids = [];
-        checkboxes.each(function (checkbox) {
-            if (checkbox.checked) {
-                ids.push(checkbox.get('value'));
-            }
-        });
 
         jQuery("#adminForm input[name='cid[]']:checked").each(function() {
            ids.push(jQuery(this).val())
         })
 
+        // TLWebdesign patch 2026-11-02: send the form token, the controller checks it.
+        var data = {cid: ids};
+        data[<?php echo json_encode(\Joomla\CMS\Session\Session::getFormToken()); ?>] = 1;
+
         jQuery.ajax({
             url: 'index.php?option=com_hotspots&task=hotspots.geocode',
-            data:{cid:ids },
+            data: data,
             dataType: "json"
         }).done(function(data) {
 

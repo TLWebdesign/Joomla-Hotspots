@@ -23,6 +23,12 @@ Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 Search for `TLWebdesign patch` to find them.
 
 - **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. `the client's CB plugin` depends on this geocoder (`HotspotsGeocoder`).
+- **2026-11-02** Security fixes (not yet on the live site):
+  - `libraries/compojoom/model/multimedia.php`: any visitor could delete any file on the server (`../` in `file`), and frontend users could move any file into the public images folder (`jform[picture]`).
+  - `components/com_hotspots/api/marker.php`: image name and content from the request were written to disk as is (any file, including PHP).
+  - `components/com_hotspots/models/json.php` (`c`) and `api/category.php` (`catid`, `order`): SQL injection by any visitor.
+  - Admin: CSRF token and permission checks on marker delete/publish/geocode, KML delete (also SQL injection) and tile delete; no `../` in the KML import delete.
+- **2026-11-02** PHP 8 / Joomla 5 fixes: `each()` and old `join()`/`implode()` argument order (fatal on PHP 8), implicitly nullable parameters (PHP 8.4), `$object->$fields[1]` in the custom field mappings (wrong value since PHP 7), and `JError`, `JException`, `JSubMenuHelper`, `JApplication::stringURLSafe()`, `isAdmin()` (removed in Joomla 4).
 
 ## Notes
 

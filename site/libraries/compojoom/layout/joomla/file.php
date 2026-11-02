@@ -324,7 +324,7 @@ class JLayoutFile extends JLayoutBase
 				break;
 
 			default:
-				$client = (int) JFactory::getApplication()->isAdmin();
+				$client = (int) JFactory::getApplication()->isClient('administrator'); // TLWebdesign patch 2026-11-02: isAdmin() was removed in Joomla 4
 				break;
 		}
 

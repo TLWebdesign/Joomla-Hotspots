@@ -38,23 +38,12 @@ abstract class HotspotsHelper
 
 		foreach ($menus as $menu)
 		{
-			if (JVERSION < 3)
-			{
-				// Joomla 2.5...
-				JSubMenuHelper::addEntry(
-					JText::_($menu['title']),
-					$menu['link'],
-					$submenu == $menu['keywords']
-				);
-			}
-			else
-			{
-				JHtmlSidebar::addEntry(
-					JText::_($menu['title']),
-					$menu['link'],
-					$submenu == $menu['keywords']
-				);
-			}
+			// TLWebdesign patch 2026-11-02: removed the Joomla 2.5 branch (JSubMenuHelper no longer exists).
+			JHtmlSidebar::addEntry(
+				JText::_($menu['title']),
+				$menu['link'],
+				$submenu == $menu['keywords']
+			);
 		}
 	}
 }

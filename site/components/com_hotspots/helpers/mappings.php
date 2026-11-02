@@ -87,11 +87,15 @@ class HotspotsHelperMappings
 
 			foreach ($mappings as $mapping)
 			{
-				$fields = explode('=', $mapping);
+				/*
+				 * TLWebdesign patch 2026-11-02: since PHP 7 $object->$fields[1] means ($object->$fields)[1],
+				 * so the mapping never returned a value. Also skip lines without "=" and trim "\r".
+				 */
+				$fields = array_map('trim', explode('=', $mapping, 2));
 
-				if (property_exists($object, $fields[1]))
+				if (count($fields) === 2 && $fields[1] !== '' && property_exists($object, $fields[1]))
 				{
-					$customFields[$fields[0]] = $object->$fields[1];
+					$customFields[$fields[0]] = $object->{$fields[1]};
 				}
 			}
 		}

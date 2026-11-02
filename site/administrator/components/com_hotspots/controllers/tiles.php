@@ -25,6 +25,9 @@ class HotspotsControllerTiles extends JControllerLegacy
 	 */
 	public function delete()
 	{
+		// TLWebdesign patch 2026-11-02: check for request forgeries.
+		\Joomla\CMS\Session\Session::checkToken('request') or jexit(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
+
 		jimport('joomla.filesystem.folder');
 		jimport('joomla.filesystem.file');
 		$appl = JFactory::getApplication();

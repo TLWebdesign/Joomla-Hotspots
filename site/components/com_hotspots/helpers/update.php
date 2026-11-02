@@ -79,7 +79,7 @@ class HotspotsHelperUpdate
 
 				$category_array = array();
 				$category_array['title'] = $category->cat_name;
-				$category_array['alias'] = $randomStuff . JApplication::stringURLSafe($category->cat_name);
+				$category_array['alias'] = $randomStuff . \Joomla\CMS\Filter\OutputFilter::stringURLSafe($category->cat_name); // TLWebdesign patch 2026-11-02: JApplication was removed in Joomla 4
 				$category_array['description'] = $category->cat_description;
 				$category_array['extension'] = "com_hotspots";
 				$category_array['parent'] = 1;

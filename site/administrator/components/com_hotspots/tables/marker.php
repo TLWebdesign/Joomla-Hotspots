@@ -331,7 +331,7 @@ class TableMarker extends Table
 	 *
 	 * @since   5.0
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId(?JTable $table = null, $id = null) // TLWebdesign patch 2026-11-02: explicit nullable for PHP 8.4
 	{
 		$asset = JTable::getInstance('Asset');
 		$asset->loadByName('com_hotspots');

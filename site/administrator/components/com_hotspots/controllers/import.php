@@ -63,9 +63,10 @@ class HotspotsControllerImport extends HotspotsController
 		// Handle deletes of the files
 		if ($requestType == 'DELETE')
 		{
-			$file = JFactory::getApplication()->input->getString('file');
+			// TLWebdesign patch 2026-11-02: plain file name only, no "../".
+			$file = basename(JFactory::getApplication()->input->getString('file'));
 			$response = array(
-				$file => JFile::delete(JPATH_SITE . '/media/com_hotspots/import/kmls/' . $file)
+				$file => $file !== '' && $file[0] !== '.' && JFile::delete(JPATH_SITE . '/media/com_hotspots/import/kmls/' . $file)
 			);
 			echo json_encode($response);
 			JFactory::getApplication()->close();

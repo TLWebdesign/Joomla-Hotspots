@@ -38,6 +38,13 @@ class HotspotsControllerhotspots extends JControllerAdmin
 	 */
 	public function geocode()
 	{
+		// TLWebdesign patch 2026-11-02: check for request forgeries.
+		if (!\Joomla\CMS\Session\Session::checkToken('request'))
+		{
+			echo json_encode(array('status' => 'FAILURE', 'message' => \Joomla\CMS\Language\Text::_('JINVALID_TOKEN')));
+			jexit();
+		}
+
 		require_once JPATH_COMPONENT_ADMINISTRATOR . '/libraries/geocoder/geocoder.php';
 		$update = array();
 		$geocoder = new HotspotsGeocoder;
@@ -115,16 +122,17 @@ class HotspotsControllerhotspots extends JControllerAdmin
 
 		if (count($update))
 		{
+			// TLWebdesign patch 2026-11-02: execute() throws on Joomla 4+ instead of returning false.
+			$status = 'OK';
+			$message = JText::sprintf('COM_HOTSPOTS_GEOCODING_COORDINATES_UPDATED', count($update));
+
 			foreach ($update as $query)
 			{
-				$db->setQuery($query);
-
-				if ($db->execute())
+				try
 				{
-					$status = 'OK';
-					$message = JText::sprintf('COM_HOTSPOTS_GEOCODING_COORDINATES_UPDATED', count($update));
+					$db->setQuery($query)->execute();
 				}
-				else
+				catch (\RuntimeException $e)
 				{
 					$status = 'FAILURE';
 					$message = JText::sprintf('COM_HOTSPOTS_GEOCODING_FAILURE');
@@ -152,32 +160,42 @@ class HotspotsControllerhotspots extends JControllerAdmin
 	 */
 	public function remove()
 	{
-		$row = JTable::getInstance('marker', 'Table');
-		$input = JFactory::getApplication()->input;
-		$cid = $input->get('cid', array(), 'array');
-		$db = JFactory::getDBO();
+		// TLWebdesign patch 2026-11-02: token and permission check, ids as integers, execute() throws on Joomla 4+.
+		\Joomla\CMS\Session\Session::checkToken() or jexit(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
+
+		$appl = JFactory::getApplication();
+
+		if (!$appl->getIdentity()->authorise('core.delete', 'com_hotspots'))
+		{
+			$this->setRedirect('index.php?option=com_hotspots&view=hotspots', JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+
+			return;
+		}
+
+		$input = $appl->input;
+		$cid = \Joomla\Utilities\ArrayHelper::toInteger($input->get('cid', array(), 'array'));
+		$db = JFactory::getDbo();
 		$msg = Jtext::_('COM_HOTSPOTS_REMOVE_HOTSPOTS_FAILED');
 
 		// Import the appropriate plugin group.
-        \Joomla\CMS\Plugin\PluginHelper::importPlugin('hotspots');
-		$appl = JFactory::getApplication();
+		\Joomla\CMS\Plugin\PluginHelper::importPlugin('hotspots');
 
 		if (count($cid))
 		{
-			$query = "DELETE FROM #__hotspots_marker WHERE " . CompojoomQueryHelper::in('id', $cid, $db);
-			$db->setQuery($query);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__hotspots_marker'))
+				->whereIn($db->quoteName('id'), $cid);
 
-			if (!$db->execute())
+			try
 			{
-				echo "<script> alert ('" . $db->getErrorMsg() . "');
-			window.history.go(-1); </script>\n";
-			}
-			else
-			{
+				$db->setQuery($query)->execute();
 				$msg = JText::_('COM_HOTSPOTS_REMOVE_HOTSPOTS_SUCCESS');
+				$appl->triggerEvent('onAfterHotspotDelete', array('com_hotspots.hotspot', $cid));
 			}
-
-			$appl->triggerEvent('onAfterHotspotDelete', array('com_hotspots.hotspot', $cid));
+			catch (\RuntimeException $e)
+			{
+				$appl->enqueueMessage($e->getMessage(), 'error');
+			}
 		}
 
 		$this->setRedirect('index.php?option=com_hotspots&view=hotspots', $msg);
@@ -206,8 +224,11 @@ class HotspotsControllerhotspots extends JControllerAdmin
 	 */
 	public function publish()
 	{
+		// TLWebdesign patch 2026-11-02: check for request forgeries.
+		\Joomla\CMS\Session\Session::checkToken() or jexit(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
+
 		$input = JFactory::getApplication()->input;
-		$cid = $input->get('cid', array(), 'array');
+		$cid = \Joomla\Utilities\ArrayHelper::toInteger($input->get('cid', array(), 'array'));
 
 		if ($this->task == 'publish')
 		{

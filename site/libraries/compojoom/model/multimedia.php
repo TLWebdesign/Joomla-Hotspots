@@ -335,6 +335,17 @@ class CompojoomModelMultimedia extends JModelLegacy
 		// Now let's move the files
 		foreach ($files as $file)
 		{
+			/*
+			 * TLWebdesign patch 2026-11-02: file names come from the request (jform[picture]).
+			 * Without this check "../configuration.php" gets moved into the public images folder.
+			 */
+			$file = (string) $file;
+
+			if ($file === '' || $file !== basename($file) || $file[0] === '.' || strpos($file, '..') !== false)
+			{
+				continue;
+			}
+
 			if ($tmpPath)
 			{
 				$tmpLocation = JPath::clean(rtrim($tmpPath, '\\/') . '/' . $file);
@@ -467,6 +478,17 @@ class CompojoomModelMultimedia extends JModelLegacy
 	 */
 	public function delete($file, $id)
 	{
+		/*
+		 * TLWebdesign patch 2026-11-02: $file comes from the request. Accept a plain file name only,
+		 * otherwise "../" in it deletes any file on the server (configuration.php included).
+		 */
+		$file = (string) $file;
+
+		if ($file === '' || $file !== basename($file) || $file[0] === '.' || strpos($file, '..') !== false)
+		{
+			return false;
+		}
+
 		if ($id)
 		{
 			$db = JFactory::getDbo();
@@ -537,7 +559,17 @@ class CompojoomModelMultimedia extends JModelLegacy
 			return false;
 		}
 
-		// So, we are dealing with temp File?
+		/*
+		 * So, we are dealing with temp File?
+		 * TLWebdesign patch 2026-11-02: only users who may upload can delete temp files, and only
+		 * files named like uploadTmp() names them (hash + "_" + original name).
+		 */
+		if (!JFactory::getUser()->authorise('core.multimedia.create', $this->component)
+			|| !preg_match('/^[0-9a-f]{32,64}_/', $file))
+		{
+			return false;
+		}
+
 		return JFile::delete($this->getFilePath($file, $id));
 	}
 

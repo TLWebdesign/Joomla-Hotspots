@@ -210,7 +210,12 @@ class HotspotsModelJson extends JModelLegacy
 	{
 		$input = JFactory::getApplication()->input;
 		$db = $this->getDbo();
-		$center = explode(',', $input->getString('c', ''));
+		/*
+		 * TLWebdesign patch 2026-11-02: "c" comes from the request and is put into the SQL below as is.
+		 * Cast both parts to float, otherwise any visitor can inject SQL.
+		 */
+		$center = explode(',', $input->getString('c', '')) + array(0, 0);
+		$center = array((float) $center[0], (float) $center[1]);
 		$query->clear('where');
 		$query->clear('join');
 		$query->clear('order');

@@ -263,7 +263,7 @@ class FeedItem extends HtmlDescribable {
 
 	var $enclosures = Array();
 
-	function addEnclosure($url, $length = 0, $type)	{
+	function addEnclosure($url, $length, $type)	{ // TLWebdesign patch 2026-11-02: optional before required is deprecated
 		$this->enclosures[] = array("url" => $url, "length" => $length, "type" => $type);
 	}
 
@@ -1482,7 +1482,7 @@ class MBOXCreator extends FeedCreator {
 		$eol = "\r\n";
 		$escape = "=";
 		$output = "";
-		while( list(, $line) = each($lines) ) {
+		foreach ($lines as $line) { // TLWebdesign patch 2026-11-02: each() was removed in PHP 8
 			//$line = rtrim($line); // remove trailing white space -> no =20\r\n necessary
 			$linlen = strlen($line);
 			$newline = "";
@@ -1735,7 +1735,7 @@ class HTMLCreator extends FeedCreator {
 			$feedArray[] = "<div class='".$this->stylePrefix."footer'>".$this->footer."</div>";
 		}
 
-		$feed= "".join($feedArray, "\r\n");
+		$feed= "".join("\r\n", $feedArray); // TLWebdesign patch 2026-11-02: PHP 8 argument order
 		return $feed;
 	}
 

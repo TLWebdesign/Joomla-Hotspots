@@ -72,12 +72,15 @@ class HotspotsApiCategory extends HotspotsApi
 
 		if (!empty($catId))
 		{
-			if (is_array($catId))
+			// TLWebdesign patch 2026-11-02: catid comes from the request; integers only (SQL injection).
+			if (!is_array($catId))
 			{
-				$catId = implode(',', $catId);
+				$catId = explode(',', (string) $catId);
 			}
 
-			$query->where('c.id IN (' . $catId . ')');
+			$catId = array_filter(\Joomla\Utilities\ArrayHelper::toInteger($catId));
+
+			$query->where(count($catId) ? 'c.id IN (' . implode(',', $catId) . ')' : '0 = 1');
 		}
 
 		// Permissions
@@ -88,7 +91,10 @@ class HotspotsApiCategory extends HotspotsApi
 		// Filter only for categories of Matukio
 		$query->where("c.extension = 'com_hotspots'");
 
-		$query->order($this->db->escape($orderBy));
+		// TLWebdesign patch 2026-11-02: order comes from the request; escape() does not make ORDER BY safe.
+		$allowedOrder = array('c.title ASC', 'c.title DESC', 'c.id ASC', 'c.id DESC', 'c.lft ASC', 'c.lft DESC');
+
+		$query->order(in_array($orderBy, $allowedOrder, true) ? $orderBy : 'c.title ASC');
 
 		$this->db->setQuery($query, $offset, $limit);
 

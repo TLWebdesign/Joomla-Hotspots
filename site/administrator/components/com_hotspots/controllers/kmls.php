@@ -36,20 +36,37 @@ class HotspotsControllerKmls extends JControllerAdmin
 
 	public function remove()
 	{
-        $input = JFactory::getApplication()->input;
-        $cid = $input->get('cid', array(), 'array');
-		$db = & JFactory::getDBO();
+		/*
+		 * TLWebdesign patch 2026-11-02: there was no token or permission check and the ids went into
+		 * the SQL unescaped (SQL injection through a link opened by an administrator).
+		 */
+		\Joomla\CMS\Session\Session::checkToken() or jexit(\Joomla\CMS\Language\Text::_('JINVALID_TOKEN'));
+
+		$appl = JFactory::getApplication();
+
+		if (!$appl->getIdentity()->authorise('core.delete', 'com_hotspots'))
+		{
+			$this->setRedirect('index.php?option=com_hotspots&view=kmls', JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+
+			return;
+		}
+
+		$cid = \Joomla\Utilities\ArrayHelper::toInteger($appl->input->get('cid', array(), 'array'));
+		$db = JFactory::getDbo();
 
 		if (count($cid))
 		{
-			$cids = implode(',', $cid);
-			$query = "DELETE FROM #__hotspots_kmls WHERE hotspots_kml_id IN ( $cids )";
-			$db->setQuery($query);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__hotspots_kmls'))
+				->whereIn($db->quoteName('hotspots_kml_id'), $cid);
 
-			if (!$db->execute())
+			try
 			{
-				echo "<script> alert ('" . $db->getErrorMsg() . "');
-			window.history.go(-1); </script>\n";
+				$db->setQuery($query)->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$appl->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 

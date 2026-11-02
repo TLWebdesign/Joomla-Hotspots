@@ -142,7 +142,7 @@ class JLayoutBase implements JLayout
 	 */
 	public function renderDebugMessages()
 	{
-		return implode($this->debugMessages, "\n");
+		return implode("\n", $this->debugMessages); // TLWebdesign patch 2026-11-02: PHP 8 argument order
 	}
 
 	/**

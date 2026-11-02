@@ -202,12 +202,27 @@ class HotspotsApiMarker extends HotspotsApi
 		// Save images first
 		foreach ($images as $image)
 		{
-			$fileName = $image->filename;
-			$content  = $image->content;
+			/*
+			 * TLWebdesign patch 2026-11-02: the file name and content come from the request.
+			 * Without these checks "../" or a .php name writes any file on the server.
+			 */
+			$fileName = JFile::makeSafe(basename((string) ($image->filename ?? '')));
+			$content  = (string) ($image->content ?? '');
 
-			list($type, $content) = explode(';', $content);
-			list(, $content) = explode(',', $content);
-			$content = base64_decode($content);
+			if ($fileName === '' || $fileName[0] === '.'
+				|| !in_array(strtolower(JFile::getExt($fileName)), array('jpg', 'jpeg', 'png', 'gif', 'webp'), true)
+				|| strpos($content, ',') === false)
+			{
+				continue;
+			}
+
+			list(, $content) = explode(',', $content, 2);
+			$content = base64_decode($content, true);
+
+			if ($content === false || @getimagesizefromstring($content) === false)
+			{
+				continue;
+			}
 
 			// We use file put content here
 			$imageFile = $targetPath . '/' . $fileName;

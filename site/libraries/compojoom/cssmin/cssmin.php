@@ -1,4 +1,5 @@
 <?php
+// TLWebdesign patch 2026-11-02: explicit nullable types (?array) for PHP 8.4.
 /**
  * CssMin - A (simple) css minifier with benefits
  *
@@ -133,7 +134,7 @@ abstract class aCssParserPlugin
 	 * @param array $configuration Plugin configuration [optional]
 	 * @return void
 	 */
-	public function __construct(CssParser $parser, array $configuration = null)
+	public function __construct(CssParser $parser, ?array $configuration = null)
 	{
 		$this->configuration	= $configuration;
 		$this->parser			= $parser;
@@ -1436,7 +1437,7 @@ class CssParser
 	 * @param array $plugins Plugin configuration [optional]
 	 * @return void
 	 */
-	public function __construct($source = null, array $plugins = null)
+	public function __construct($source = null, ?array $plugins = null)
 	{
 		$plugins = array_merge(array
 		(
@@ -1959,7 +1960,7 @@ class CssMinifier
 	 * @param array $plugins Plugin configuration [optional]
 	 * @return void
 	 */
-	public function __construct($source = null, array $filters = null, array $plugins = null)
+	public function __construct($source = null, ?array $filters = null, ?array $plugins = null)
 	{
 		$filters = array_merge(array
 		(
@@ -2269,7 +2270,7 @@ class CssMin
 	 * @param array $plugins Plugin configuration [optional]
 	 * @return string Minified CSS
 	 */
-	public static function minify($source, array $filters = null, array $plugins = null)
+	public static function minify($source, ?array $filters = null, ?array $plugins = null)
 	{
 		self::$errors = array();
 		$minifier = new CssMinifier($source, $filters, $plugins);
@@ -2282,7 +2283,7 @@ class CssMin
 	 * @param array $plugins Plugin configuration [optional]
 	 * @return array Array of aCssToken
 	 */
-	public static function parse($source, array $plugins = null)
+	public static function parse($source, ?array $plugins = null)
 	{
 		self::$errors = array();
 		$parser = new CssParser($source, $plugins);

@@ -83,8 +83,8 @@ class TableKmls extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new JException(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
-				$this->setError($e);
+				// TLWebdesign patch 2026-11-02: JException was removed in Joomla 4.
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -111,11 +111,14 @@ class TableKmls extends JTable
 
 		$this->_db->setQuery($query);
 
-		// Check for a database error.
-		if (!$this->_db->execute())
+		// TLWebdesign patch 2026-11-02: execute() throws on Joomla 4+; JException and getErrorMsg() are gone.
+		try
 		{
-			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
-			$this->setError($e);
+			$this->_db->execute();
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $e->getMessage()));
 
 			return false;
 		}

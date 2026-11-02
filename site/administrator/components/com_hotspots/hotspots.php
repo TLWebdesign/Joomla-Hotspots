@@ -14,7 +14,8 @@ defined('_JEXEC') or die('Restricted access');
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_hotspots'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	// TLWebdesign patch 2026-11-02: JError was removed in Joomla 4.
+	throw new \Joomla\CMS\Access\Exception\NotAllowed(\Joomla\CMS\Language\Text::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 require_once JPATH_LIBRARIES . '/compojoom/include.php';
