@@ -88,6 +88,12 @@ jobs:
           block = re.sub(r'(<downloadurl\b[^>]*>)\s*[^<\s]+\s*(</downloadurl>)', lambda m: m.group(1) + zip_url + m.group(2), block)
           block = re.sub(r'<sha256>[0-9a-f]+</sha256>', f'<sha256>{sha256}</sha256>', block)
 
+          # Joomla matches a package update on its client; every entry carries <client>site</client> after <type>.
+          if '<client>' not in block:
+              block = re.sub(r'(\n([ \t]*)<type>[^<]*</type>)', lambda m: m.group(1) + '\n' + m.group(2) + '<client>site</client>', block, count=1)
+          if '<client>' not in block:
+              raise SystemExit("updates.xml block has no <type> to put <client>site</client> after.")
+
           if placeholder is not None:
               content = content.replace(placeholder, block)
           else:
