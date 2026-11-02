@@ -13,7 +13,7 @@ The refactor plan and progress live in `.claude/ROADMAP.md`. Tick items off ther
 
 ## Target
 
-Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. the client site runs Joomla 5.4.10 (2026-11-02), so test there first; Joomla 6 support is for the later upgrade.
+Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. The client site runs Joomla 5.4.10 (2026-11-02), so test there first; Joomla 6 support is for the later upgrade.
 
 - PHP 8.1 minimum, and must run on PHP 8.4 without deprecation notices. So no PHP 8.2+ only syntax (readonly classes, DNF types, typed class constants), but use explicit nullable types (`?Foo $x = null`), declare all properties (no dynamic properties), and no required parameters after optional ones.
 - Lint with the local PHP 8.4: `php -d error_reporting=-1 -l <file>`. Lint only catches compile-time issues; runtime deprecations need testing.
@@ -35,4 +35,4 @@ Joomla 5 and Joomla 6 only. No Joomla 3/4 support needed. the client site runs J
 - Mostly Joomla 3 style: about 142 of 267 PHP files use legacy classes, only 7 use `Joomla\CMS\` namespaces. No `services/provider.php`, no namespaced `src/`.
 - Depends on `lib_compojoom` 5.3.6 (`site/libraries/compojoom`), which is also Joomla 3 style.
 - Local fixes are marked `TLWebdesign patch`; keep them when refactoring.
-- `the client's CB plugin` (repo a separate private repo) uses `HotspotsGeocoder`; keep that class (or an alias) working.
+- The client's CB plugin (separate private repo) uses `HotspotsGeocoder`; keep that class (or an alias) working.

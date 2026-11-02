@@ -4,12 +4,12 @@ Compojoom has stopped trading. This repo holds the last versions of their extens
 
 ## Source
 
-Pulled from the live site (`the web root` on the client's server) on 2026-11-02. Hotspots was a paid extension that was never published on GitHub, so the live site is the newest copy available.
+Pulled from the production site of a client on 2026-11-02. Hotspots was a paid extension that was never published on GitHub, so the live site is the newest copy available.
 
 | Extension | Version | Date |
 |---|---|---|
 | com_hotspots (Hotspots Professional) + module + plugins | 6.0.13 | 2023-09-19 |
-| CB plugin `plug_hotspots` (legacy, disabled; replaced by our own `the client's CB plugin`, repo a separate private repo) | 2.7.4 | 2023-09-19 |
+| CB plugin `plug_hotspots` (legacy, disabled; replaced by a custom CB plugin of the client, in a separate private repo) | 2.7.4 | 2023-09-19 |
 | lib_compojoom | 5.3.6 | 2023-09-14 (same as github.com/compojoom/lib_compojoom) |
 
 ## Layout
@@ -28,7 +28,7 @@ Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
 Search for `TLWebdesign patch` to find them.
 
-- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. `the client's CB plugin` depends on this geocoder (`HotspotsGeocoder`).
+- **2026-11-02** `administrator/components/com_hotspots/libraries/geocoder/geocoder.php`: the Google geocoding call now uses the Joomla proxy (the server has no direct internet) and has a 3s connect / 5s total timeout. Without it, CB registration and profile saves hung for about 30 seconds and created no marker. The client's CB plugin depends on this geocoder (`HotspotsGeocoder`).
 - **2026-11-02** Security fixes (not yet on the live site):
   - `libraries/compojoom/model/multimedia.php`: any visitor could delete any file on the server (`../` in `file`), and frontend users could move any file into the public images folder (`jform[picture]`).
   - `components/com_hotspots/api/marker.php`: image name and content from the request were written to disk as is (any file, including PHP).

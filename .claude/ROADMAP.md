@@ -1,6 +1,6 @@
 # Hotspots refactor roadmap
 
-Goal: Hotspots runs natively on Joomla 5.4 and 6.x, on PHP 8.1 to 8.4, without the Backward Compatibility plugin and without lib_compojoom. Live site the client site runs Joomla 5.4.10 (2026-11-02).
+Goal: Hotspots runs natively on Joomla 5.4 and 6.x, on PHP 8.1 to 8.4, without the Backward Compatibility plugin and without lib_compojoom. The client site runs Joomla 5.4.10 (2026-11-02).
 
 Rules for every phase are in `CLAUDE.md` (target, reference code, PHP rules).
 
@@ -13,7 +13,7 @@ Rules for every phase are in `CLAUDE.md` (target, reference code, PHP rules).
 | `lib_compojoom` | 17,200 | Generic Compojoom framework, Joomla 3 style. Much of it is probably unused by Hotspots (cssmin, shrink, minifier, galleria, testing, ogp, ...) |
 | Plugins | 2,600 | 17 plugins, most for integrations switched off on the site |
 | `mod_hotspots_list` | 130 | |
-| CB `plug_hotspots` | 560 | Legacy, disabled, replaced by `the client's CB plugin` |
+| CB `plug_hotspots` | 560 | Legacy, disabled, replaced by the client's CB plugin |
 
 - Database: `#__hotspots_marker`, `#__hotspots_kmls`, `#__hotspots_mappings`, plus custom fields tables. Categories are Joomla categories (`extension = com_hotspots`). The schema is installed through Compojoom's XML installer (`sql/xml/mysql.xml`), not plain SQL files.
 - About 70 different legacy `J*` classes in use (`JFactory`, `JText`, `JControllerLegacy`, `JTable`, ...). They only work because the Behaviour - Backward Compatibility plugin (J5) / compat6 plugin (J6) maps them.
@@ -43,7 +43,7 @@ To rerun: the checker is installed in the session scratchpad; reinstall with `co
 
 - [ ] Answer the open questions below.
 - [ ] Local test site: Joomla 5.4.10 on PHP 8.4 with a copy of the live database and `images/`, error reporting on Maximum, compat plugin still on.
-- [ ] List what the client site uses (menu items, modules, plugins, admin screens, CB integration via `the client's CB plugin`) and write a manual test checklist from it. This list decides what we port and what we drop.
+- [ ] List what the client site uses (menu items, modules, plugins, admin screens, CB integration via the client's CB plugin) and write a manual test checklist from it. This list decides what we port and what we drop.
 - [ ] Baseline screenshots / HTML of the map pages to compare against later (the Joomla-Playwright-TestSuite repo could hold this).
 
 ## Phase 1: PHP 8.4 hotfix on the current code (ship to live)
@@ -119,7 +119,7 @@ Found while testing: with the Backward Compatibility plugin switched off, every 
 ## Phase 5: Geocoder and shared services
 
 - [ ] Geocoder as a service in the component (`HttpFactory`, proxy and timeouts from the global configuration, as in the current patch).
-- [ ] Keep `HotspotsGeocoder` working as an alias or thin wrapper for `the client's CB plugin`, or update `the client's CB plugin` in the same release.
+- [ ] Keep `HotspotsGeocoder` working as an alias or thin wrapper for the client's CB plugin, or update the client's CB plugin in the same release.
 - [ ] reCAPTCHA library replaced by Joomla's captcha plugins.
 - [ ] RSS through Joomla's feed document (`format=feed`) instead of `feedcreator.php`.
 - [ ] Image handling, avatars and cache from `lib_compojoom` moved into the component or replaced by Joomla APIs.
@@ -142,7 +142,7 @@ Found while testing: with the Backward Compatibility plugin switched off, every 
 
 - [ ] Fresh install and update-over-6.0.13 on Joomla 5.4 + PHP 8.1 and PHP 8.4.
 - [ ] Turn the Backward Compatibility plugin off on the test site; nothing should break.
-- [ ] Checklist from phase 0, CB registration and profile save with `the client's CB plugin`, geocoding.
+- [ ] Checklist from phase 0, CB registration and profile save with the client's CB plugin, geocoding.
 - [ ] Remove `lib_compojoom` once nothing loads it (uninstall it from the live site after the update).
 - [ ] Release 7.0.0, update the live site.
 
