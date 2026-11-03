@@ -28,7 +28,7 @@ Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
 ## Hotspots 7.0 (branch `7.0-dev`)
 
-A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility plugin and without lib_compojoom. Same database tables, same URLs, same map JavaScript (`media/com_hotspots/js/v4`). Conventions and the shared API are in `.claude/REFACTOR-7.md`.
+A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility plugin and without lib_compojoom. Same database tables, same URLs, same map JavaScript (`media/com_hotspots/js/v4`).
 
 - Namespaced component (`TLWebdesign\Component\Hotspots`), module (`TLWebdesign\Module\HotspotsList`) and plugins, with `services/provider.php`, MVC classes, event classes and the web asset manager.
 - What lib_compojoom did (image uploads and gallery, custom fields, CB avatars and profile links, thumbnails) is now part of the component. The package no longer installs lib_compojoom; an update detaches it from the package so it can be uninstalled under Extensions: Manage (only if no other Compojoom extension needs it).
@@ -37,12 +37,7 @@ A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility
 - All 6.1.0 security fixes are kept. Also fixed on the way: the list module showed unpublished and access-restricted markers; frontend users could set a `javascript:` "read more" link; `{hotspots}` in articles showed unpublished markers; the contact-author form now has the same mail limit as "send map".
 - Dropped: the SobiPro and Phoca importers (the KML import stays), the marker API (`view=api`), the MooTools map files, avatar/profile providers other than Community Builder, CComment support, runtime minifying (`media/com_hotspots/cache`), Compojoom's dashboard feeds and update check.
 - The client's CB plugin must be updated for 7.0: `HotspotsGeocoder`, `HotspotsHelperUtils` and `components/com_hotspots/includes/defines.php` are gone. Use `Administrator\Service\Geocoder`, `Administrator\Helper\MarkerHelper::prepare()` and the admin layout `hotspots.map.map`.
-
-### Template overrides on the client site
-
-`overrides/yootheme/html/` holds the site's template overrides for Hotspots 7, to copy to `templates/yootheme/html/` on the site. Overrides made for Hotspots 6 break the page in 7.0 (they call the removed `HotspotsHelper*` classes).
-
-- `com_hotspots/hotspots/default_hotspot.php`: the marker in the map's list; the title links to the author's Community Builder profile. The only change compared to the Hotspots 7 template.
+- Template overrides made for Hotspots 6 break the page in 7.0 (they call the removed `HotspotsHelper*` classes); redo them from the 7.0 templates.
 
 ## Local changes on top of Compojoom's code (6.1.0)
 

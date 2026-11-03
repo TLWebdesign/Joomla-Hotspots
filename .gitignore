@@ -3,3 +3,7 @@
 site/media/com_hotspots/cache/
 dist/
 CLAUDE.local.md
+.claude/
+CLAUDE.md
+overrides/
+.idea/
