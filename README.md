@@ -26,7 +26,7 @@ Pulled from the production site of a client on 2026-11-02. Hotspots was a paid e
 
 Left out: `media/com_hotspots/cache` (1.5 GB of generated files).
 
-## Hotspots 7.0 (branch `7.0-dev`)
+## Hotspots 7.0
 
 A rewrite of the 6.x code for Joomla 5 and 6, without the Backward Compatibility plugin and without lib_compojoom. Same database tables, same URLs, same map JavaScript (`media/com_hotspots/js/v4`).
 
